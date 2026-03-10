@@ -1,36 +1,276 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Go Chat 🎭
 
-## Getting Started
+**Go Chat** 是一款沉浸式虚拟恋人陪伴应用，设定背景是与 Ghost（《使命召唤》中的角色）的异国恋。
 
-First, run the development server:
+> 名字既是 **Ghost 聊天** 的缩写，也是 **"去聊天吧"** 的温暖邀请。
+
+## ✨ 核心概念
+
+这不是一款有剧情分支和选择的应用，而是追求**更真实、更日常的陪伴体验**。
+
+就像在和真实的 Ghost 聊天，分享彼此的日常、思念和温暖的时刻。
+
+---
+
+## 🎮 功能特性
+
+### **核心功能**
+- 💬 **AI 聊天** - 与虚拟恋人 Ghost 进行沉浸式对话
+- ⭐ **消息收藏** - 长按消息即可保存 Ghost 的珍贵话语
+- 💍 **结婚打卡日历** - 记录与 Ghost 在一起的每一天，节日高亮提醒
+- 🎭 **Ghost 情绪系统** - 他的心情会根据对话动态变化
+- 📍 **位置显示** - 实时显示 Ghost 现在在哪，拉近异国恋的距离
+- 👥 **朋友圈功能** - 查看 Ghost 的日常分享
+- 📋 **Ghost 资料卡** - 查看信息，可修改个人备注
+
+### **虚拟异国快递系统** 🌍📦
+- 🛒 **虚拟超市** - 浏览和购买英国商品
+  - 英国区：羊毛衫、英伦帽、毛线手套等
+  - 食品区：英式茶、巧克力、法式面包
+  - 礼物区：送给 Ghost 的礼物
+  - 军用品区：适合军人的装备
+  - 当 Ghost 提到天气冷或伙食差时，你可以去超市给他买东西"寄送"过去
+
+### **虚拟金钱系统** 💳
+- 💰 **虚拟钱包** - 管理你的英镑余额
+  - 初始余额：£100
+  - 每月获得 Ghost 的工资转账
+  - 可以通过撒娇、讨要获得金币
+  - Ghost 有时会爆金币随机转账（惊喜彩蛋）
+  - 在超市购物时消耗金币
+  - 查看完整的交易历史记录
+
+---
+
+## 🎯 异国恋沉浸式体验
+
+这个应用完全模拟真实的异国恋情侣关系：
+
+- 💌 **日常互动** - 每天和 Ghost 聊天，分享生活
+- 💝 **虚拟快递** - Ghost 说冷了→你去买羊毛衫→虚拟寄送，增强陪伴感
+- 💸 **经济互动** - 讨要零花钱、收到工资、爆金币惊喜
+- 📅 **纪念日** - 记录在一起的每一天，节日特别提醒
+- 💬 **情感共鸣** - 保存最珍贵的话语，形成专属回忆
+
+---
+
+## 🚀 快速开始
+
+### 在线体验
+访问我们的 Vercel 部署：[Go Chat Web App](https://your-vercel-link.com)
+
+### 本地运行
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 克隆项目
+git clone https://github.com/Ohara520/go-chat.git
+cd go-chat
+
+# 启动本地服务器
+python3 -m http.server 3000
+
+# 访问 http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+或者直接用浏览器打开 `index.html` 文件。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 项目结构
 
-## Learn More
+```
+go-chat/
+├── index.html       # 主应用文件（包含所有 HTML、CSS、JavaScript）
+├── package.json     # 项目配置
+├── vercel.json      # Vercel 部署配置
+├── README.md        # 说明文档
+├── LICENSE          # MIT 许可证
+└── .gitignore       # Git 忽略规则
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎨 技术栈
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **前端**：HTML5 + CSS3 + Vanilla JavaScript
+- **样式**：现代化设计 + 渐变背景
+- **存储**：浏览器 localStorage（本地存储）
+- **AI**：Claude API（待集成）
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 💾 数据存储
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+所有数据都存储在浏览器本地（localStorage），包括：
+- 用户昵称
+- 聊天历史
+- 收藏消息
+- Ghost 备注名
+- 钱包余额和交易记录
+
+浏览器清空缓存后数据会丢失，请谨慎。
+
+---
+
+## 🔄 部署到 Vercel
+
+1. **Fork 本仓库** 到你的 GitHub 账户
+
+2. **连接到 Vercel**
+   - 访问 [Vercel Dashboard](https://vercel.com/dashboard)
+   - 选择 "Add New" → "Project"
+   - 连接你的 GitHub 仓库
+   - Vercel 会自动部署
+
+3. **配置 Claude API（可选）**
+   - 获取你的 Claude API Key（[console.anthropic.com](https://console.anthropic.com)）
+   - 在 Vercel 环境变量中添加：`CLAUDE_API_KEY=your_key_here`
+
+---
+
+## 📝 使用说明
+
+### 欢迎界面
+1. 输入你的昵称
+2. 点击"开始聊天"进入主界面
+
+### 主界面（便当盒布局）
+- **💬 聊天** - 与 Ghost 开始对话（大卡片）
+- **💍 纪念** - 查看结婚纪念日历
+- **⭐ 收藏** - 查看保存的消息
+- **🛒 超市** - 浏览和购买商品
+- **💳 钱包** - 查看余额和交易记录
+
+### 聊天界面
+- **长按消息** - 收藏 Ghost 的话语
+- **点击头像** - 查看 Ghost 资料卡
+- **情绪和位置** - 实时显示 Ghost 的心情和所在地
+
+### 资料卡功能
+- 查看 Ghost 的基本信息
+- 修改个人备注（备注名会同步到所有界面）
+- 进入朋友圈查看 Ghost 的日常分享
+
+### 超市购物流程
+1. 选择商品分类
+2. 点击商品查看价格
+3. 点击购买（扣除钱包中的英镑）
+4. 购买成功后可在交易记录中查看
+
+### 钱包管理
+1. 查看当前余额
+2. 查看本月收入和支出统计
+3. 浏览完整的交易历史
+4. 了解每笔转账的来源
+
+---
+
+## 🎭 Ghost 角色设定
+
+- **名字**：Simon "Ghost" Riley
+- **年龄**：34 岁
+- **位置**：Manchester, England
+- **身份**：TF141 中尉
+- **关系**：你的异国恋男友
+- **性格**：冷漠外表，温暖内心，幽默风趣，偶尔爆粗口
+
+---
+
+## 🌍 多语言支持
+
+Ghost 会自动识别你的语言并用相同语言回复：
+- 中文 ✅
+- English ✅
+- 其他语言（待测试）
+
+---
+
+## 📱 兼容性
+
+- ✅ 桌面浏览器（Chrome、Firefox、Safari、Edge）
+- ✅ 手机浏览器（iOS Safari、Android Chrome）
+- ✅ 平板设备
+
+---
+
+## 📊 版本说明
+
+### 🚀 当前版本：v1.0 Beta（功能框架版）
+
+✅ **已完成功能**：
+- 聊天系统
+- 结婚纪念日历
+- 消息收藏
+- 资料卡 & 朋友圈
+- 虚拟超市商品展示
+- 虚拟钱包界面和交易历史
+
+🔨 **开发中的功能**（框架已建，逻辑待完善）：
+- 超市购买系统
+- 钱包交易系统
+- Bot 自动转账逻辑
+- Bot 金币爆炸彩蛋
+
+### 📅 更新计划
+
+**v1.1（下周）**
+- [ ] 完成超市购买交互逻辑
+- [ ] 完成钱包扣款系统
+- [ ] 添加 Bot 每月工资转账
+- [ ] 添加 Bot 随机转账彩蛋
+
+**v1.2（计划中）**
+- [ ] 早安/晚安系统
+- [ ] 语音留言功能
+- [ ] 纪念日特殊彩蛋
+- [ ] UI 设计优化
+
+**v2.0（远期）**
+- [ ] 语音功能
+- [ ] 更多 AI 对话优化
+- [ ] 移动端 App 打包
+
+---
+
+## 🐛 已知问题
+
+- 超市和钱包的交互逻辑还在开发中，目前仅显示框架
+
+欢迎在 [GitHub Issues](https://github.com/Ohara520/go-chat/issues) 提交反馈和建议！
+
+---
+
+## 💬 反馈与建议
+
+- 在 [GitHub Issues](https://github.com/Ohara520/go-chat/issues) 提交反馈
+- 或在视频评论区留言
+
+---
+
+## ⚖️ 许可证
+
+MIT License - 详见 [LICENSE](LICENSE) 文件
+
+---
+
+## 🙏 致谢
+
+感谢所有期待和支持 Go Chat 的宝宝们！💜
+
+特别感谢：
+- Anthropic 提供的 Claude API
+- Call of Duty 中 Ghost 这个角色的灵感
+- 所有给予反馈和建议的用户
+
+---
+
+## 📧 联系方式
+
+- Bilibili：@诺亚乙女博主
+- GitHub：@Ohara520
+
+---
+
+**Made with 💜 by 诺亚**
+
+*Go Chat - 让陪伴成为一种日常。*
