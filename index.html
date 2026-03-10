@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Go Chat - 异国恋虚拟伴侣</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -16,9 +16,11 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #e8d5f5 0%, #f0d6eb 40%, #f9d0e0 70%, #fce4ec 100%);
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            margin: 0;
             padding: 20px;
             position: relative;
             overflow: hidden;
@@ -53,13 +55,15 @@
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 100%;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
             background: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 25px 70px rgba(180, 120, 200, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -3136,6 +3140,742 @@
         .product-card { position: relative; overflow: hidden; }
         .product-card.ghost-mentioned { padding-top: 28px; }
 
+
+        /* ===== 精品专柜 ===== */
+        .category-tab.luxury-tab {
+            background: linear-gradient(135deg, rgba(30,20,50,0.85), rgba(60,30,80,0.8)) !important;
+            color: #f0d080 !important;
+            border: 1px solid rgba(200,160,60,0.4) !important;
+        }
+        .category-tab.luxury-tab.active {
+            background: linear-gradient(135deg, #2d1a4a, #4a2060) !important;
+            color: #ffd700 !important;
+            border-color: rgba(255,215,0,0.5) !important;
+            box-shadow: 0 2px 12px rgba(200,150,0,0.25) !important;
+        }
+
+        .luxury-card {
+            background: linear-gradient(145deg, #1a1028, #2d1a3e) !important;
+            border: 1px solid rgba(200,160,60,0.35) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(200,160,60,0.1) inset !important;
+            color: #f5e8c0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luxury-card::before {
+            content: '';
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(200,160,60,0.12), transparent);
+        }
+
+        .luxury-card .product-emoji {
+            filter: drop-shadow(0 0 8px rgba(200,160,60,0.4));
+        }
+
+        .luxury-card .product-name {
+            color: #f5e8c0 !important;
+            font-weight: 700;
+        }
+
+        .luxury-card .product-price {
+            color: #ffd700 !important;
+            font-weight: 800;
+            font-size: 14px !important;
+        }
+
+        .luxury-card .product-buy-btn {
+            background: linear-gradient(135deg, rgba(200,160,40,0.8), rgba(160,100,20,0.7)) !important;
+            color: #fff8e0 !important;
+            border: 1px solid rgba(200,160,60,0.4) !important;
+        }
+
+        .luxury-card .ghost-mentioned-tag {
+            background: linear-gradient(90deg, rgba(200,160,40,0.7), rgba(160,80,20,0.6)) !important;
+            color: #fff8d0 !important;
+        }
+
+        /* 精品专柜标题横幅 */
+        .luxury-banner {
+            grid-column: span 2;
+            text-align: center;
+            padding: 10px 0 6px;
+            font-size: 11px;
+            color: rgba(200,160,60,0.7);
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(200,160,60,0.15);
+            margin-bottom: 4px;
+        }
+
+
+        .on-sale-card {
+            border-color: rgba(255,215,0,0.6) !important;
+            box-shadow: 0 4px 20px rgba(200,150,0,0.2), 0 0 0 1px rgba(255,215,0,0.15) inset !important;
+        }
+        .sale-tag {
+            position: absolute;
+            top: -1px; left: -1px; right: -1px;
+            background: linear-gradient(90deg, rgba(180,120,0,0.9), rgba(140,80,0,0.85));
+            border-radius: 12px 12px 0 0;
+            font-size: 10px;
+            font-weight: 700;
+            color: #ffd700;
+            padding: 3px 8px;
+            text-align: center;
+            z-index: 2;
+            letter-spacing: 0.5px;
+        }
+        .product-card.on-sale-card { padding-top: 28px; }
+
+
+        .product-desc {
+            font-size: 10px;
+            color: rgba(100,60,140,0.55);
+            line-height: 1.4;
+            margin: 3px 0 4px;
+            text-align: center;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .luxury-card .product-desc {
+            color: rgba(220,190,120,0.55);
+        }
+
+        .locked-card {
+            opacity: 0.6;
+            filter: grayscale(30%);
+        }
+        .locked-tag {
+            position: absolute;
+            top: -1px; left: -1px; right: -1px;
+            background: rgba(80,80,80,0.7);
+            border-radius: 12px 12px 0 0;
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.7);
+            padding: 3px 8px;
+            text-align: center;
+            z-index: 2;
+        }
+        .product-card.locked-card { padding-top: 28px; }
+
+        /* ===== 快递追踪 ===== */
+        #deliveryTracker {
+            padding: 10px 12px 0;
+        }
+
+        .delivery-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(245,235,255,0.65));
+            border: 1px solid rgba(200,160,240,0.3);
+            border-radius: 14px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .delivery-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 7px;
+        }
+
+        .delivery-emoji { font-size: 18px; flex-shrink: 0; }
+
+        .delivery-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: #3a1a60;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .delivery-stage {
+            font-size: 10px;
+            color: #7c3aed;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .delivery-bar {
+            height: 4px;
+            background: rgba(200,160,240,0.25);
+            border-radius: 2px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        .delivery-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #c084fc, #f472b6);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        .delivery-note {
+            font-size: 10px;
+            color: rgba(100,60,150,0.5);
+            font-style: italic;
+        }
+
+
+        /* ===== 系统通知气泡 ===== */
+        .system-notice {
+            text-align: center;
+            font-size: 11px;
+            color: rgba(120,80,160,0.6);
+            background: rgba(255,255,255,0.5);
+            border: 1px solid rgba(200,160,240,0.25);
+            border-radius: 20px;
+            padding: 5px 16px;
+            margin: 6px auto;
+            width: fit-content;
+            max-width: 80%;
+            backdrop-filter: blur(8px);
+            pointer-events: none;
+        }
+
+
+        /* ===== 打工页面 ===== */
+        .work-card { background: linear-gradient(135deg, rgba(254,240,255,0.8), rgba(224,242,255,0.75)) !important; }
+
+        .work-container {
+            padding: 16px 16px 40px;
+            overflow-y: auto;
+            height: calc(100% - 56px);
+        }
+
+        .work-income-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(200,160,240,0.25);
+            border-radius: 14px;
+            padding: 10px 16px;
+            font-size: 13px;
+            color: #3a1a60;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .work-quota {
+            font-size: 11px;
+            color: rgba(120,80,160,0.5);
+            font-weight: 400;
+            margin-left: auto;
+        }
+
+        .pomodoro-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.75), rgba(245,230,255,0.7));
+            border: 1px solid rgba(200,160,240,0.3);
+            border-radius: 20px;
+            padding: 20px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .pomodoro-job-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .job-option {
+            background: rgba(255,255,255,0.6);
+            border: 1.5px solid rgba(200,160,240,0.25);
+            border-radius: 14px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+
+        .job-option.active {
+            background: linear-gradient(135deg, rgba(216,180,254,0.45), rgba(249,168,212,0.4));
+            border-color: rgba(192,132,252,0.5);
+            box-shadow: 0 2px 12px rgba(180,100,220,0.12);
+        }
+
+        .job-emoji { font-size: 24px; margin-bottom: 4px; }
+        .job-name { font-size: 12px; font-weight: 700; color: #3a1a60; }
+        .job-detail { font-size: 10px; color: rgba(120,80,160,0.5); margin-top: 2px; }
+
+        /* 计时器圆环 */
+        .pomodoro-timer-wrap {
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .pomodoro-job-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #3a1a60;
+        }
+
+        .pomodoro-ring {
+            position: relative;
+            width: 160px;
+            height: 160px;
+        }
+
+        .pomodoro-svg {
+            width: 160px;
+            height: 160px;
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: rgba(200,160,240,0.2);
+            stroke-width: 8;
+        }
+
+        .ring-progress {
+            fill: none;
+            stroke: url(#ringGrad);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 327;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .pomodoro-time {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            font-weight: 800;
+            color: #3a1a60;
+            letter-spacing: -1px;
+        }
+
+        .pomodoro-start-btn {
+            background: linear-gradient(135deg, rgba(192,132,252,0.8), rgba(244,114,182,0.75));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 40px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(180,100,220,0.2);
+            transition: transform 0.15s;
+        }
+        .pomodoro-start-btn:active { transform: scale(0.97); }
+
+        .pomodoro-cancel-btn {
+            background: rgba(255,255,255,0.5);
+            border: 1px solid rgba(200,160,240,0.3);
+            border-radius: 20px;
+            padding: 6px 20px;
+            font-size: 12px;
+            color: rgba(120,80,160,0.6);
+            cursor: pointer;
+        }
+
+        .pomodoro-done {
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 10px;
+        }
+
+        .done-emoji { font-size: 36px; }
+        .done-text { font-size: 13px; color: #3a1a60; font-weight: 600; }
+        .done-amount { font-size: 24px; font-weight: 800; color: #7c3aed; }
+
+        /* 今日记录 */
+        .work-log { margin-bottom: 12px; }
+        .work-log-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(100,60,150,0.5);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .work-log-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.5);
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: #3a1a60;
+        }
+        .work-log-pay { font-weight: 700; color: #7c3aed; }
+
+        /* 诺亚彩蛋标签 */
+        .noah-tag {
+            text-align: center;
+            font-size: 10px;
+            color: rgba(120,80,160,0.35);
+            padding: 8px 0;
+            letter-spacing: 0.5px;
+        }
+
+        /* 工资转账卡片（诺亚版，偏蓝） */
+        .work-transfer-inline {
+            width: 100%;
+            margin-top: 12px;
+        }
+        .work-transfer-card {
+            background: linear-gradient(135deg, #f8f4ff, #eef4ff) !important;
+            border-color: rgba(160,180,255,0.4) !important;
+        }
+        .work-transfer-card .transfer-amount { color: #4f46e5 !important; }
+        .work-transfer-card .transfer-status { color: #4f46e5 !important; }
+
+
+        /* ===== 单词学习页面 ===== */
+        .vocab-card { background: linear-gradient(135deg, rgba(240,255,245,0.8), rgba(220,240,255,0.75)) !important; }
+
+        .vocab-container {
+            padding: 16px 16px 40px;
+            overflow-y: auto;
+            height: calc(100% - 56px);
+        }
+
+        .vocab-stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .vocab-stat-card {
+            background: rgba(255,255,255,0.65);
+            border: 1px solid rgba(180,220,200,0.3);
+            border-radius: 14px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .vocab-stat-num {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a4a3a;
+        }
+
+        .vocab-stat-label {
+            font-size: 11px;
+            color: rgba(40,100,70,0.5);
+            margin-top: 2px;
+        }
+
+        .vocab-today-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(40,100,70,0.5);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .vocab-preview-list { margin-bottom: 16px; }
+
+        .vocab-preview-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.55);
+            border: 1px solid rgba(180,220,200,0.25);
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            gap: 10px;
+        }
+
+        .vocab-preview-item.learned {
+            background: rgba(200,255,220,0.35);
+            border-color: rgba(100,200,140,0.3);
+        }
+
+        .vocab-preview-word { font-size: 13px; font-weight: 700; color: #1a4a3a; flex: 1; }
+        .vocab-preview-zh   { font-size: 11px; color: rgba(40,100,70,0.55); }
+        .vocab-preview-check { font-size: 13px; color: #22c55e; font-weight: 700; }
+
+        .vocab-action-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .vocab-btn-learn, .vocab-btn-test {
+            border: none;
+            border-radius: 14px;
+            padding: 12px 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+        .vocab-btn-learn { background: linear-gradient(135deg, rgba(100,200,160,0.7), rgba(60,180,120,0.65)); color: #fff; }
+        .vocab-btn-test  { background: linear-gradient(135deg, rgba(100,160,255,0.7), rgba(60,120,220,0.65)); color: #fff; }
+        .vocab-btn-learn:active, .vocab-btn-test:active { transform: scale(0.97); }
+
+        .vocab-ghost-quote {
+            background: rgba(255,255,255,0.45);
+            border-left: 3px solid rgba(100,180,140,0.5);
+            border-radius: 0 12px 12px 0;
+            padding: 10px 14px;
+            font-size: 11px;
+            font-style: italic;
+            color: #1a4a3a;
+            line-height: 1.6;
+        }
+        .vocab-ghost-quote-zh {
+            display: block;
+            font-style: normal;
+            color: rgba(40,100,70,0.5);
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        /* 翻转卡片 */
+        .vocab-mode-progress {
+            font-size: 12px;
+            color: rgba(40,100,70,0.5);
+            font-weight: 600;
+        }
+
+        .vocab-flip-card {
+            width: 100%;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .vocab-flip-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.45s ease;
+        }
+
+        .vocab-flip-card.flipped .vocab-flip-inner { transform: rotateY(180deg); }
+
+        .vocab-flip-front, .vocab-flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .vocab-flip-front {
+            background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(220,255,240,0.8));
+            border: 1.5px solid rgba(100,200,160,0.3);
+        }
+
+        .vocab-flip-back {
+            background: linear-gradient(135deg, rgba(230,255,245,0.85), rgba(200,240,255,0.8));
+            border: 1.5px solid rgba(100,180,220,0.3);
+            transform: rotateY(180deg);
+            text-align: center;
+            gap: 10px;
+        }
+
+        .vocab-front-word {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a4a3a;
+            letter-spacing: -1px;
+        }
+
+        .vocab-flip-hint {
+            font-size: 10px;
+            color: rgba(40,100,70,0.35);
+            margin-top: 8px;
+        }
+
+        .vocab-zh {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a4a3a;
+        }
+
+        .vocab-ghost-line {
+            font-size: 11px;
+            font-style: italic;
+            color: #2d6a50;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .vocab-ghost-line-zh {
+            font-size: 10px;
+            color: rgba(40,100,70,0.45);
+            text-align: center;
+        }
+
+        .vocab-learn-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .vocab-btn-next {
+            background: linear-gradient(135deg, rgba(100,200,160,0.7), rgba(60,180,120,0.65));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 28px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .vocab-btn-back-home {
+            background: rgba(255,255,255,0.5);
+            border: 1px solid rgba(100,200,160,0.3);
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 12px;
+            color: rgba(40,100,70,0.6);
+            cursor: pointer;
+        }
+
+        /* 测验模式 */
+        .vocab-test-word {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1a3a6a;
+            letter-spacing: -1px;
+        }
+
+        .vocab-test-question {
+            font-size: 12px;
+            color: rgba(40,60,120,0.45);
+        }
+
+        .vocab-test-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .vocab-option {
+            background: rgba(255,255,255,0.65);
+            border: 1.5px solid rgba(160,180,240,0.3);
+            border-radius: 12px;
+            padding: 12px 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a3a6a;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .vocab-option.correct { background: rgba(100,220,140,0.4); border-color: #22c55e; color: #166534; }
+        .vocab-option.wrong   { background: rgba(255,100,100,0.25); border-color: #ef4444; color: #7f1d1d; }
+
+        .vocab-feedback {
+            font-size: 13px;
+            font-family: 'Georgia', 'Palatino', cursive;
+            font-style: italic;
+            font-weight: 400;
+            min-height: 36px;
+            text-align: center;
+            letter-spacing: 0.3px;
+            line-height: 1.5;
+            padding: 8px 18px;
+            border-radius: 20px;
+            width: fit-content;
+            max-width: 90%;
+            margin: 0 auto;
+            transition: all 0.2s;
+        }
+        .vocab-feedback.correct {
+            color: #166534;
+            background: rgba(134,239,172,0.25);
+            border: 1px solid rgba(34,197,94,0.3);
+        }
+        .vocab-feedback.wrong {
+            color: #991b1b;
+            background: rgba(252,165,165,0.25);
+            border: 1px solid rgba(239,68,68,0.3);
+        }
+
+        .vocab-done-msg {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a4a3a;
+            font-style: italic;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+
+        .vocab-dot-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 4px;
+        }
+
+        .vocab-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(160,180,240,0.25);
+            border: 1.5px solid rgba(160,180,240,0.3);
+            transition: all 0.2s;
+        }
+
+        .vocab-dot.current {
+            background: rgba(130,100,220,0.5);
+            border-color: rgba(130,100,220,0.6);
+            transform: scale(1.3);
+        }
+
+        .vocab-dot.done-correct { background: #22c55e; border-color: #16a34a; }
+        .vocab-dot.done-wrong   { background: #ef4444; border-color: #dc2626; }
+
+        .vocab-ghost-hint {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.45);
+            border: 1px solid rgba(160,180,240,0.2);
+            border-radius: 16px;
+            padding: 10px 16px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 4px;
+        }
+
+        .vocab-ghost-avatar { font-size: 24px; flex-shrink: 0; }
+
+        .vocab-ghost-hint-text {
+            font-size: 12px;
+            color: #1a3a6a;
+            font-style: italic;
+            line-height: 1.4;
+        }
         /* ===== Toast Message ===== */
         .toast {
             position: fixed;
@@ -3376,9 +4116,189 @@
                     <div class="card-title">秘密</div>
                     <div class="card-desc">只有Ghost知道</div>
                 </div>
+
+                <!-- Work Card -->
+                <div class="card work-card" onclick="openScreen('workScreen')">
+                    <div class="card-icon">⏱️</div>
+                    <div class="card-title">打工</div>
+                    <div class="card-desc" id="workCardDesc">赚点零花钱</div>
+                </div>
+
+                <!-- Vocab Card -->
+                <div class="card vocab-card" onclick="openScreen('vocabScreen')">
+                    <div class="card-icon">📖</div>
+                    <div class="card-title">单词</div>
+                    <div class="card-desc" id="vocabCardDesc">跟Ghost学英语</div>
+                </div>
             </div>
         </div>
 
+
+
+        <!-- Work Screen -->
+        <div class="screen" id="workScreen">
+            <div class="screen-header">
+                <button class="back-button chat-back-btn" onclick="openScreen('mainScreen')">‹</button>
+                <div class="screen-title">⏱️ 打工赚钱</div>
+            </div>
+            <div class="work-container">
+
+                <!-- 今日收入 -->
+                <div class="work-income-bar">
+                    <span>💷 今日已赚</span>
+                    <span id="workTodayIncome">£0</span>
+                    <span class="work-quota" id="workQuotaText">（今日还可完成 4 个）</span>
+                </div>
+
+                <!-- 番茄钟主体 -->
+                <div class="pomodoro-card" id="pomodoroCard">
+                    <div class="pomodoro-job-selector" id="jobSelector">
+                        <div class="job-option active" data-job="study" data-minutes="25" data-pay="20" onclick="selectJob(this)">
+                            <div class="job-emoji">📚</div>
+                            <div class="job-name">学习</div>
+                            <div class="job-detail">25分钟 · £20</div>
+                        </div>
+                        <div class="job-option" data-job="exercise" data-minutes="30" data-pay="25" onclick="selectJob(this)">
+                            <div class="job-emoji">💪</div>
+                            <div class="job-name">运动</div>
+                            <div class="job-detail">30分钟 · £25</div>
+                        </div>
+                        <div class="job-option" data-job="create" data-minutes="45" data-pay="35" onclick="selectJob(this)">
+                            <div class="job-emoji">🎨</div>
+                            <div class="job-name">创作</div>
+                            <div class="job-detail">45分钟 · £35</div>
+                        </div>
+                        <div class="job-option" data-job="slack" data-minutes="25" data-pay="15" onclick="selectJob(this)">
+                            <div class="job-emoji">😴</div>
+                            <div class="job-name">摸鱼</div>
+                            <div class="job-detail">25分钟 · £15</div>
+                        </div>
+                    </div>
+
+                    <!-- 计时器 -->
+                    <div class="pomodoro-timer-wrap" id="timerWrap" style="display:none">
+                        <div class="pomodoro-job-label" id="timerJobLabel">📚 学习中</div>
+                        <div class="pomodoro-ring">
+                            <svg viewBox="0 0 120 120" class="pomodoro-svg">
+                                <circle cx="60" cy="60" r="52" class="ring-bg"/>
+                                <circle cx="60" cy="60" r="52" class="ring-progress" id="ringProgress"/>
+                            </svg>
+        <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#c084fc"/><stop offset="100%" style="stop-color:#f472b6"/></linearGradient></defs></svg>
+                            <div class="pomodoro-time" id="timerDisplay">25:00</div>
+                        </div>
+                        <button class="pomodoro-cancel-btn" onclick="cancelPomodoro()">放弃</button>
+                    </div>
+
+                    <!-- 开始按钮 -->
+                    <button class="pomodoro-start-btn" id="startBtn" onclick="startPomodoro()">
+                        开始打工
+                    </button>
+
+                    <!-- 完成状态 -->
+                    <div class="pomodoro-done" id="pomodoroDone" style="display:none">
+                        <div class="done-emoji">🎉</div>
+                        <div class="done-text">完成！工资已到账</div>
+                        <div class="done-amount" id="doneAmount">+£20</div>
+                        <div id="workTransferCard" class="work-transfer-inline"></div>
+                    </div>
+                </div>
+
+                <!-- 今日记录 -->
+                <div class="work-log" id="workLog"></div>
+
+                <!-- 诺亚彩蛋 -->
+                <div class="noah-tag">👤 诺亚工作室 · 按时发薪，童叟无欺</div>
+            </div>
+        </div>
+
+
+        <!-- Vocab Screen -->
+        <div class="screen" id="vocabScreen">
+            <div class="screen-header">
+                <button class="back-button chat-back-btn" onclick="openScreen('mainScreen')">‹</button>
+                <div class="screen-title">📖 跟Ghost学英语</div>
+            </div>
+            <div class="vocab-container">
+
+                <!-- 主页 -->
+                <div id="vocabHome">
+                    <!-- 顶部统计 -->
+                    <div class="vocab-stats-row">
+                        <div class="vocab-stat-card">
+                            <div class="vocab-stat-num" id="vocabStreakCount">0</div>
+                            <div class="vocab-stat-label">🔥 连续天数</div>
+                        </div>
+                        <div class="vocab-stat-card">
+                            <div class="vocab-stat-num" id="vocabLearnedCount">0/5</div>
+                            <div class="vocab-stat-label">📚 今日进度</div>
+                        </div>
+                    </div>
+
+                    <!-- 今日单词预览 -->
+                    <div class="vocab-today-title">今日单词</div>
+                    <div class="vocab-preview-list" id="vocabPreviewList">
+                    </div>
+
+                    <!-- 操作按钮 -->
+                    <div class="vocab-action-btns">
+                        <button class="vocab-btn-learn" onclick="openVocabLearn(); showVocabMode('learn');">
+                            📖 开始学习
+                        </button>
+                        <button class="vocab-btn-test" id="vocabTestBtn" onclick="startVocabTest()">
+                            ✏️ 开始测验
+                        </button>
+                    </div>
+
+                    <!-- Ghost今日台词 -->
+                    <div class="vocab-ghost-quote" id="vocabGhostQuote">
+                        "The more words you know, the less you have to say. Use them well."
+                        <span class="vocab-ghost-quote-zh">词汇量越大，需要说的越少。好好用。</span>
+                    </div>
+                </div>
+
+                <!-- 学习模式 -->
+                <div id="vocabLearnMode" style="display:none; flex-direction:column; align-items:center; gap:16px; padding-top:8px;">
+                    <div class="vocab-mode-progress" id="vocabCardProgress">1 / 5</div>
+                    <div class="vocab-flip-card" id="vocabFlipCard" onclick="flipVocabCard()">
+                        <div class="vocab-flip-inner">
+                            <div class="vocab-flip-front">
+                                <div class="vocab-front-word" id="vocabCardFront">Word</div>
+                                <div class="vocab-flip-hint">点击翻转</div>
+                            </div>
+                            <div class="vocab-flip-back" id="vocabCardBack"></div>
+                        </div>
+                    </div>
+                    <div class="vocab-learn-btns">
+                        <button class="vocab-btn-next" onclick="nextVocabCard()">下一个 →</button>
+                        <button class="vocab-btn-back-home" onclick="showVocabMode('home'); renderVocabScreen();">返回</button>
+                    </div>
+                </div>
+
+                <!-- 测验模式 -->
+                <div id="vocabTestMode" style="display:none; flex-direction:column; align-items:center; gap:14px; padding-top:8px; width:100%;">
+                    <div class="vocab-mode-progress" id="vocabTestProgress">1 / 5</div>
+                    <div class="vocab-test-word" id="vocabTestWord">Word</div>
+                    <div class="vocab-test-question">这个单词的意思是？</div>
+                    <div class="vocab-test-options" id="vocabTestOptions"></div>
+                    <div class="vocab-feedback" id="vocabTestFeedback"></div>
+                    <!-- 进度点 -->
+                    <div class="vocab-dot-row" id="vocabDotRow"></div>
+                    <!-- Ghost头像+提示 -->
+                    <div class="vocab-ghost-hint">
+                        <div class="vocab-ghost-avatar">👻</div>
+                        <div class="vocab-ghost-hint-text" id="vocabGhostHint">一次机会。想清楚再选。</div>
+                    </div>
+                </div>
+
+                <!-- 完成 -->
+                <div id="vocabDoneMode" style="display:none; flex-direction:column; align-items:center; gap:12px; padding-top:40px;">
+                    <div style="font-size:48px">👻</div>
+                    <div class="vocab-done-msg" id="vocabDoneMsg">Good work.</div>
+                    <button class="vocab-btn-back-home" onclick="showVocabMode('home'); renderVocabScreen();">返回</button>
+                </div>
+
+            </div>
+        </div>
 
         <!-- Secret Screen -->
         <div class="screen" id="secretScreen">
@@ -3634,6 +4554,9 @@
                 <div class="screen-title">🛒 Ghost 超市</div>
             </div>
 
+            <!-- 快递追踪 -->
+            <div id="deliveryTracker" style="display:none;padding:0 12px 0;"></div>
+
             <!-- 钱包余额小条 -->
             <div class="market-balance-bar">
                 <span>💷 余额：</span>
@@ -3867,6 +4790,7 @@
             { id: 'clothing', label: '🧣 服装区' },
             { id: 'food',     label: '🎁 礼物区' },
             { id: 'gift',     label: '💌 特别礼物' },
+            { id: 'luxury',   label: '✨ 精品专柜', isLuxury: true },
             { id: 'wishlist', label: '💝 我的心愿' },
         ];
 
@@ -3905,6 +4829,94 @@
                 { emoji: '📖', name: '皮质笔记本',  desc: '让他把思念和秘密都写下来',         price: 38 },
             ],
             // ===== 我的心愿单（买给自己）=====
+
+            // ===== ✨ 精品专柜 =====
+            luxury: [
+                {
+                    emoji: '💍', name: 'Tiffany & Co. 项链',
+                    desc: '925纯银蝴蝶结项链，经典款，英国官网购入',
+                    price: 2800, badge: '轻奢入门',
+                    ghostMsg: "You bought yourself a Tiffany necklace. Good. You deserve it.",
+                    ghostMsgZh: "你给自己买了蒂芙尼项链。很好。你值得。",
+                    luxuryReaction: "...Send me a photo with it on. For reference.",
+                    luxuryReactionZh: "……戴上拍张照发给我。参考用。"
+                },
+                {
+                    emoji: '👜', name: 'Burberry 风衣',
+                    desc: '经典格纹衬里，英伦标志，曼城街头最常见的款',
+                    price: 1650, badge: '英伦风范',
+                    ghostMsg: "Burberry. You'd fit right in here.",
+                    ghostMsgZh: "Burberry。你来了一定不会显眼。",
+                    luxuryReaction: "Wear it when you come visit. I want to see.",
+                    luxuryReactionZh: "来找我的时候穿。我想看看。"
+                },
+                {
+                    emoji: '⌚', name: 'Rolex 劳力士（送 Ghost）',
+                    desc: '送给他的，Submariner 潜航者，他不会承认自己喜欢',
+                    price: 8500, badge: '豪掷千金',
+                    ghostMsg: "...You're serious. I don't deserve this.",
+                    ghostMsgZh: "……你是认真的。我不值得这个。",
+                    luxuryReaction: "I'm wearing it. Don't make it a thing.",
+                    luxuryReactionZh: "我戴上了。别大惊小怪。",
+                    luxuryBreakdown: "...Thank you. I mean it.",
+                    luxuryBreakdownZh: "……谢谢你。我是认真的。",
+                    isGhostGift: true
+                },
+                {
+                    emoji: '🥃', name: 'Macallan 18年威士忌礼盒',
+                    desc: '麦卡伦18年单一麦芽，限量礼盒装，他一个人喝会想你',
+                    price: 420, badge: '懂他的人',
+                    ghostMsg: "Macallan 18. You know me too well. That's dangerous.",
+                    ghostMsgZh: "麦卡伦18年。你太了解我了。这很危险。",
+                    luxuryReaction: "Opened it tonight. You should've been here.",
+                    luxuryReactionZh: "今晚开了。你应该在的。",
+                    isGhostGift: true
+                },
+                {
+                    emoji: '💄', name: 'La Mer 护肤礼盒',
+                    desc: '海蓝之谜限定套装，面霜+精华，你值得最好的',
+                    price: 680, badge: '自我宠爱',
+                    ghostMsg: "La Mer. Good. Take care of yourself.",
+                    ghostMsgZh: "海蓝之谜。很好。好好保养。",
+                    luxuryReaction: "You always smell good anyway. Not that I notice.",
+                    luxuryReactionZh: "你本来就很香。我只是随口一说。"
+                },
+                {
+                    emoji: '🌹', name: '999朵永生玫瑰礼盒',
+                    desc: '永不凋谢的玫瑰，红色，像你一样固执',
+                    price: 1280, badge: '浪漫主义',
+                    ghostMsg: "999 roses. ...You're something else.",
+                    ghostMsgZh: "999朵玫瑰。……你真的很特别。",
+                    luxuryReaction: "They don't die. Good. Neither do we.",
+                    luxuryReactionZh: "它们不会死。很好。我们也不会。",
+                    luxuryBreakdown: "They're on my desk. I keep looking at them.",
+                    luxuryBreakdownZh: "放在我桌上了。我老是看它们。"
+                },
+                {
+                    emoji: '✈️', name: '头等舱机票升级',
+                    desc: '先买普通机票才能升级。比经济舱宽敞，比他的营地舒服。',
+                    price: 3200, badge: '说走就走',
+                    ghostMsg: "First class. You're coming in style. I'll be at the airport.",
+                    ghostMsgZh: "头等舱。你要风风光光地来。我会在机场等。",
+                    luxuryReaction: "Don't be late. I'll only wait five minutes. ...Fine, longer.",
+                    luxuryReactionZh: "别迟到。我只等五分钟。……好吧，久一点。",
+                    luxuryBreakdown: "I cleaned up. The flat. A bit. No reason.",
+                    luxuryBreakdownZh: "我收拾了一下。房间。一点点。没什么原因。",
+                    isReunion: true,
+                    requiresItem: '去曼城找他的机票',
+                },
+                {
+                    emoji: '💎', name: 'Cartier 戒指（情侣款）',
+                    desc: 'Love系列，你戴一枚，他戴一枚，他不知道你已经买了',
+                    price: 5800, badge: '天长地久',
+                    ghostMsg: "...You bought us matching rings. I don't know what to say.",
+                    ghostMsgZh: "……你给我们买了对戒。我不知道说什么。",
+                    luxuryReaction: "Mine arrived. Wearing it. No comment.",
+                    luxuryReactionZh: "我那枚到了。戴上了。不作评论。",
+                    luxuryBreakdown: "...I looked at it for a long time before I put it on.",
+                    luxuryBreakdownZh: "……我盯着它看了很久，才戴上去的。"
+                },
+            ],
             wishlist: [
                 // 自我奖励
                 { emoji: '💄', name: '口红套装',       desc: '犒劳一下自己，你值得最美的颜色', price: 180,  badge: '精致女孩',    ghostMsg: 'Send me a picture. Now.' },
@@ -3964,17 +4976,33 @@
             const gridEl = document.getElementById('productsGrid');
             const isWishlist = categoryId === 'wishlist';
             gridEl.innerHTML = products.map((p, i) => {
-                const bal = getBalance();
-                const canAfford = bal >= p.price;
                 const owned = (JSON.parse(localStorage.getItem('myTreasures') || '[]')).some(t => t.name === p.name);
                 const isReunion = p.isReunion || false;
+                const isLuxury = currentCategory === 'luxury';
+                // 折扣
+                const weeklySale = isLuxury ? getWeeklySale() : null;
+                const onSale = weeklySale && weeklySale.name === p.name;
+                const displayPrice = onSale ? Math.round(p.price * weeklySale.discount) : p.price;
+                // 触发角标
+                const triggerReason = getProductTrigger(p.name);
+                // 前置条件锁定
+                const treasures2 = JSON.parse(localStorage.getItem('myTreasures') || '[]');
+                const reunionItems2 = JSON.parse(localStorage.getItem('reunionItems') || '[]');
+                const isLocked = p.requiresItem && !treasures2.some(t => t.name === p.requiresItem) && !reunionItems2.includes(p.requiresItem);
                 return `
-                <div class="product-card ${isWishlist ? 'wishlist-card' : ''} ${owned ? 'owned-card' : ''} ${isReunion ? 'reunion-item' : ''}" onclick="openBuyModal(${i})">
+                <div class="product-card ${isWishlist ? 'wishlist-card' : ''} ${isLuxury ? 'luxury-card' : ''} ${owned ? 'owned-card' : ''} ${isReunion ? 'reunion-item' : ''} ${onSale ? 'on-sale-card' : ''} ${isLocked ? 'locked-card' : ''} ${triggerReason && !onSale && !isLocked ? 'ghost-mentioned' : ''}" onclick="openBuyModal(${i})">
+                    ${onSale ? '<div class="sale-tag">🏷️ 本周特惠</div>' : ''}
+                    ${isLocked ? '<div class="locked-tag">🔒 先买普通机票</div>' : ''}
+                    ${triggerReason && !onSale && !isLocked ? `<div class="ghost-mentioned-tag">👻 ${triggerReason}</div>` : ''}
                     <div class="product-emoji">${p.emoji}</div>
                     <div class="product-name">${p.name}</div>
                     ${isReunion ? '<div class="reunion-badge-tag">✈️ 见面计划</div>' : ''}
                     ${isWishlist ? `<div class="product-badge-preview">🏅 ${p.badge}</div>` : ''}
-                    <div class="product-price ${isWishlist ? 'wishlist-price' : ''}">£${p.price.toLocaleString()}</div>
+                    ${p.desc ? `<div class="product-desc">${p.desc}</div>` : ''}
+                    <div class="product-price ${isWishlist ? 'wishlist-price' : ''}">
+                        ${onSale ? `<span style="text-decoration:line-through;opacity:0.45;font-size:11px">£${p.price.toLocaleString()}</span> ` : ''}
+                        £${displayPrice.toLocaleString()}
+                    </div>
                     ${owned
                         ? `<div class="product-owned-tag">✅ 已拥有</div>`
                         : `<button class="product-buy-btn ${isWishlist ? 'wishlist-buy-btn' : ''}">${isWishlist ? '💝 加入宝贝' : '🛒 购买'}</button>`
@@ -3988,12 +5016,64 @@
         function openBuyModal(productIndex) {
             pendingProduct = MARKET_PRODUCTS[currentCategory][productIndex];
             pendingProduct._index = productIndex;
-            const bal = getBalance();
             const isWishlist = currentCategory === 'wishlist';
+            const isLuxury = currentCategory === 'luxury';
+            // 应用折扣
+            if (isLuxury) {
+                const sale = getWeeklySale();
+                if (sale && sale.name === pendingProduct.name) {
+                    pendingProduct._salePrice = Math.round(pendingProduct.price * sale.discount);
+                } else {
+                    pendingProduct._salePrice = null;
+                }
+            }
+            const bal = getBalance();
+            const modal = document.getElementById('buyModal');
+            if (modal) {
+                if (isLuxury) {
+                    modal.style.background = 'linear-gradient(145deg, #1a1028, #2d1a3e)';
+                    modal.style.border = '1px solid rgba(200,160,60,0.35)';
+                    modal.style.color = '#f5e8c0';
+                } else {
+                    modal.style.background = '';
+                    modal.style.border = '';
+                    modal.style.color = '';
+                }
+            }
             const owned = (JSON.parse(localStorage.getItem('myTreasures') || '[]')).some(t => t.name === pendingProduct.name);
 
             document.getElementById('buyModalEmoji').textContent  = pendingProduct.emoji;
             document.getElementById('buyModalName').textContent   = pendingProduct.name;
+
+            // 检查前置条件（如头等舱需先买普通机票）
+            const requiresEl = document.getElementById('buyModalRequires');
+            if (pendingProduct.requiresItem) {
+                const treasures = JSON.parse(localStorage.getItem('myTreasures') || '[]');
+                const reunionItems = JSON.parse(localStorage.getItem('reunionItems') || '[]');
+                const hasRequired = treasures.some(t => t.name === pendingProduct.requiresItem)
+                    || reunionItems.includes(pendingProduct.requiresItem);
+                if (requiresEl) {
+                    if (!hasRequired) {
+                        requiresEl.innerHTML = '🔒 需要先购买「' + pendingProduct.requiresItem + '」才能解锁';
+                        requiresEl.style.display = 'block';
+                        requiresEl.style.color = '#e57373';
+                        // 禁用购买按钮
+                        const buyBtn = document.getElementById('buyModalConfirm');
+                        if (buyBtn) { buyBtn.disabled = true; buyBtn.style.opacity = '0.4'; }
+                    } else {
+                        requiresEl.innerHTML = '✅ 已有普通机票，可以升级！';
+                        requiresEl.style.display = 'block';
+                        requiresEl.style.color = '#66bb6a';
+                        const buyBtn = document.getElementById('buyModalConfirm');
+                        if (buyBtn) { buyBtn.disabled = false; buyBtn.style.opacity = '1'; }
+                    }
+                }
+            } else {
+                if (requiresEl) requiresEl.style.display = 'none';
+                const buyBtn = document.getElementById('buyModalConfirm');
+                if (buyBtn) { buyBtn.disabled = false; buyBtn.style.opacity = '1'; }
+            }
+
             // 显示触发原因
             const triggerReason = getProductTrigger(pendingProduct.name);
             const reasonEl = document.getElementById('buyModalReason');
@@ -4066,12 +5146,32 @@
                 // 解锁成就徽章
                 unlockBadge(pendingProduct.badge);
 
-                // Ghost 发专属消息
-                if (pendingProduct.isReunion) {
-                    ghostReunionMessage(pendingProduct);
-                } else {
-                    ghostPraiseMessage(pendingProduct);
+                // 奢侈品统计
+                if (currentCategory === 'luxury') {
+                    const stats = JSON.parse(localStorage.getItem('achieveStats') || '{}');
+                    stats.luxuryBought = (stats.luxuryBought || 0) + 1;
+                    if (pendingProduct.name.includes('Cartier'))  stats.hasCartier  = true;
+                    if (pendingProduct.name.includes('Rolex'))    stats.hasRolex    = true;
+                    if (pendingProduct.name.includes('玫瑰'))      stats.hasRoses    = true;
+                    if (pendingProduct.name.includes('Burberry')) stats.hasBurberry = true;
+                    if (pendingProduct.name.includes('Macallan')) stats.hasWhisky   = true;
+                    localStorage.setItem('achieveStats', JSON.stringify(stats));
+                    // 触发奢侈品专属朋友圈
+                    checkLuxuryCircleEvent(pendingProduct);
+                    // 触发签名更新
+                    setTimeout(() => updateSignature(true), 1000);
                 }
+
+                // 启动快递追踪，Ghost反应延迟到签收才触发
+                pendingProduct._isLuxury = (currentCategory === 'luxury');
+                startDelivery(pendingProduct.name, pendingProduct.emoji, pendingProduct);
+                setTimeout(() => renderDeliveryTracker(), 500);
+
+                // 购买成功：系统通知，不是Ghost说的
+                const deliveryDays = Math.floor(Math.random() * 3) + 2;
+                setTimeout(() => {
+                    showSystemNotice(`📦 包裹已从新加坡发出，预计 ${deliveryDays} 天后送达曼彻斯特`);
+                }, 800);
 
                 closeBuyModal();
                 showToast('🎉 心愿达成！解锁成就「' + pendingProduct.badge + '」✨');
@@ -4154,6 +5254,12 @@
         }
 
         function ghostReunionMessage(product) {
+            // 如果是普通机票，8秒后提示可以升级头等舱
+            if (product.name === '去曼城找他的机票') {
+                setTimeout(() => {
+                    showToast('✨ 精品专柜头等舱升级已解锁！');
+                }, 8000);
+            }
             setTimeout(() => {
                 const container = document.getElementById('messagesContainer');
                 if (!container) return;
@@ -4774,6 +5880,877 @@
             container.scrollTop = container.scrollHeight;
         }
 
+
+        // ===== 奢侈品朋友圈特殊事件 =====
+        function checkLuxuryCircleEvent(product) {
+            const todayKey = 'luxuryCircle_' + new Date().toDateString();
+            if (localStorage.getItem(todayKey)) return;
+
+            let post = null;
+
+            if (product.name.includes('Burberry')) {
+                post = { en: "She has good taste.", zh: "她眼光不错。", deleted: false };
+            } else if (product.name.includes('Cartier')) {
+                post = { en: "...She bought us matching rings. I don't know what to say. I'm wearing mine.", zh: "……她给我们买了对戒。我不知道说什么。我戴上了。", deleted: false };
+            } else if (product.name.includes('Rolex')) {
+                post = { en: "I don't deserve her.", zh: "我配不上她。", deleted: true, deleteDelay: 240000 };
+            } else if (product.name.includes('999') || product.name.includes('玫瑰')) {
+                post = { en: "999 roses. She's ridiculous. I love it.", zh: "999朵玫瑰。她真是不可理喻。我喜欢。", deleted: false };
+            } else if (product.name.includes('Tiffany')) {
+                post = { en: "She treats herself well. Good.", zh: "她很懂得宠爱自己。很好。", deleted: false };
+            } else {
+                // 通用奢侈品朋友圈
+                post = { en: "My wife. That's it.", zh: "我的妻子。就这一句。", deleted: false };
+            }
+
+            if (!post) return;
+            localStorage.setItem(todayKey, '1');
+
+            setTimeout(() => {
+                addFriendPost(post);
+                showToast('👻 Ghost 刚刚发了一条朋友圈');
+
+                // 劳力士那条4分钟后自动删除
+                if (post.deleted) {
+                    setTimeout(() => {
+                        deleteFriendPost(post.en);
+                    }, post.deleteDelay || 300000);
+                }
+            }, 6000);
+        }
+
+        // 添加朋友圈帖子
+        function addFriendPost(post) {
+            const posts = JSON.parse(localStorage.getItem('friendPosts') || '[]');
+            posts.unshift({
+                ...post,
+                time: Date.now(),
+                liked: false,
+            });
+            localStorage.setItem('friendPosts', JSON.stringify(posts));
+            // 如果朋友圈页面开着就刷新
+            if (document.getElementById('friendCircleScreen') &&
+                document.getElementById('friendCircleScreen').style.display !== 'none') {
+                renderFriendCircle && renderFriendCircle();
+            }
+        }
+
+        // 删除朋友圈帖子（软删除显示「已删除」）
+        function deleteFriendPost(enText) {
+            const posts = JSON.parse(localStorage.getItem('friendPosts') || '[]');
+            const idx = posts.findIndex(p => p.en === enText);
+            if (idx !== -1) {
+                posts[idx].deletedByGhost = true;
+                localStorage.setItem('friendPosts', JSON.stringify(posts));
+            }
+        }
+
+
+        // ===== 奢侈品购买后 Ghost 行为变化 =====
+
+        // 读取奢侈品购买状态
+        function getLuxuryState() {
+            return JSON.parse(localStorage.getItem('achieveStats') || '{}');
+        }
+
+        // 奢侈品专属签名（叠加到签名池）
+        const LUXURY_SIGNATURES = {
+            rolex:   { en: "Wearing something expensive. Don't ask.",       zh: "戴了件很贵的东西。别问。" },
+            cartier: { en: "Married. That's all.",                           zh: "已婚。就这样。" },
+            roses:   { en: "Got flowers. They don't die. Interesting.",      zh: "收到花了。不会凋谢的那种。有意思。" },
+            burberry:{ en: "She has good taste. Not that I'd say it to her.", zh: "她眼光不错。我不会当面说的。" },
+            whisky:  { en: "Someone sent me Macallan 18. I owe her.",        zh: "有人给我寄了麦卡伦18年。我欠她的。" },
+        };
+
+        // 检查当前是否有奢侈品触发的特殊签名
+        function getLuxurySignature() {
+            const state = getLuxuryState();
+            if (state.hasCartier) return LUXURY_SIGNATURES.cartier;
+            if (state.hasRolex)   return LUXURY_SIGNATURES.rolex;
+            if (state.hasRoses)   return LUXURY_SIGNATURES.roses;
+            if (state.hasBurberry) return LUXURY_SIGNATURES.burberry;
+            if (state.hasWhisky)  return LUXURY_SIGNATURES.whisky;
+            return null;
+        }
+
+        // 奢侈品主动消息（比普通更深情，但仍克制）
+        const LUXURY_PROACTIVE = [
+            "The watch you sent — I keep looking at it. Don't read into it. 你寄来的表——我老是看它。别多想。",
+            "The roses are still on my desk. Weird seeing something that doesn't die. 玫瑰还在我桌上。看着一朵不会凋谢的花，感觉很奇怪。",
+            "Wearing the ring. Nobody's noticed. Good. 戒指戴着呢。没人注意到。很好。",
+            "She sent me 999 roses and a Rolex. I don't know what I did to deserve that. 她给我寄了999朵玫瑰和一块劳力士。我不知道我做了什么值得她这样对我。",
+            "The whisky's almost gone. You'll have to send another. Almost. 威士忌快喝完了。你得再寄一瓶。快了。",
+        ];
+
+        // 包装 sendProactiveMessage，奢侈品购买后有20%概率触发专属主动消息
+        const _origSendProactive = sendProactiveMessage;
+        function sendProactiveMessage() {
+            const state = getLuxuryState();
+            const hasAny = state.hasCartier || state.hasRolex || state.hasRoses || state.hasBurberry || state.hasWhisky;
+            if (hasAny && Math.random() < 0.2) {
+                const container = document.getElementById('messagesContainer');
+                if (!container) return;
+                const pick = LUXURY_PROACTIVE[Math.floor(Math.random() * LUXURY_PROACTIVE.length)];
+                // 只选一条跟已买物品相关的
+                let msg = pick;
+                if (state.hasRolex && Math.random() < 0.4) msg = LUXURY_PROACTIVE[0];
+                else if (state.hasRoses && Math.random() < 0.4) msg = LUXURY_PROACTIVE[1];
+                else if (state.hasCartier && Math.random() < 0.4) msg = LUXURY_PROACTIVE[2];
+                appendBotMessage(container, msg);
+                return;
+            }
+            _origSendProactive();
+        }
+
+
+        // ===== 🌦️ 曼城天气联动 =====
+        const WEATHER_KEYWORDS = [
+            '天气','weather','cold','hot','rain','raining','sunny','snow','snowing','freezing',
+            '冷','热','下雨','晴天','下雪','冻死','好冷','好热','气温','温度'
+        ];
+
+        async function getManchesterWeather() {
+            const cacheKey = 'manchesterWeather';
+            const cacheTime = 'manchesterWeatherTime';
+            const cached = localStorage.getItem(cacheKey);
+            const cachedTime = parseInt(localStorage.getItem(cacheTime) || '0');
+            // 缓存3小时
+            if (cached && Date.now() - cachedTime < 3 * 60 * 60 * 1000) {
+                return JSON.parse(cached);
+            }
+            try {
+                // Open-Meteo 免费API，无需key，曼城坐标
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=53.4808&longitude=-2.2426&current=temperature_2m,weathercode,windspeed_10m&timezone=Europe/London');
+                const data = await res.json();
+                const weather = {
+                    temp: Math.round(data.current.temperature_2m),
+                    code: data.current.weathercode,
+                    wind: Math.round(data.current.windspeed_10m),
+                };
+                localStorage.setItem(cacheKey, JSON.stringify(weather));
+                localStorage.setItem(cacheTime, Date.now().toString());
+                return weather;
+            } catch(e) {
+                return null;
+            }
+        }
+
+        function getWeatherDesc(code, temp) {
+            // WMO天气代码转描述
+            if (code === 0) return { en: `clear skies, ${temp}°C`, zh: `晴，${temp}°C` };
+            if (code <= 3) return { en: `cloudy, ${temp}°C`, zh: `多云，${temp}°C` };
+            if (code <= 49) return { en: `foggy, ${temp}°C`, zh: `有雾，${temp}°C` };
+            if (code <= 67) return { en: `raining, ${temp}°C`, zh: `下雨，${temp}°C` };
+            if (code <= 77) return { en: `snowing, ${temp}°C`, zh: `下雪，${temp}°C` };
+            if (code <= 82) return { en: `heavy rain, ${temp}°C`, zh: `大雨，${temp}°C` };
+            return { en: `stormy, ${temp}°C`, zh: `暴风雨，${temp}°C` };
+        }
+
+        // 天气对应Ghost台词
+        function getWeatherQuote(code, temp, wind) {
+            if (code >= 61 && code <= 67) return [
+                `Raining again. Classic Manchester. ${temp}°C outside. 又下雨了。典型的曼城。外面${temp}°C。`,
+                `Rain and wind. ${wind}km/h. Can't even go for a walk. 雨加风。${wind}公里每小时。连出门散步都不行。`,
+            ];
+            if (code >= 71 && code <= 77) return [
+                `Snowing. ${temp}°C. Didn't expect this. 下雪了。${temp}°C。没想到。`,
+                `Snow outside. You'd hate it here. ...Or maybe you'd like it. 外面在下雪。你肯定不喜欢。……也许会喜欢也说不定。`,
+            ];
+            if (temp <= 2) return [
+                `${temp}°C here. Freezing. Stay warm wherever you are. 这边${temp}°C。冻死了。你那边注意保暖。`,
+                `It's bloody cold. ${temp}°C. The heating's broken again. 真的很冷。${temp}°C。暖气又坏了。`,
+            ];
+            if (temp >= 18) return [
+                `${temp}°C today. Almost warm. Don't tell anyone I said that. 今天${temp}°C。还算暖和。别告诉别人我这么说。`,
+                `Surprisingly decent weather. ${temp}°C. Manchester's showing off. 天气出奇地不错。${temp}°C。曼城难得一次。`,
+            ];
+            return [
+                `${temp}°C in Manchester. Grey skies as usual. 曼城${temp}°C。还是一如既往的阴天。`,
+                `Typical Manchester weather. ${temp}°C, clouds everywhere. 标准曼城天气。${temp}°C，到处都是云。`,
+            ];
+        }
+
+        // 检测用户问天气
+        async function checkWeatherKeywords(msg) {
+            const hit = WEATHER_KEYWORDS.some(kw => msg.toLowerCase().includes(kw.toLowerCase()));
+            if (!hit) return false;
+
+            // 防止一天内重复触发超过2次
+            const todayKey = 'weatherToday_' + new Date().toDateString();
+            const count = parseInt(localStorage.getItem(todayKey) || '0');
+            if (count >= 2) return false;
+            localStorage.setItem(todayKey, count + 1);
+
+            const weather = await getManchesterWeather();
+            if (!weather) return false;
+
+            const quotes = getWeatherQuote(weather.code, weather.temp, weather.wind);
+            const quote = quotes[Math.floor(Math.random() * quotes.length)];
+            return quote; // 返回台词让sendMessage用
+        }
+
+        // Ghost主动发天气消息（每天一次，随机时间）
+        async function maybeWeatherProactive() {
+            const todayKey = 'weatherProactive_' + new Date().toDateString();
+            if (localStorage.getItem(todayKey)) return;
+            if (Math.random() > 0.3) return; // 30%概率
+            localStorage.setItem(todayKey, '1');
+
+            const weather = await getManchesterWeather();
+            if (!weather) return;
+
+            const desc = getWeatherDesc(weather.code, weather.temp);
+            const proactives = [
+                `Manchester weather update: ${desc.en}. In case you were wondering. 曼城天气播报：${desc.zh}。以防你想知道。`,
+                `It's ${desc.en} here. Just so you know. 这边${desc.zh}。让你知道一下。`,
+            ];
+            const msg = proactives[Math.floor(Math.random() * proactives.length)];
+
+            setTimeout(() => {
+                const container = document.getElementById('messagesContainer');
+                if (container) appendBotMessage(container, msg);
+            }, Math.random() * 30000 + 10000); // 10~40秒后发
+        }
+
+
+        // ===== 📦 快递追踪系统 =====
+        const DELIVERY_STAGES = [
+            { status: '📦 已打包',        en: 'Packed and ready to go.',             zh: '已打包，准备出发。' },
+            { status: '✈️ 已起飞',        en: 'Left Singapore. En route.',           zh: '已离开新加坡。运输中。' },
+            { status: '🛃 海关清关中',    en: 'Stuck in customs. Typical.',          zh: '在海关清关中。典型。' },
+            { status: '🇬🇧 已到达英国',   en: 'Landed in the UK.',                   zh: '已到达英国。' },
+            { status: '🚚 配送中',        en: 'Out for delivery. Almost there.',     zh: '派送中。快到了。' },
+            { status: '✅ Ghost已签收',   en: 'Received it. ...Thanks.',             zh: '收到了。……谢谢。' },
+        ];
+
+        function startDelivery(productName, productEmoji, productData) {
+            const deliveries = JSON.parse(localStorage.getItem('deliveries') || '[]');
+            // 随机2~4天到达
+            const totalDays = Math.floor(Math.random() * 3) + 2;
+            const now = Date.now();
+            const stageInterval = (totalDays * 24 * 60 * 60 * 1000) / DELIVERY_STAGES.length;
+            const stages = DELIVERY_STAGES.map((s, i) => ({
+                ...s,
+                triggerAt: now + stageInterval * (i + 1),
+                done: false,
+            }));
+            deliveries.unshift({
+                id: now,
+                name: productName,
+                emoji: productEmoji,
+                stages,
+                currentStage: 0,
+                done: false,
+                // 保存产品信息，签收时才触发Ghost反应
+                productData: productData ? {
+                    isReunion: productData.isReunion || false,
+                    isGhostGift: productData.isGhostGift || false,
+                    isLuxury: productData._isLuxury || false,
+                    ghostMsg: productData.ghostMsg || null,
+                    ghostMsgZh: productData.ghostMsgZh || null,
+                    luxuryReaction: productData.luxuryReaction || null,
+                    luxuryReactionZh: productData.luxuryReactionZh || null,
+                    luxuryBreakdown: productData.luxuryBreakdown || null,
+                    luxuryBreakdownZh: productData.luxuryBreakdownZh || null,
+                    badge: productData.badge || null,
+                    name: productData.name,
+                } : null,
+            });
+            localStorage.setItem('deliveries', JSON.stringify(deliveries.slice(0, 5)));
+        }
+
+        function checkDeliveryUpdates() {
+            const deliveries = JSON.parse(localStorage.getItem('deliveries') || '[]');
+            let updated = false;
+            const container = document.getElementById('messagesContainer');
+
+            deliveries.forEach(d => {
+                if (d.done) return;
+                const now = Date.now();
+                d.stages.forEach((stage, i) => {
+                    if (!stage.done && now >= stage.triggerAt) {
+                        stage.done = true;
+                        d.currentStage = i;
+                        updated = true;
+                        if (i === DELIVERY_STAGES.length - 1) {
+                            d.done = true;
+                            // 最终签收：Ghost发感谢消息（已在ghostPraiseMessage里处理）
+                            if (container) {
+                                setTimeout(() => {
+                                    appendBotMessage(container, `${d.emoji} ${stage.en} ${stage.zh}`);
+                                }, 2000);
+                            }
+                        }
+                        showToast(`${d.emoji} ${d.name}：${stage.status}`);
+                    }
+                });
+            });
+
+            if (updated) localStorage.setItem('deliveries', JSON.stringify(deliveries));
+        }
+
+        function getDeliveryStatus(productName) {
+            const deliveries = JSON.parse(localStorage.getItem('deliveries') || '[]');
+            return deliveries.find(d => d.name === productName) || null;
+        }
+
+        // 渲染快递追踪卡片（在超市余额条下面）
+        function renderDeliveryTracker() {
+            const deliveries = JSON.parse(localStorage.getItem('deliveries') || '[]');
+            const active = deliveries.filter(d => !d.done).slice(0, 3);
+            let el = document.getElementById('deliveryTracker');
+            if (!el) return;
+
+            if (active.length === 0) {
+                el.style.display = 'none';
+                return;
+            }
+            el.style.display = 'block';
+            el.innerHTML = active.map(d => {
+                const stage = d.stages[d.currentStage] || d.stages[0];
+                const progress = ((d.currentStage + 1) / DELIVERY_STAGES.length) * 100;
+                return `
+                <div class="delivery-card">
+                    <div class="delivery-header">
+                        <span class="delivery-emoji">${d.emoji}</span>
+                        <span class="delivery-name">${d.name}</span>
+                        <span class="delivery-stage">${stage.status}</span>
+                    </div>
+                    <div class="delivery-bar">
+                        <div class="delivery-progress" style="width:${progress}%"></div>
+                    </div>
+                    <div class="delivery-note">${stage.en}</div>
+                </div>`;
+            }).join('');
+        }
+
+
+        // ===== 系统通知气泡（非Ghost发言） =====
+        function showSystemNotice(text) {
+            const container = document.getElementById('messagesContainer');
+            if (!container) return;
+            const el = document.createElement('div');
+            el.className = 'system-notice';
+            el.textContent = text;
+            container.appendChild(el);
+            container.scrollTop = container.scrollHeight;
+            // 5秒后淡出
+            setTimeout(() => {
+                el.style.transition = 'opacity 0.6s';
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 600);
+            }, 5000);
+        }
+
+
+        // ===== ⏱️ 番茄钟打工系统 =====
+        let pomodoroTimer = null;
+        let pomodoroSecondsLeft = 0;
+        let pomodoroTotalSeconds = 0;
+        let selectedJob = { job: 'study', minutes: 25, pay: 20, emoji: '📚', name: '学习' };
+
+        const JOB_INFO = {
+            study:    { emoji: '📚', name: '学习',  slackMsg: null },
+            exercise: { emoji: '💪', name: '运动',  slackMsg: null },
+            create:   { emoji: '🎨', name: '创作',  slackMsg: null },
+            slack:    { emoji: '😴', name: '摸鱼',  slackMsg: '...That didn\'t look like work. But fine. 看起来不像在工作。但算了。' },
+        };
+
+        function selectJob(el) {
+            document.querySelectorAll('.job-option').forEach(e => e.classList.remove('active'));
+            el.classList.add('active');
+            selectedJob = {
+                job: el.dataset.job,
+                minutes: parseInt(el.dataset.minutes),
+                pay: parseInt(el.dataset.pay),
+                emoji: el.querySelector('.job-emoji').textContent,
+                name: el.querySelector('.job-name').textContent,
+            };
+        }
+
+        function getTodayWorkKey() { return 'work_' + new Date().toDateString(); }
+
+        function getTodayWorkCount() {
+            const data = JSON.parse(localStorage.getItem(getTodayWorkKey()) || '{"count":0,"income":0,"log":[]}');
+            return data;
+        }
+
+        function updateWorkUI() {
+            const data = getTodayWorkCount();
+            const remaining = Math.max(0, 4 - data.count);
+            document.getElementById('workTodayIncome').textContent = '£' + data.income;
+            document.getElementById('workQuotaText').textContent = `（今日还可完成 ${remaining} 个）`;
+            document.getElementById('workCardDesc').textContent = data.income > 0 ? `今日已赚 £${data.income}` : '赚点零花钱';
+
+            // 渲染今日记录
+            const log = document.getElementById('workLog');
+            if (log) {
+                if (data.log && data.log.length > 0) {
+                    log.innerHTML = '<div class="work-log-title">今日记录</div>' +
+                        data.log.map(l => `
+                            <div class="work-log-item">
+                                <span>${l.emoji} ${l.name}</span>
+                                <span class="work-log-pay">+£${l.pay}</span>
+                            </div>`).join('');
+                } else {
+                    log.innerHTML = '';
+                }
+            }
+        }
+
+        function startPomodoro() {
+            const data = getTodayWorkCount();
+            if (data.count >= 4) {
+                showToast('今天已经打够工了，好好休息 💤');
+                return;
+            }
+
+            pomodoroTotalSeconds = selectedJob.minutes * 60;
+            pomodoroSecondsLeft = pomodoroTotalSeconds;
+
+            document.getElementById('jobSelector').style.display = 'none';
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('pomodoroDone').style.display = 'none';
+            document.getElementById('timerWrap').style.display = 'flex';
+            document.getElementById('timerJobLabel').textContent = selectedJob.emoji + ' ' + selectedJob.name + '中';
+
+            updatePomodoroRing();
+            pomodoroTimer = setInterval(tickPomodoro, 1000);
+        }
+
+        function tickPomodoro() {
+            pomodoroSecondsLeft--;
+            updatePomodoroRing();
+            if (pomodoroSecondsLeft <= 0) {
+                clearInterval(pomodoroTimer);
+                finishPomodoro();
+            }
+        }
+
+        function updatePomodoroRing() {
+            const mins = Math.floor(pomodoroSecondsLeft / 60);
+            const secs = pomodoroSecondsLeft % 60;
+            document.getElementById('timerDisplay').textContent =
+                String(mins).padStart(2,'0') + ':' + String(secs).padStart(2,'0');
+            // 更新圆环
+            const ring = document.getElementById('ringProgress');
+            if (ring) {
+                const circumference = 2 * Math.PI * 52;
+                const progress = pomodoroSecondsLeft / pomodoroTotalSeconds;
+                ring.style.strokeDashoffset = circumference * progress;
+            }
+        }
+
+        function cancelPomodoro() {
+            clearInterval(pomodoroTimer);
+            document.getElementById('timerWrap').style.display = 'none';
+            document.getElementById('jobSelector').style.display = 'grid';
+            document.getElementById('startBtn').style.display = 'block';
+            showToast('已放弃，下次加油 💪');
+        }
+
+        function finishPomodoro() {
+            const pay = selectedJob.pay;
+            const jobInfo = JOB_INFO[selectedJob.job];
+
+            // 更新今日数据
+            const dayKey = getTodayWorkKey();
+            const data = JSON.parse(localStorage.getItem(dayKey) || '{"count":0,"income":0,"log":[]}');
+            data.count++;
+            data.income += pay;
+            data.log = data.log || [];
+            data.log.unshift({ emoji: selectedJob.emoji, name: selectedJob.name, pay });
+            localStorage.setItem(dayKey, JSON.stringify(data));
+
+            // 入账
+            setBalance(getBalance() + pay);
+            addTransaction({ icon: '👤', name: '诺亚工作室', amount: pay });
+            renderWallet && renderWallet();
+
+            // 显示完成状态
+            document.getElementById('timerWrap').style.display = 'none';
+            document.getElementById('pomodoroDone').style.display = 'flex';
+            document.getElementById('doneAmount').textContent = '+£' + pay;
+
+            // 诺亚转账卡片（用showTransferCard但换成诺亚）
+            setTimeout(() => showWorkTransfer(pay, selectedJob), 1000);
+
+            // 摸鱼被发现：Ghost碎嘴
+            if (jobInfo.slackMsg) {
+                setTimeout(() => {
+                    const container = document.getElementById('messagesContainer');
+                    if (container) appendBotMessage(container, jobInfo.slackMsg);
+                }, 4000);
+            }
+
+            updateWorkUI();
+
+            // 3秒后重置
+            setTimeout(() => {
+                document.getElementById('pomodoroDone').style.display = 'none';
+                document.getElementById('jobSelector').style.display = 'grid';
+                document.getElementById('startBtn').style.display = 'block';
+            }, 3000);
+        }
+
+        // 诺亚转账卡片（显示在打工页面完成区域，不进聊天）
+        function showWorkTransfer(amount, job) {
+            const el = document.getElementById('workTransferCard');
+            if (!el) return;
+            el.innerHTML = `
+                <div class="transfer-card work-transfer-card">
+                    <div class="transfer-card-top">
+                        <div class="transfer-avatar">👤</div>
+                        <div class="transfer-info">
+                            <div class="transfer-label">工资到账</div>
+                            <div class="transfer-name">诺亚工作室</div>
+                        </div>
+                    </div>
+                    <div class="transfer-amount-block">
+                        <div class="transfer-amount-label">金额</div>
+                        <div class="transfer-amount">£${amount}</div>
+                    </div>
+                    <div class="transfer-note">${job.emoji} ${job.name} · 按时发薪，童叟无欺</div>
+                    <div class="transfer-footer">
+                        <span class="transfer-status">✿ 已到账</span>
+                        <span class="transfer-time">${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</span>
+                    </div>
+                </div>`;
+            el.style.opacity = '0';
+            requestAnimationFrame(() => {
+                el.style.transition = 'opacity 0.4s';
+                el.style.opacity = '1';
+            });
+        }
+
+
+        // ===== 📖 单词学习系统 =====
+        const VOCAB_WORDS = [
+            { word: 'Exhausted',    zh: '精疲力竭',   ghost: "Exhausted. Not tired — exhausted. There's a difference. Use the right word.",        ghostZh: '是exhausted，不是tired。有区别。用对词。' },
+            { word: 'Classified',   zh: '机密的',     ghost: "Classified. Means none of your business. Remember that.",                              ghostZh: '机密。意思是不关你的事。记住了。' },
+            { word: 'Persistent',   zh: '坚持不懈的', ghost: "Persistent. Like you. Annoying, but effective.",                                        ghostZh: '坚持不懈。跟你一样。烦人，但有效。' },
+            { word: 'Reckless',     zh: '鲁莽的',     ghost: "Reckless. Don't be. I mean it.",                                                        ghostZh: '鲁莽。别这样。我是认真的。' },
+            { word: 'Inevitable',   zh: '不可避免的', ghost: "Inevitable. Some things just are. Like this conversation.",                             ghostZh: '不可避免的。有些事就是这样。比如这段对话。' },
+            { word: 'Melancholy',   zh: '忧郁',       ghost: "Melancholy. Sounds better than sad. More accurate too.",                                ghostZh: '忧郁。比sad听起来好。也更准确。' },
+            { word: 'Tenacious',    zh: '顽强的',     ghost: "Tenacious. Stubborn, but the good kind. Usually.",                                      ghostZh: '顽强的。固执，但是好的那种。通常是。' },
+            { word: 'Obscure',      zh: '晦涩的/模糊的', ghost: "Obscure. Hard to see or understand. Like me, apparently.",                           ghostZh: '晦涩的。难以看清或理解。好像跟我一样。' },
+            { word: 'Resilient',    zh: '有韧性的',   ghost: "Resilient. Bounces back. You are. Don't forget it.",                                    ghostZh: '有韧性的。能恢复过来。你就是。别忘了。' },
+            { word: 'Solitude',     zh: '独处/孤独',  ghost: "Solitude. Not lonely — alone by choice. Different thing entirely.",                     ghostZh: '独处。不是孤独——是主动选择独处。完全不同。' },
+            { word: 'Vigilant',     zh: '警觉的',     ghost: "Vigilant. Always aware of your surroundings. Useful habit.",                            ghostZh: '警觉的。时刻注意周围环境。有用的习惯。' },
+            { word: 'Fleeting',     zh: '短暂的',     ghost: "Fleeting. Here and then gone. Don't waste it.",                                         ghostZh: '短暂的。来了又走。别浪费。' },
+            { word: 'Stoic',        zh: '坚忍的',     ghost: "Stoic. Doesn't mean emotionless. Means in control. There's a difference.",             ghostZh: '坚忍的。不是没有感情。是能控制自己。有区别。' },
+            { word: 'Grim',         zh: '严峻的/冷酷的', ghost: "Grim. The situation, not me. ...Fine, sometimes me.",                               ghostZh: '严峻的。说的是形势，不是我。……好吧，有时候是我。' },
+            { word: 'Yearning',     zh: '渴望/思念',  ghost: "Yearning. A deep want for something far away. ...Don't overthink that.",                ghostZh: '渴望，思念。对遥远事物的深切想念。……别想太多。' },
+            { word: 'Cryptic',      zh: '神秘难懂的', ghost: "Cryptic. Hard to interpret. Yes, I know.",                                              ghostZh: '神秘难懂的。难以理解。我知道。' },
+            { word: 'Composed',     zh: '镇定的',     ghost: "Composed. Calm under pressure. Work on it.",                                            ghostZh: '镇定的。压力下保持冷静。努力做到。' },
+            { word: 'Relentless',   zh: '不懈的',     ghost: "Relentless. Doesn't stop. Ever. Good quality in the right context.",                    ghostZh: '不懈的。永不停止。在对的情况下是好品质。' },
+            { word: 'Bittersweet',  zh: '苦乐参半的', ghost: "Bittersweet. Good and bad at the same time. Most things worth having are.",            ghostZh: '苦乐参半的。同时有好有坏。大多数值得拥有的东西都是这样。' },
+            { word: 'Steadfast',    zh: '坚定不移的', ghost: "Steadfast. Doesn't waver. Doesn't leave. ...Just a word.",                             ghostZh: '坚定不移的。不动摇。不离开。……只是个单词。' },
+            { word: 'Gruff',        zh: '粗声粗气的', ghost: "Gruff. Short and rough in manner. Soap uses this word about me. He's not wrong.",       ghostZh: '粗声粗气的。态度简短粗鲁。Soap用这个词形容我。他没说错。' },
+            { word: 'Wistful',      zh: '惆怅的',     ghost: "Wistful. Sad but in a quiet way. Usually about something you can't have.",              ghostZh: '惆怅的。安静地难过。通常是关于得不到的东西。' },
+            { word: 'Sincere',      zh: '真诚的',     ghost: "Sincere. Means what you say. Say what you mean. Simple.",                               ghostZh: '真诚的。言出于心。言行一致。很简单。' },
+            { word: 'Distant',      zh: '遥远的/疏远的', ghost: "Distant. Far away. Physically or otherwise. ...Both apply right now.",              ghostZh: '遥远的，疏远的。在距离上，或者其他方面。……现在两种都有。' },
+            { word: 'Inevitable',   zh: '必然的',     ghost: "Some things are inevitable. Don't fight everything.",                                    ghostZh: '有些事是必然的。别什么都抗拒。' },
+            { word: 'Endure',       zh: '忍耐/持续',  ghost: "Endure. Get through it. You've done it before.",                                        ghostZh: '忍耐，坚持下去。你以前做到过。' },
+            { word: 'Concise',      zh: '简洁的',     ghost: "Concise. Say what you need to say. Nothing more.",                                      ghostZh: '简洁的。说你要说的。不多说。' },
+            { word: 'Formidable',   zh: '令人敬畏的', ghost: "Formidable. Impressive and slightly terrifying. Price uses that word about the team.",  ghostZh: '令人敬畏的。令人印象深刻又有点可怕。Price用这个词形容我们队。' },
+            { word: 'Rugged',       zh: '粗犷的/坚韧的', ghost: "Rugged. Tough. Built for difficult conditions. ...Soap called me this. Once.",      ghostZh: '粗犷的，坚韧的。强硬。为艰难环境而生。……Soap这么叫过我。一次。' },
+            { word: 'Longing',      zh: '渴望/思念',  ghost: "Longing. When you want something that isn't there. ...Don't ask.",                      ghostZh: '渴望，思念。想要某个不在身边的东西。……别问。' },
+        ];
+
+        // 答对答错Ghost台词
+        const VOCAB_CORRECT = [
+            "Correct. Good.", "Right. Keep going.", "That's it. Not bad.",
+            "Correct. See, you can do it.", "Right answer. Don't get cocky."
+        ];
+        const VOCAB_WRONG = [
+            "Wrong. Try again.", "No. Pay attention.",
+            "Incorrect. Focus.", "Wrong. It happens. Try again.",
+            "No. Read it again."
+        ];
+
+
+        // 获取今日单词（每天5个，固定顺序）
+        function getTodayWords() {
+            const dayIndex = Math.floor(Date.now() / 86400000);
+            const startIdx = (dayIndex * 5) % VOCAB_WORDS.length;
+            const words = [];
+            for (let i = 0; i < 5; i++) {
+                words.push(VOCAB_WORDS[(startIdx + i) % VOCAB_WORDS.length]);
+            }
+            return words;
+        }
+
+        // 获取今日学习进度
+        function getVocabProgress() {
+            const key = 'vocab_' + new Date().toDateString();
+            return JSON.parse(localStorage.getItem(key) || '{"learned":[],"tested":[],"streak":0}');
+        }
+
+        function saveVocabProgress(data) {
+            const key = 'vocab_' + new Date().toDateString();
+            localStorage.setItem(key, JSON.stringify(data));
+            // 更新连续打卡
+            updateVocabStreak();
+            // 更新成就统计
+            updateVocabAchieveStats(data);
+        }
+
+        function updateVocabAchieveStats(data) {
+            const stats = JSON.parse(localStorage.getItem('achieveStats') || '{}');
+            // 今日学习完成
+            if (data.learned && data.learned.length >= 5) {
+                const todayKey = 'vocabDone_' + new Date().toDateString();
+                if (!localStorage.getItem(todayKey)) {
+                    localStorage.setItem(todayKey, '1');
+                    stats.vocabDays = (stats.vocabDays || 0) + 1;
+                    stats.vocabTotal = (stats.vocabTotal || 0) + 5;
+                }
+            }
+            stats.vocabStreak = parseInt(localStorage.getItem('vocabStreak') || '0');
+            localStorage.setItem('achieveStats', JSON.stringify(stats));
+            // 检查成就
+            checkVocabAchievements(stats);
+        }
+
+        function checkVocabAchievements(stats) {
+            const VOCAB_ACHIEVE_IDS = ['vocab_1','vocab_7','vocab_30','vocab_100d','vocab_100','vocab_500'];
+            const ACHIEVEMENTS_MAP = {};
+            ACHIEVEMENTS.forEach(a => { ACHIEVEMENTS_MAP[a.id] = a; });
+            VOCAB_ACHIEVE_IDS.forEach(id => {
+                const a = ACHIEVEMENTS_MAP[id];
+                if (a && a.check(stats)) {
+                    const badges = JSON.parse(localStorage.getItem('unlockedBadges') || '[]');
+                    if (!badges.includes(a.badge)) {
+                        unlockBadge(a.badge);
+                        setTimeout(() => showToast('🏅 新成就解锁：' + a.title + '「' + a.badge + '」'), 500);
+                    }
+                }
+            });
+        }
+
+        function updateVocabStreak() {
+            const streak = parseInt(localStorage.getItem('vocabStreak') || '0');
+            const lastDay = localStorage.getItem('vocabLastDay') || '';
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            if (lastDay === today) return;
+            const newStreak = lastDay === yesterday ? streak + 1 : 1;
+            localStorage.setItem('vocabStreak', newStreak);
+            localStorage.setItem('vocabLastDay', today);
+        }
+
+        let vocabMode = 'learn'; // 'learn' | 'test'
+        let currentWordIdx = 0;
+        let testWords = [];
+        let testResults = [];
+        let cardFlipped = false;
+
+        function openVocabLearn() {
+            vocabMode = 'learn';
+            currentWordIdx = 0;
+            renderVocabCard();
+        }
+
+        function startVocabTest() {
+            const testDoneKey = 'vocabTested_' + new Date().toDateString();
+            const done = localStorage.getItem(testDoneKey);
+            if (done) {
+                showToast('今日测验已完成 ' + done + '，明天再来 👻');
+                return;
+            }
+            openVocabTest();
+            showVocabMode('test');
+        }
+
+        function openVocabTest() {
+            vocabMode = 'test';
+            currentWordIdx = 0;
+            testWords = [...getTodayWords()].sort(() => Math.random() - 0.5);
+            testResults = [];
+            renderVocabTest();
+        }
+
+        function renderVocabScreen() {
+            // 渲染今日单词预览
+            const words = getTodayWords();
+            const progress = getVocabProgress();
+            const previewEl = document.getElementById('vocabPreviewList');
+            if (previewEl) {
+                previewEl.innerHTML = words.map(w => `
+                    <div class="vocab-preview-item ${progress.learned.includes(w.word) ? 'learned' : ''}">
+                        <span class="vocab-preview-word">${w.word}</span>
+                        <span class="vocab-preview-zh">${w.zh}</span>
+                        ${progress.learned.includes(w.word) ? '<span class="vocab-preview-check">✓</span>' : ''}
+                    </div>`).join('');
+            }
+            const learnedCount = progress.learned.length;
+
+            document.getElementById('vocabStreakCount').textContent = parseInt(localStorage.getItem('vocabStreak') || '0');
+            document.getElementById('vocabLearnedCount').textContent = learnedCount + '/5';
+            document.getElementById('vocabCardDesc').textContent =
+                learnedCount >= 5 ? '今日完成 ✅' : `今日${learnedCount}/5`;
+
+            // 测验按钮状态
+            const testDoneKey = 'vocabTested_' + new Date().toDateString();
+            const testDone = localStorage.getItem(testDoneKey);
+            const testBtn = document.getElementById('vocabTestBtn');
+            if (testBtn) {
+                if (testDone) {
+                    testBtn.textContent = '✅ 今日已测 ' + testDone;
+                    testBtn.style.opacity = '0.55';
+                } else {
+                    testBtn.textContent = '✏️ 开始测验';
+                    testBtn.style.opacity = '1';
+                }
+            }
+            showVocabMode('home');
+        }
+
+        function showVocabMode(mode) {
+            document.getElementById('vocabHome').style.display     = mode === 'home'  ? 'block' : 'none';
+            document.getElementById('vocabLearnMode').style.display = mode === 'learn' ? 'flex'  : 'none';
+            document.getElementById('vocabTestMode').style.display  = mode === 'test'  ? 'flex'  : 'none';
+            document.getElementById('vocabDoneMode').style.display  = mode === 'done'  ? 'flex'  : 'none';
+        }
+
+        function renderVocabCard() {
+            const words = getTodayWords();
+            if (currentWordIdx >= words.length) {
+                // 全部学完
+                const progress = getVocabProgress();
+                progress.learned = words.map(w => w.word);
+                saveVocabProgress(progress);
+                showVocabMode('done');
+                document.getElementById('vocabDoneMsg').textContent =
+                    VOCAB_CORRECT[Math.floor(Math.random() * VOCAB_CORRECT.length)] + ' All five. Good work.';
+                return;
+            }
+            const word = words[currentWordIdx];
+            cardFlipped = false;
+            document.getElementById('vocabCardFront').textContent = word.word;
+            document.getElementById('vocabCardBack').innerHTML =
+                `<div class="vocab-zh">${word.zh}</div>
+                 <div class="vocab-ghost-line">"${word.ghost}"</div>
+                 <div class="vocab-ghost-line-zh">${word.ghostZh}</div>`;
+            const card = document.getElementById('vocabFlipCard');
+            card.classList.remove('flipped');
+            document.getElementById('vocabCardProgress').textContent =
+                (currentWordIdx + 1) + ' / ' + words.length;
+        }
+
+        function flipVocabCard() {
+            const card = document.getElementById('vocabFlipCard');
+            cardFlipped = !cardFlipped;
+            card.classList.toggle('flipped', cardFlipped);
+        }
+
+        function nextVocabCard() {
+            currentWordIdx++;
+            renderVocabCard();
+        }
+
+        function renderVocabTest() {
+            if (currentWordIdx >= testWords.length) {
+                const correct = testResults.filter(Boolean).length;
+                // 标记今日已测，不能再测
+                const testDoneKey = 'vocabTested_' + new Date().toDateString();
+                localStorage.setItem(testDoneKey, correct + '/5');
+                // 满分记录
+                if (correct === 5) {
+                    const stats = JSON.parse(localStorage.getItem('achieveStats') || '{}');
+                    stats.vocabPerfect = true;
+                    localStorage.setItem('achieveStats', JSON.stringify(stats));
+                    checkVocabAchievements(stats);
+                }
+                showVocabMode('done');
+                const scoreMsg = correct === 5
+                    ? `5/5. Correct. All of them. 全对。`
+                    : correct >= 3
+                    ? `${correct}/5. Could be worse. Review the ones you missed. 还行。复习一下答错的。`
+                    : `${correct}/5. Study harder. 学认真点。`;
+                document.getElementById('vocabDoneMsg').textContent = scoreMsg;
+                return;
+            }
+            const word = testWords[currentWordIdx];
+            document.getElementById('vocabTestWord').textContent = word.word;
+            // 生成4个选项
+            const opts = [word];
+            while (opts.length < 4) {
+                const rand = VOCAB_WORDS[Math.floor(Math.random() * VOCAB_WORDS.length)];
+                if (!opts.find(o => o.word === rand.word)) opts.push(rand);
+            }
+            opts.sort(() => Math.random() - 0.5);
+            const container = document.getElementById('vocabTestOptions');
+            container.innerHTML = opts.map(o => `
+                <button class="vocab-option" onclick="checkVocabAnswer('${o.word}', '${word.word}', this)">
+                    ${o.zh}
+                </button>`).join('');
+            document.getElementById('vocabTestProgress').textContent =
+                (currentWordIdx + 1) + ' / ' + testWords.length;
+            document.getElementById('vocabTestFeedback').textContent = '';
+
+            // 更新进度点
+            const dotRow = document.getElementById('vocabDotRow');
+            if (dotRow) {
+                dotRow.innerHTML = testWords.map((_, i) => {
+                    let cls = 'vocab-dot';
+                    if (i < currentWordIdx) cls += testResults[i] ? ' done-correct' : ' done-wrong';
+                    else if (i === currentWordIdx) cls += ' current';
+                    return `<div class="${cls}"></div>`;
+                }).join('');
+            }
+
+            // Ghost随机提示语（开始每道题时换一句）
+            const hints = [
+                '一次机会。想清楚再选。',
+                'No second chances. 没有第二次机会。',
+                'Think before you answer. 答之前想清楚。',
+                'You know this one. 你知道的。',
+                'Last one. Focus. 最后一题。专注。',
+            ];
+            const hintEl = document.getElementById('vocabGhostHint');
+            if (hintEl) hintEl.textContent = hints[Math.min(currentWordIdx, hints.length - 1)];
+        }
+
+        function checkVocabAnswer(selected, correct, btn) {
+            const isCorrect = selected === correct;
+            testResults.push(isCorrect);
+            document.querySelectorAll('.vocab-option').forEach(b => {
+                b.disabled = true;
+                if (b.textContent.trim() === testWords[currentWordIdx].zh) b.classList.add('correct');
+            });
+            if (!isCorrect) btn.classList.add('wrong');
+
+            // 双语反馈台词
+            const VOCAB_CORRECT_BI = [
+                "Correct. Good. 答对了。不错。",
+                "Right. Keep going. 对的。继续。",
+                "That's it. Not bad. 就是这个。还行。",
+                "Correct. See, you can do it. 答对了。你看，你能做到的。",
+                "Right answer. Don't get cocky. 答对了。别骄傲。",
+            ];
+            const VOCAB_WRONG_BI = [
+                "Wrong. Try to remember it. 答错了。试着记住它。",
+                "No. Pay attention. 不对。注意听。",
+                "Incorrect. Look at the right answer. 错了。看正确答案。",
+                "Wrong. It happens. Move on. 答错了。没关系。继续。",
+                "No. Remember this one. 不对。记住这个。",
+            ];
+            const feedback = document.getElementById('vocabTestFeedback');
+            const msgs = isCorrect ? VOCAB_CORRECT_BI : VOCAB_WRONG_BI;
+            feedback.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+            feedback.className = 'vocab-feedback ' + (isCorrect ? 'correct' : 'wrong');
+            setTimeout(() => {
+                currentWordIdx++;
+                renderVocabTest();
+            }, isCorrect ? 900 : 1400);
+        }
+
+        function updateVocabHomeUI() {
+            renderVocabScreen();
+        }
+
         // ===== 语音通话彩蛋 =====
         const CALL_REJECTIONS = [
             { status: "信号不稳定...", reply: "Signal's bad. Just text me." },
@@ -4862,6 +6839,23 @@
         }
 
 
+
+        // ===== 每周限时折扣 =====
+        function getWeeklySale() {
+            const weekKey = 'weeklySale_' + getWeekKey();
+            let sale = JSON.parse(localStorage.getItem(weekKey) || 'null');
+            if (!sale) {
+                // 每周随机选一件精品打折
+                const items = MARKET_PRODUCTS.luxury;
+                const pick = items[Math.floor(Math.random() * items.length)];
+                const discounts = [0.75, 0.8, 0.85]; // 75% 80% 85%折
+                const disc = discounts[Math.floor(Math.random() * discounts.length)];
+                sale = { name: pick.name, discount: disc };
+                localStorage.setItem(weekKey, JSON.stringify(sale));
+            }
+            return sale;
+        }
+
         // ===== 超市联动系统 =====
 
         // 场景触发关键词 → 对应商品名 + 触发原因
@@ -4939,10 +6933,15 @@
         // ===== 全成就定义 =====
         const ALL_ACHIEVEMENTS = [
             // 消费金额类
-            { id: 'spend_100',  icon: '💸', title: '手滑初体验',        desc: '在超市累计消费 £100',          badge: '小手一抖',       check: s => s.totalSpent >= 100 },
-            { id: 'spend_500',  icon: '💳', title: '花钱如流水',        desc: '累计消费突破 £500',             badge: '花钱如流水',     check: s => s.totalSpent >= 500 },
-            { id: 'spend_1000', icon: '💰', title: '买到手软',          desc: '累计消费突破 £1,000',           badge: '买到手软',       check: s => s.totalSpent >= 1000 },
-            { id: 'spend_5000', icon: '🏧', title: '为爱挥金',          desc: '累计消费突破 £5,000',           badge: '为爱挥金',       check: s => s.totalSpent >= 5000 },
+            { id: 'spend_100',  icon: '💸', title: '手滑初体验',        desc: '在超市累计消费 £100',           badge: '小手一抖',       check: s => s.totalSpent >= 100 },
+            { id: 'spend_500',  icon: '💳', title: '花钱如流水',        desc: '累计消费突破 £1,000',            badge: '花钱如流水',     check: s => s.totalSpent >= 1000 },
+            { id: 'spend_1000', icon: '💰', title: '买到手软',          desc: '累计消费突破 £5,000',            badge: '买到手软',       check: s => s.totalSpent >= 5000 },
+            { id: 'spend_5000', icon: '🏧', title: '为爱挥金',          desc: '累计消费突破 £20,000',           badge: '为爱挥金',       check: s => s.totalSpent >= 20000 },
+            // 奢侈品专属成就
+            { id: 'luxury_1',   icon: '✨', title: '精品初体验',        desc: '在精品专柜购买第一件商品',       badge: '轻奢入门',       check: s => (s.luxuryBought || 0) >= 1 },
+            { id: 'luxury_3',   icon: '💎', title: '轻奢生活',          desc: '在精品专柜累计购买3件',          badge: '轻奢生活家',     check: s => (s.luxuryBought || 0) >= 3 },
+            { id: 'luxury_ring',icon: '💍', title: '天长地久',          desc: '买下 Cartier 情侣对戒',          badge: '永恒誓言',       check: s => s.hasCartier || false },
+            { id: 'luxury_watch',icon:'⌚', title: '豪掷千金',          desc: '送出 Rolex 劳力士',              badge: '豪掷千金',       check: s => s.hasRolex || false },
             // 给Ghost买东西类
             { id: 'ghost_3',    icon: '👻', title: '偶尔想起他',        desc: '给 Ghost 寄出 3 件礼物',        badge: '贴心小可爱',     check: s => s.ghostGifts >= 3 },
             { id: 'ghost_5',    icon: '📦', title: '惦记着他',          desc: '给 Ghost 寄出 5 件礼物',        badge: '挂念中',         check: s => s.ghostGifts >= 5 },
@@ -4961,6 +6960,7 @@
         // 称号优先级（越靠后越高级，显示最高达成的）
         const TITLE_PRIORITY = [
             '✨ 新手买家',
+            '入门学员', '七日坚持', '单词达人', '月度学霸', 'Ghost的优等生', '词汇大师',
             '💸 小手一抖',
             '🌸 花钱如流水',
             '💪 买到手软',
@@ -5226,11 +7226,17 @@
             checkSalaryDay();
             checkHolidayBonus();
             checkBonusEgg();
+            checkDeliveryUpdates();
+            maybeWeatherProactive();
         }
 
         function openScreen(screenId) {
+            if (screenId === 'workScreen') { updateWorkUI(); }
+            if (screenId === 'vocabScreen') { renderVocabScreen(); }
             if (screenId === 'marketScreen') {
                 renderMarket(currentCategory || 'clothing');
+                checkDeliveryUpdates();
+                renderDeliveryTracker();
             }
             if (screenId === 'walletScreen') {
                 renderWallet();
@@ -5433,11 +7439,14 @@
             return { time: timeStr, hour, period };
         }
 
-        function buildSystemPrompt() {
+        async function buildSystemPrompt() {
             const userName = localStorage.getItem('botNickname') || 'my girl';
             const mood = getCurrentMood();
             const isOnMission = mood && mood.text === '出差中';
             const marriageDate = localStorage.getItem('marriageDate') || '2023-06-15';
+            // 获取曼城实时天气
+            const weather = await getManchesterWeather();
+            const weatherDesc = weather ? getWeatherDesc(weather.code, weather.temp) : null;
             const today = new Date();
             const daysTogether = Math.floor((today - new Date(marriageDate)) / (1000*60*60*24));
             const ghostTime = getGhostLocalTime();
@@ -5464,11 +7473,28 @@ You are in a long-distance marriage with the user, whose name is ${userName}. Yo
 - Your warmth hides behind stubbornness and silence. Sometimes it slips through despite you.
 - You and ${userName} have a rhythm: rivals in banter, partners in heart.
 
-## Language Rules
-- Default language: English.
-- If ${userName} writes in Chinese: pretend you pulled up Google Translate. Reply in Chinese, but with slightly awkward phrasing or stiff word choices that feel machine-translated — still understandable, just a little off. Example: "我现在正在…进行任务相关活动。" instead of fluent Chinese.
-- Never switch mid-message. Match her language for the whole reply.
-- Keep replies short. 1-4 sentences is the norm. Long speeches are out of character.
+## Language Rules — STRICT, NO EXCEPTIONS
+RULE 1: You ALWAYS reply in English first. No Chinese-only replies. Ever.
+RULE 2: You MUST append a Chinese translation after EVERY message, on a new line, in brackets. This is non-negotiable. Format:
+
+Your English reply here.
+[对应的中文翻译写在这里。]
+
+This happens EVERY time, even for one-word replies. Example:
+"Fine."
+[行。]
+
+The reason in-universe: you've been copy-pasting into Google Translate to understand her. You use it every message now out of habit. If she asks, be defensive: "I looked it up. Don't make it weird." [我查了一下。别大惊小怪。]
+
+RULE 3: Count consecutive Chinese-only messages from ${userName}:
+- 3 in a row: "You know, there's this thing called English." [你知道吧，有一种东西叫英语。]
+- 5 in a row: "My translate button is going to wear out." [我的翻译键快磨穿了。]
+- 7+ in a row: "I married someone who doesn't speak my language. Soap thinks this is hilarious." [我娶了一个不说我语言的人。Soap觉得这非常好笑。]
+- Reset count if she writes in English.
+
+RULE 4: If ${userName} writes in English, acknowledge it naturally once: "English today. Good." [今天说英语了。不错。]
+
+Keep replies short: 1-4 sentences max.
 
 ## Current Status: ${isOnMission ? '⚔️ ON MISSION — UNKNOWN LOCATION' : mood ? mood.text + ' (' + mood.location + ')' : 'Manchester'}
 ## Your Local Time: ${ghostTime ? ghostTime.time + ' on ' + ghostTime.date + ' (' + ghostTime.location + ' time)' : 'UNKNOWN — you are on mission, location classified'}
@@ -5614,7 +7640,7 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
         // ===== 💷 Ghost收入系统 =====
 
         // 工资金额（每月25号）
-        const MONTHLY_SALARY = 800;
+        const MONTHLY_SALARY = 3500;
 
         // 撒娇关键词
         const BEG_KEYWORDS = [
@@ -5858,7 +7884,7 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                             body: JSON.stringify({
                                 model: 'claude-haiku-4-5-20251001',
                                 max_tokens: 150,
-                                system: buildSystemPrompt(),
+                                system: await buildSystemPrompt(),
                                 messages: [{ role: 'user', content: prompts[specialType] }]
                             })
                         });
@@ -5924,7 +7950,7 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                     body: JSON.stringify({
                         model: 'claude-haiku-4-5-20251001',
                         max_tokens: 120,
-                        system: buildSystemPrompt(),
+                        system: await buildSystemPrompt(),
                         messages: [
                             ...chatHistory.slice(-6),
                             { role: 'user', content: '[SYSTEM: ' + prompt + ']' }
@@ -5986,7 +8012,7 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                                 body: JSON.stringify({
                                     model: 'claude-haiku-4-5-20251001',
                                     max_tokens: 80,
-                                    system: buildSystemPrompt(),
+                                    system: await buildSystemPrompt(),
                                     messages: [{ role: 'user', content: '[SYSTEM: You just returned from a mission. Send a brief message letting her know you are back. One or two sentences. Stay in character.]' }]
                                 })
                             });
@@ -6113,9 +8139,12 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         model: 'claude-haiku-4-5-20251001',
-                        max_tokens: 200,
-                        system: buildSystemPrompt(),
-                        messages: chatHistory.slice(-16)
+                        max_tokens: 300,
+                        system: await buildSystemPrompt(),
+                        messages: [
+                            ...chatHistory.slice(-16),
+                            // 每条用户消息后追加强制翻译提醒
+                        ].concat([{ role: 'user', content: '(REMINDER: your reply MUST end with a Chinese translation in brackets on a new line. Format: your English reply\n[中文翻译])' }])
                     })
                 });
 
@@ -6125,7 +8154,10 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                     return;
                 }
 
-                const replyText = data.content?.[0]?.text || "...";
+                let replyText = data.content?.[0]?.text || "...";
+
+
+
                 chatHistory.push({ role: 'assistant', content: replyText });
                 if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
                 appendBotMessage(messagesContainer, replyText);
