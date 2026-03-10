@@ -1,26 +1,13 @@
 {
-  "name": "nextjs",
-  "version": "0.1.0",
-  "private": true,
+  "name": "go-chat",
+  "version": "1.0.0",
+  "description": "Go Chat - 沉浸式虚拟恋人陪伴应用",
+  "main": "index.html",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "python3 -m http.server 3000",
+    "start": "python3 -m http.server 3000"
   },
-  "dependencies": {
-    "next": "16.1.6",
-    "react": "19.2.3",
-    "react-dom": "19.2.3"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.6",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+  "keywords": ["chat", "virtual-companion", "ghost", "ai-chatbot"],
+  "author": "Noah (诺亚)",
+  "license": "MIT"
 }
