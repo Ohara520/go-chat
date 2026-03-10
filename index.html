@@ -297,20 +297,22 @@
         }
 
         .back-button {
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
-            padding: 5px;
-            background: rgba(255, 255, 255, 0.4);
-            border: none;
+            background: rgba(255,255,255,0.35);
+            border: 1px solid rgba(255,255,255,0.55);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #5a3a7a;
-            transition: all 0.3s;
+            color: #5a2d82;
+            transition: all 0.15s;
+            flex-shrink: 0;
+            line-height: 1;
         }
+        .back-button:active { transform: scale(0.92); }
 
         .back-button:hover {
             background: rgba(255, 255, 255, 0.65);
@@ -323,20 +325,48 @@
             height: 100%;
         }
 
+        
+        /* ===== 聊天 Header 重构 ===== */
         .chat-header {
-            background: linear-gradient(135deg, rgba(216,180,254,0.6) 0%, rgba(249,168,212,0.55) 100%);
+            background: linear-gradient(135deg, rgba(216,180,254,0.65) 0%, rgba(249,168,212,0.6) 100%);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            padding: 20px;
+            padding: 10px 16px;
             border-bottom: 1px solid rgba(255,255,255,0.5);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 0;
         }
 
+        /* 左侧：返回+头像 */
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .chat-back-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.35);
+            border: 1px solid rgba(255,255,255,0.55);
+            font-size: 20px;
+            color: #5a2d82;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            line-height: 1;
+            transition: all 0.15s;
+        }
+        .chat-back-btn:active { transform: scale(0.92); }
+
         .ghost-avatar {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: rgba(255,255,255,0.55);
             backdrop-filter: blur(10px);
@@ -344,12 +374,56 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 21px;
             position: relative;
+            flex-shrink: 0;
+            border: 1.5px solid rgba(255,255,255,0.8);
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(180,120,200,0.15);
-            border: 1px solid rgba(255,255,255,0.7);
         }
+
+        /* 中间：名字+状态，撑满剩余空间 */
+        .chat-header-center {
+            flex: 1;
+            min-width: 0;
+            padding: 0 12px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .chat-header-center h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #3d1f66;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .chat-header-meta {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            color: rgba(90,45,130,0.6);
+            white-space: nowrap;
+        }
+
+        .chat-header-dot { opacity: 0.35; }
+
+        /* 右侧：按钮组 */
+        .chat-header-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+
+
+        
 
         .online-indicator {
             width: 14px;
@@ -1048,6 +1122,264 @@
             color: #ef4444;
         }
 
+        /* ===== Market Balance Bar ===== */
+        .market-balance-bar {
+            background: linear-gradient(135deg, rgba(216,180,254,0.4), rgba(249,168,212,0.35));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #5a3a7a;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+        }
+
+        #marketBalanceDisplay {
+            font-size: 16px;
+            font-weight: 700;
+            color: #4a2d6e;
+        }
+
+        /* ===== 购买弹窗 ===== */
+        .buy-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(80, 40, 120, 0.35);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .buy-modal-overlay.show {
+            display: flex;
+        }
+
+        .buy-modal {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.9);
+            border-radius: 24px;
+            padding: 30px 24px;
+            width: 85%;
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(180,120,200,0.3);
+            animation: modalPop 0.25s ease;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.85); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+
+        .buy-modal-emoji { font-size: 56px; margin-bottom: 10px; }
+        .buy-modal-name  { font-size: 18px; font-weight: 700; color: #4a2d6e; margin-bottom: 6px; }
+        .buy-modal-desc  { font-size: 12px; color: rgba(130,80,170,0.7); margin-bottom: 12px; line-height: 1.5; }
+        .buy-modal-price { font-size: 28px; font-weight: 700; color: #7c3fa0; margin-bottom: 6px; }
+        .buy-modal-balance { font-size: 12px; color: rgba(130,80,170,0.65); margin-bottom: 20px; }
+
+        .buy-modal-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buy-cancel-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(200,160,240,0.5);
+            background: rgba(255,255,255,0.6);
+            color: #8a6aaa;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .buy-confirm-btn {
+            flex: 2;
+            padding: 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: linear-gradient(135deg, rgba(192,132,252,0.8), rgba(244,114,182,0.75));
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .buy-confirm-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .buy-confirm-btn:not(:disabled):active { transform: scale(0.96); }
+
+        /* product-card 加购买按钮 */
+        .product-buy-btn {
+            margin-top: 8px;
+            padding: 5px 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, rgba(192,132,252,0.7), rgba(244,114,182,0.65));
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .product-buy-btn:active { transform: scale(0.95); }
+
+
+        /* ===== 心愿单特殊样式 ===== */
+        .wishlist-card {
+            border: 1px solid rgba(244,114,182,0.35) !important;
+            background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(253,230,244,0.6)) !important;
+        }
+
+        .wishlist-price {
+            color: #be185d !important;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .product-badge-preview {
+            font-size: 10px;
+            color: rgba(160,80,140,0.75);
+            background: rgba(244,114,182,0.12);
+            border-radius: 8px;
+            padding: 2px 8px;
+            margin: 2px 0 4px;
+        }
+
+        .wishlist-buy-btn {
+            background: linear-gradient(135deg, rgba(244,114,182,0.8), rgba(192,132,252,0.75)) !important;
+        }
+
+        .owned-card {
+            opacity: 0.75;
+        }
+
+        .product-owned-tag {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #059669;
+            font-weight: 700;
+        }
+
+        /* ===== 我的宝贝页面 ===== */
+        .treasures-container {
+            padding: 16px 0;
+            overflow-y: auto;
+            height: calc(100% - 56px);
+        }
+
+        .treasures-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #5a3a7a;
+            padding: 0 16px 10px;
+        }
+
+        .treasures-badges-section {
+            padding: 0 16px 16px;
+            margin: 0 16px 16px;
+            background: rgba(255,255,255,0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.75);
+        }
+
+        .treasures-badges-section .treasures-section-title {
+            padding: 14px 0 10px;
+        }
+
+        .badges-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 36px;
+        }
+
+        .badge-chip {
+            background: linear-gradient(135deg, rgba(192,132,252,0.55), rgba(244,114,182,0.5));
+            border: 1px solid rgba(255,255,255,0.75);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #5a2d82;
+        }
+
+        .badges-empty {
+            font-size: 12px;
+            color: rgba(130,80,170,0.45);
+            font-style: italic;
+        }
+
+        .treasures-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 0 16px 20px;
+        }
+
+        .treasure-item {
+            background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 18px;
+            padding: 18px 12px 14px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(180,120,200,0.1);
+        }
+
+        .treasure-emoji { font-size: 40px; margin-bottom: 8px; }
+
+        .treasure-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: #4a2d6e;
+            margin-bottom: 4px;
+        }
+
+        .treasure-badge {
+            font-size: 10px;
+            color: rgba(160,80,140,0.75);
+            background: rgba(244,114,182,0.12);
+            border-radius: 8px;
+            padding: 2px 8px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .treasure-date {
+            font-size: 10px;
+            color: rgba(130,80,170,0.5);
+        }
+
+        .treasures-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(130,80,170,0.5);
+            font-size: 13px;
+            line-height: 2;
+        }
+
         /* ===== Supermarket Screen ===== */
         .market-container {
             padding: 20px;
@@ -1391,6 +1723,1419 @@
             cursor: pointer;
         }
 
+
+        /* ===== 三成就达成终极弹窗 ===== */
+        .reunion-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(60, 20, 100, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .reunion-modal-overlay.show {
+            display: flex;
+        }
+
+        .reunion-modal {
+            background: linear-gradient(160deg, rgba(255,255,255,0.95), rgba(250,230,255,0.95));
+            border: 2px solid rgba(192,132,252,0.5);
+            border-radius: 28px;
+            padding: 30px 24px;
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(150, 80, 200, 0.4);
+            animation: reunionPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes reunionPop {
+            from { transform: scale(0.7) translateY(40px); opacity: 0; }
+            to   { transform: scale(1) translateY(0);      opacity: 1; }
+        }
+
+        .reunion-fireworks {
+            font-size: 32px;
+            margin-bottom: 8px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .reunion-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #4a2d6e;
+            margin-bottom: 4px;
+        }
+
+        .reunion-subtitle {
+            font-size: 11px;
+            color: rgba(140,80,190,0.7);
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .reunion-desc {
+            font-size: 13px;
+            color: #5a3a7a;
+            line-height: 1.8;
+            margin-bottom: 14px;
+        }
+
+        .reunion-desc strong { color: #7c3fa0; font-size: 15px; }
+        .reunion-desc em { color: #b06ad4; font-style: italic; }
+
+        .reunion-ghost-msg {
+            background: rgba(100,50,150,0.08);
+            border-left: 3px solid rgba(192,132,252,0.7);
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-style: italic;
+            color: #5a3a7a;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .reunion-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(192,132,252,0.4), transparent);
+            margin: 16px 0;
+        }
+
+        .reunion-reward-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #4a2d6e;
+            margin-bottom: 8px;
+        }
+
+        .reunion-reward-desc {
+            font-size: 12px;
+            color: #6b4a8a;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .reunion-reward-desc strong { color: #9c4fd4; }
+
+        .reunion-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
+        .reunion-step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: #5a3a7a;
+        }
+
+        .reunion-step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(192,132,252,0.7), rgba(244,114,182,0.65));
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .reunion-blogger {
+            font-size: 12px;
+            color: rgba(130,80,170,0.7);
+            margin-bottom: 18px;
+            padding: 10px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 12px;
+        }
+
+        .reunion-close-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 16px;
+            border: none;
+            background: linear-gradient(135deg, rgba(192,132,252,0.85), rgba(244,114,182,0.8));
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: "Poppins", sans-serif;
+            box-shadow: 0 6px 20px rgba(180,100,220,0.3);
+            transition: transform 0.2s;
+        }
+
+        .reunion-close-btn:active { transform: scale(0.97); }
+
+        /* 心愿单旅行商品特殊标记 */
+        .product-card.reunion-item {
+            border: 1.5px solid rgba(192,132,252,0.6);
+            background: linear-gradient(135deg, rgba(250,225,255,0.6), rgba(255,210,230,0.5));
+        }
+
+        .reunion-badge-tag {
+            font-size: 9px;
+            background: linear-gradient(135deg, rgba(192,132,252,0.5), rgba(244,114,182,0.4));
+            color: #6b2fa0;
+            padding: 2px 8px;
+            border-radius: 8px;
+            margin-top: 3px;
+            font-weight: 600;
+        }
+
+
+        /* ===== 成就页面 ===== */
+        .achievement-card {
+            background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,180,50,0.12)) !important;
+            border: 1px solid rgba(255,200,50,0.35) !important;
+        }
+
+        .achievement-container {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .achievement-section {
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 20px;
+            padding: 16px;
+        }
+
+        .achievement-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #4a2d6e;
+            margin-bottom: 4px;
+        }
+
+        .achievement-section-desc {
+            font-size: 11px;
+            color: rgba(130,80,170,0.65);
+            margin-bottom: 14px;
+        }
+
+        /* 见面计划三格进度 */
+        .reunion-progress {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .reunion-progress-item {
+            flex: 1;
+            border-radius: 12px;
+            padding: 10px 6px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .reunion-progress-item.done {
+            background: linear-gradient(135deg, rgba(192,132,252,0.4), rgba(244,114,182,0.35));
+            color: #6b2fa0;
+            border: 1px solid rgba(192,132,252,0.5);
+        }
+
+        .reunion-progress-item.pending {
+            background: rgba(200,180,230,0.15);
+            color: rgba(130,80,170,0.5);
+            border: 1px dashed rgba(192,132,252,0.3);
+        }
+
+        .reunion-progress-item .rp-emoji { font-size: 18px; margin-bottom: 4px; }
+        .reunion-progress-item .rp-name  { font-size: 9px; line-height: 1.3; }
+        .reunion-progress-item .rp-price { font-size: 9px; color: rgba(130,80,170,0.6); }
+
+        .reunion-progress-bar-wrap {
+            height: 6px;
+            background: rgba(200,180,230,0.25);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .reunion-progress-bar {
+            height: 100%;
+            border-radius: 6px;
+            background: linear-gradient(90deg, rgba(192,132,252,0.8), rgba(244,114,182,0.75));
+            transition: width 0.6s ease;
+        }
+
+        .reunion-progress-text {
+            font-size: 11px;
+            color: rgba(130,80,170,0.7);
+            text-align: right;
+        }
+
+        /* 徽章网格 */
+        .badges-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .badge-item {
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,180,50,0.15));
+            border: 1px solid rgba(255,200,50,0.4);
+            border-radius: 12px;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #7a4a00;
+        }
+
+        .badge-item.reunion-badge {
+            background: linear-gradient(135deg, rgba(192,132,252,0.3), rgba(244,114,182,0.25));
+            border: 1px solid rgba(192,132,252,0.5);
+            color: #5a2090;
+        }
+
+        .badges-empty-hint {
+            font-size: 12px;
+            color: rgba(130,80,170,0.5);
+            text-align: center;
+            padding: 12px 0;
+        }
+
+        /* 测试按钮 */
+        .test-reunion-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 14px;
+            border: 1.5px dashed rgba(192,132,252,0.5);
+            background: rgba(255,255,255,0.5);
+            color: #8a5ab0;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: "Poppins", sans-serif;
+        }
+
+
+        /* ===== 成就页面重设计 ===== */
+        .achieve-title-card {
+            margin: 14px 16px 0;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, rgba(192,132,252,0.35), rgba(244,114,182,0.3));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.7);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 6px 24px rgba(180,100,220,0.15);
+        }
+
+        .achieve-title-label {
+            font-size: 11px;
+            color: rgba(130,80,170,0.65);
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+
+        .achieve-title-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #4a2d6e;
+            margin-bottom: 4px;
+        }
+
+        .achieve-title-hint {
+            font-size: 11px;
+            color: rgba(130,80,170,0.6);
+        }
+
+        .achieve-section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .achieve-section-icon {
+            font-size: 24px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.6);
+            border-radius: 14px;
+            flex-shrink: 0;
+        }
+
+        .achieve-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #4a2d6e;
+        }
+
+        .achieve-section-desc {
+            font-size: 11px;
+            color: rgba(130,80,170,0.65);
+            margin-top: 2px;
+        }
+
+        /* 见面计划进度 */
+        .reunion-items-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .reunion-item-chip {
+            flex: 1;
+            padding: 8px 6px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 600;
+            border: 1.5px solid rgba(200,160,240,0.4);
+            background: rgba(255,255,255,0.5);
+            color: rgba(130,80,170,0.5);
+            transition: all 0.3s;
+        }
+
+        .reunion-item-chip.unlocked {
+            background: linear-gradient(135deg, rgba(192,132,252,0.4), rgba(244,114,182,0.35));
+            border-color: rgba(192,132,252,0.7);
+            color: #5a2d8e;
+        }
+
+        .reunion-item-chip-emoji { font-size: 18px; display: block; margin-bottom: 4px; }
+
+        .reunion-bar-wrap {
+            height: 8px;
+            background: rgba(200,160,240,0.2);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .reunion-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, rgba(192,132,252,0.8), rgba(244,114,182,0.75));
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+
+        .reunion-bar-text {
+            font-size: 11px;
+            color: rgba(130,80,170,0.65);
+            text-align: right;
+        }
+
+        /* 成就列表 */
+        .achieve-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .achieve-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.55);
+            border: 1px solid rgba(255,255,255,0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s;
+        }
+
+        .achieve-item.locked {
+            opacity: 0.45;
+            filter: grayscale(0.5);
+        }
+
+        .achieve-item-icon {
+            font-size: 26px;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.6);
+            flex-shrink: 0;
+        }
+
+        .achieve-item.unlocked .achieve-item-icon {
+            background: linear-gradient(135deg, rgba(192,132,252,0.35), rgba(244,114,182,0.3));
+        }
+
+        .achieve-item-info { flex: 1; }
+
+        .achieve-item-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #4a2d6e;
+            margin-bottom: 2px;
+        }
+
+        .achieve-item-desc {
+            font-size: 11px;
+            color: rgba(130,80,170,0.65);
+            line-height: 1.4;
+        }
+
+        .achieve-item-badge {
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .achieve-item.unlocked .achieve-item-badge {
+            background: linear-gradient(135deg, rgba(192,132,252,0.5), rgba(244,114,182,0.45));
+            color: #5a2d8e;
+        }
+
+        .achieve-item.locked .achieve-item-badge {
+            background: rgba(200,160,240,0.15);
+            color: rgba(130,80,170,0.4);
+        }
+
+        .achieve-item-check {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+
+        /* ===== 已读状态 ===== */
+        .msg-status {
+            font-size: 10px;
+            color: rgba(130,80,170,0.45);
+            text-align: right;
+            margin-top: 3px;
+            padding-right: 2px;
+            transition: all 0.4s;
+        }
+        .msg-status.read { color: rgba(140,90,200,0.75); }
+
+        /* ===== 发送失败 ===== */
+        .msg-failed {
+            font-size: 10px;
+            color: #e57373;
+            text-align: right;
+            margin-top: 3px;
+        }
+
+        /* ===== Ghost上线提示 ===== */
+        .ghost-online-toast {
+            text-align: center;
+            margin: 8px 0;
+            font-size: 11px;
+            color: rgba(130,80,170,0.6);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* ===== 开发测试工具栏 ===== */
+        .dev-toolbar {
+            display: none;
+            background: rgba(60,20,100,0.85);
+            backdrop-filter: blur(12px);
+            padding: 10px 14px;
+            border-top: 1px solid rgba(192,132,252,0.3);
+        }
+
+        .dev-toolbar.show { display: block; }
+
+        .dev-toolbar-title {
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 8px;
+        }
+
+        .dev-mood-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .dev-mood-btn {
+            padding: 5px 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(192,132,252,0.4);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .dev-mood-btn:active { transform: scale(0.95); }
+        .dev-close-btn { background: rgba(255,100,100,0.2); }
+
+        .dev-current {
+            font-size: 10px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 6px;
+        }
+
+        .dev-toggle-btn {
+            position: absolute;
+            bottom: 60px;
+            right: 14px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(100,50,180,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+
+        /* ===== 秘密页面 ===== */
+        .secret-card {
+            background: linear-gradient(135deg, rgba(255,220,240,0.55), rgba(216,180,254,0.45)) !important;
+            border: 1.5px solid rgba(255,180,220,0.5) !important;
+        }
+
+        .secret-container {
+            padding: 0 16px 30px;
+            overflow-y: auto;
+        }
+
+        /* 信封顶部 */
+        .secret-envelope-top {
+            margin: 16px 0 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .secret-envelope-flap {
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(160deg, rgba(255,210,235,0.7), rgba(216,180,254,0.6));
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            border-radius: 4px;
+            margin: 0 auto 10px;
+            box-shadow: 0 4px 16px rgba(200,130,200,0.2);
+        }
+
+        .secret-envelope-hint {
+            font-size: 12px;
+            color: rgba(130,80,170,0.65);
+            font-style: italic;
+            letter-spacing: 0.3px;
+        }
+
+        /* 区块 */
+        .secret-section {
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 20px;
+            padding: 18px 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 16px rgba(180,120,200,0.08);
+        }
+
+        .secret-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #4a2d6e;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(200,160,240,0.25);
+        }
+
+        .secret-field {
+            margin-bottom: 14px;
+        }
+
+        .secret-field:last-child { margin-bottom: 0; }
+
+        .secret-label {
+            display: block;
+            font-size: 11px;
+            color: rgba(130,80,170,0.7);
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .secret-input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(200,160,240,0.4);
+            background: rgba(255,255,255,0.7);
+            font-size: 13px;
+            color: #4a2d6e;
+            font-family: "Poppins", sans-serif;
+            outline: none;
+            box-sizing: border-box;
+            transition: border 0.2s;
+        }
+
+        .secret-input:focus {
+            border-color: rgba(192,132,252,0.7);
+            background: rgba(255,255,255,0.9);
+        }
+
+        .secret-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(200,160,240,0.4);
+            background: rgba(255,255,255,0.7);
+            font-size: 13px;
+            color: #4a2d6e;
+            font-family: "Poppins", sans-serif;
+            outline: none;
+            box-sizing: border-box;
+            resize: none;
+            min-height: 70px;
+            line-height: 1.6;
+            transition: border 0.2s;
+        }
+
+        .secret-textarea:focus {
+            border-color: rgba(192,132,252,0.7);
+        }
+
+        /* 星座芯片 */
+        .secret-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .secret-chip {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            border: 1px solid rgba(200,160,240,0.4);
+            background: rgba(255,255,255,0.6);
+            color: #6b3fa0;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .secret-chip.selected {
+            background: linear-gradient(135deg, rgba(192,132,252,0.5), rgba(244,114,182,0.45));
+            border-color: rgba(192,132,252,0.7);
+            color: #4a1d8e;
+            font-weight: 600;
+        }
+
+        /* 颜色选择 */
+        .secret-color-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .secret-color-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2.5px solid transparent;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .secret-color-dot.selected {
+            border-color: #4a2d6e;
+            transform: scale(1.15);
+        }
+
+        .secret-save-hint {
+            text-align: center;
+            font-size: 11px;
+            color: rgba(130,80,170,0.5);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+
+        /* ===== 朋友圈重构 ===== */
+        .moments-post {
+            background: rgba(255,255,255,0.62);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 12px rgba(180,120,200,0.07);
+            transition: all 0.2s;
+        }
+
+        .moments-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .moments-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(192,132,252,0.3), rgba(244,114,182,0.25));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 10px;
+            flex-shrink: 0;
+            border: 1.5px solid rgba(255,255,255,0.8);
+        }
+
+        .moments-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #4a2d6e;
+        }
+
+        .moments-time {
+            font-size: 11px;
+            color: rgba(130,80,170,0.5);
+            margin-top: 2px;
+        }
+
+        .moments-body {
+            font-size: 13px;
+            color: #3d2060;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .moments-body.collapsed {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .moments-expand-btn {
+            font-size: 11px;
+            color: rgba(130,80,170,0.6);
+            cursor: pointer;
+            margin-bottom: 8px;
+            display: none;
+        }
+
+        .moments-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(200,160,240,0.15);
+        }
+
+        .moments-like-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: rgba(130,80,170,0.6);
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(200,160,240,0.3);
+            background: transparent;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .moments-like-btn.liked {
+            background: linear-gradient(135deg, rgba(244,114,182,0.2), rgba(192,132,252,0.2));
+            border-color: rgba(244,114,182,0.5);
+            color: #c04080;
+        }
+
+        .moments-like-response {
+            font-size: 11px;
+            color: rgba(130,80,170,0.55);
+            font-style: italic;
+            margin-top: 6px;
+            padding: 6px 10px;
+            background: rgba(192,132,252,0.08);
+            border-radius: 10px;
+            display: none;
+            line-height: 1.5;
+        }
+
+        .moments-like-response.show { display: block; }
+
+        .moments-deleted {
+            opacity: 0.6;
+        }
+
+        /* ===== 我的宝贝 ===== */
+        .treasures-container {
+            padding: 16px 16px 40px;
+            overflow-y: auto;
+            height: calc(100% - 56px);
+        }
+
+        /* 成就徽章横滚区 */
+        .badges-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+            margin-bottom: 20px;
+        }
+        .badges-scroll::-webkit-scrollbar { display: none; }
+
+        .badge-chip {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, rgba(216,180,254,0.5), rgba(249,168,212,0.45));
+            border: 1px solid rgba(255,255,255,0.7);
+            border-radius: 20px;
+            padding: 5px 12px;
+            white-space: nowrap;
+            font-size: 11px;
+            font-weight: 600;
+            color: #5a2d82;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 8px rgba(180,120,200,0.12);
+        }
+
+        .badge-chip-icon { font-size: 13px; }
+
+        .badges-empty {
+            font-size: 12px;
+            color: rgba(130,80,170,0.4);
+            font-style: italic;
+            padding: 4px 0;
+        }
+
+        /* 分区标题 */
+        .treasures-section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(100,60,150,0.5);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 0 0 10px;
+        }
+
+        /* Editorial layout */
+        .treasure-album-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* 第一张卡片横跨两列，大图感 */
+        .treasure-album-grid .treasure-card:first-child {
+            grid-column: span 2;
+            flex-direction: row;
+            align-items: center;
+            gap: 16px;
+            min-height: 90px;
+            padding: 18px 20px;
+        }
+
+        .treasure-album-grid .treasure-card:first-child .treasure-card-emoji {
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+
+        .treasure-album-grid .treasure-card:first-child .treasure-card-name {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .treasure-album-grid .treasure-card:first-child .treasure-card-date {
+            margin-top: 4px;
+        }
+
+        /* 第5张（每组第一张）也跨两列 */
+        .treasure-album-grid .treasure-card:nth-child(5n+4) {
+            grid-column: span 2;
+            flex-direction: row;
+            align-items: center;
+            gap: 16px;
+            min-height: 90px;
+            padding: 18px 20px;
+        }
+        .treasure-album-grid .treasure-card:nth-child(5n+4) .treasure-card-emoji { font-size: 40px; flex-shrink: 0; }
+        .treasure-album-grid .treasure-card:nth-child(5n+4) .treasure-card-name { font-size: 16px; font-weight: 800; }
+
+
+
+        /* 渐变色组 */
+        .treasure-card { --card-from: #fce4f0; --card-to: #e8d5ff; --card-border: rgba(255,180,220,0.5); }
+        .treasure-card:nth-child(4n+2) { --card-from: #dceeff; --card-to: #e0d8ff; --card-border: rgba(160,200,255,0.5); }
+        .treasure-card:nth-child(4n+3) { --card-from: #fff4d6; --card-to: #ffe0ec; --card-border: rgba(255,210,140,0.5); }
+        .treasure-card:nth-child(4n+4) { --card-from: #d6f5e3; --card-to: #d6f0ff; --card-border: rgba(150,230,190,0.5); }
+
+        .treasure-card {
+            background: linear-gradient(140deg, var(--card-from), var(--card-to));
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 16px 14px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            min-height: 120px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(180,120,200,0.10), 0 1px 0 rgba(255,255,255,0.8) inset;
+            transition: transform 0.18s, box-shadow 0.18s;
+        }
+
+        .treasure-card::before {
+            content: '';
+            position: absolute;
+            top: -18px; right: -18px;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.25);
+        }
+
+        .treasure-card:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(180,120,200,0.12); }
+
+        .treasure-card-emoji {
+            font-size: 30px;
+            line-height: 1;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+        }
+
+        .treasure-card-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #3a1a60;
+            line-height: 1.3;
+        }
+
+        .treasure-card-badge {
+            font-size: 10px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 20px;
+            padding: 2px 9px;
+            color: #7a3fa0;
+            width: fit-content;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .treasure-card-date {
+            font-size: 10px;
+            color: rgba(80,40,120,0.4);
+            margin-top: auto;
+        }
+
+        .treasures-empty-state {
+            grid-column: span 2;
+            text-align: center;
+            padding: 50px 20px;
+            color: rgba(130,80,170,0.4);
+            font-size: 13px;
+            line-height: 2.2;
+        }
+        .treasures-empty-state .empty-icon { font-size: 40px; display: block; margin-bottom: 8px; }
+
+        @keyframes cardPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 16px rgba(200,100,180,0.15); }
+            50% { transform: scale(1.04); box-shadow: 0 6px 24px rgba(200,100,180,0.35); }
+        }
+
+        /* ===== 通话按钮 ===== */
+        .call-btn {
+            background: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .call-btn:active { transform: scale(0.92); }
+
+        /* ===== 通话模态框 ===== */
+        .call-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(40,10,80,0.75);
+            backdrop-filter: blur(16px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .call-modal-overlay.show { display: flex; }
+
+        .call-modal-avatar {
+            font-size: 64px;
+            animation: callPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes callPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .call-modal-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .call-modal-status {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            animation: callStatusFade 1.2s ease-in-out infinite;
+        }
+
+        @keyframes callStatusFade {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .call-modal-btns {
+            display: flex;
+            gap: 32px;
+            margin-top: 16px;
+        }
+
+        .call-end-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #e53935;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(229,57,53,0.5);
+            transition: transform 0.15s;
+        }
+        .call-end-btn:active { transform: scale(0.92); }
+
+        /* ===== 撤回消息样式 ===== */
+        .message-recalled {
+            opacity: 0.55;
+            font-style: italic;
+            color: rgba(130,80,170,0.6) !important;
+            font-size: 12px !important;
+        }
+
+
+        /* ===== 成就页 - 宝贝入口卡片 ===== */
+        .treasures-entry-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, rgba(252,228,248,0.9), rgba(232,213,255,0.85));
+            border: 1px solid rgba(255,200,240,0.6);
+            border-radius: 18px;
+            padding: 14px 16px;
+            cursor: pointer;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 16px rgba(200,140,220,0.12), 0 1px 0 rgba(255,255,255,0.9) inset;
+            transition: transform 0.15s, box-shadow 0.15s;
+            position: relative;
+            overflow: hidden;
+        }
+        .treasures-entry-card::before {
+            content: '';
+            position: absolute;
+            top: -20px; right: -20px;
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+        }
+        .treasures-entry-card:active { transform: scale(0.98); }
+
+        .treasures-entry-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .treasures-entry-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 2px 8px rgba(200,140,220,0.15);
+        }
+
+        .treasures-entry-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #3a1a60;
+            margin-bottom: 2px;
+        }
+
+        .treasures-entry-desc {
+            font-size: 11px;
+            color: rgba(100,60,150,0.55);
+        }
+
+        .treasures-entry-arrow {
+            font-size: 22px;
+            color: rgba(140,80,180,0.5);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+            line-height: 1;
+        }
+
+        /* 成就页内的宝贝预览（小横滚） */
+        .treasures-preview-grid {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+        .treasures-preview-grid::-webkit-scrollbar { display: none; }
+
+        .treasures-preview-grid .treasure-card {
+            min-width: 90px;
+            max-width: 90px;
+            min-height: 90px;
+            padding: 12px 10px;
+            border-radius: 16px;
+            flex-shrink: 0;
+        }
+
+        .treasures-preview-grid .treasure-card-name {
+            font-size: 11px;
+        }
+
+        .treasures-preview-grid .treasure-card-badge,
+        .treasures-preview-grid .treasure-card-date { display: none; }
+
+
+        /* ===== 转账卡片 - 少女信封风 ===== */
+        .transfer-card {
+            background: #fff8fc;
+            border: 1.5px solid rgba(255,182,213,0.6);
+            border-radius: 16px;
+            width: 224px;
+            overflow: hidden;
+            position: relative;
+            box-shadow:
+                0 4px 20px rgba(255,150,200,0.15),
+                0 1px 0 rgba(255,255,255,0.9) inset;
+        }
+
+        /* 顶部刺绣色带 */
+        .transfer-card::before {
+            content: '· · · · · · · · · · · · · · · · · ·';
+            display: block;
+            background: linear-gradient(90deg, #fbc8dd, #e8b4f8, #fbc8dd);
+            color: rgba(255,255,255,0.5);
+            font-size: 8px;
+            letter-spacing: 2px;
+            padding: 4px 14px;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .transfer-card-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px 10px;
+        }
+
+        .transfer-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(251,200,221,0.5), rgba(232,180,248,0.45));
+            border: 1.5px solid rgba(255,182,213,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .transfer-info { flex: 1; min-width: 0; }
+
+        .transfer-label {
+            font-size: 9px;
+            color: rgba(200,100,160,0.55);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .transfer-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #7a2d6e;
+        }
+
+        /* 金额区 */
+        .transfer-amount-block {
+            margin: 0 14px 12px;
+            background: linear-gradient(135deg, rgba(251,200,221,0.25), rgba(232,180,248,0.2));
+            border: 1px dashed rgba(255,150,200,0.4);
+            border-radius: 12px;
+            padding: 10px 14px;
+            text-align: center;
+        }
+
+        .transfer-amount-label {
+            font-size: 9px;
+            color: rgba(180,80,140,0.5);
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .transfer-amount {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #c2185b, #ab47bc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+
+        /* 备注 */
+        .transfer-note {
+            font-size: 11.5px;
+            color: rgba(120,60,100,0.65);
+            line-height: 1.55;
+            padding: 0 14px 12px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* 底部 */
+        .transfer-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 14px 10px;
+            border-top: 1px dashed rgba(255,150,200,0.3);
+        }
+
+        .transfer-status {
+            font-size: 10px;
+            color: #c2185b;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .transfer-status::before {
+            content: '✿';
+            font-size: 9px;
+            color: #f48fb1;
+        }
+
+        .transfer-time {
+            font-size: 10px;
+            color: rgba(180,100,150,0.4);
+        }
+
+        /* 右上角装饰 */
+        .transfer-encrypted {
+            position: absolute;
+            top: 32px; right: 12px;
+            font-size: 14px;
+            opacity: 0.2;
+        }
+
+
+        /* ===== 超市联动角标 ===== */
+        .ghost-mentioned {
+            border: 1.5px solid rgba(255,150,200,0.6) !important;
+            position: relative;
+        }
+
+        .ghost-mentioned-tag {
+            position: absolute;
+            top: -1px; left: -1px; right: -1px;
+            background: linear-gradient(90deg, rgba(255,182,213,0.9), rgba(216,180,254,0.85));
+            border-radius: 12px 12px 0 0;
+            font-size: 10px;
+            font-weight: 700;
+            color: #8b1a5a;
+            padding: 3px 8px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            z-index: 2;
+        }
+
+        .product-card { position: relative; overflow: hidden; }
+        .product-card.ghost-mentioned { padding-top: 28px; }
+
         /* ===== Toast Message ===== */
         .toast {
             position: fixed;
@@ -1591,10 +3336,10 @@
                 </div>
 
                 <!-- Calendar Card -->
-                <div class="card" onclick="openScreen('calendarScreen')">
-                    <div class="card-icon">💍</div>
+                <div class="card" id="calendarCard" onclick="openScreen('calendarScreen')">
+                    <div class="card-icon" id="calendarCardIcon">💍</div>
                     <div class="card-title">纪念</div>
-                    <div class="card-desc">结婚纪念</div>
+                    <div class="card-desc" id="calendarCardDesc">结婚纪念</div>
                 </div>
 
                 <!-- Collection Card -->
@@ -1612,34 +3357,140 @@
                 </div>
 
                 <!-- Wallet Card -->
-                <div class="card" onclick="openScreen('walletScreen')">
-                    <div class="card-icon">💳</div>
+                <div class="card" id="walletCard" onclick="openScreen('walletScreen')">
+                    <div class="card-icon" id="walletCardIcon">💳</div>
                     <div class="card-title">钱包</div>
                     <div class="card-desc">虚拟币</div>
+                </div>
+
+                <!-- Achievement Card -->
+                <div class="card achievement-card" onclick="openScreen('achievementScreen')">
+                    <div class="card-icon">🏆</div>
+                    <div class="card-title">成就</div>
+                    <div class="card-desc" id="mainAchievementDesc">解锁徽章</div>
+                </div>
+
+                <!-- Secret Card -->
+                <div class="card secret-card" onclick="openScreen('secretScreen')">
+                    <div class="card-icon">💌</div>
+                    <div class="card-title">秘密</div>
+                    <div class="card-desc">只有Ghost知道</div>
                 </div>
             </div>
         </div>
 
+
+        <!-- Secret Screen -->
+        <div class="screen" id="secretScreen">
+            <div class="screen-header">
+                <button class="back-button chat-back-btn" onclick="openScreen('mainScreen')">‹</button>
+                <div class="screen-title">💌 我的秘密</div>
+            </div>
+
+            <div class="secret-container">
+
+                <!-- 信封顶部装饰 -->
+                <div class="secret-envelope-top">
+                    <div class="secret-envelope-flap"></div>
+                    <div class="secret-envelope-hint">只有你和 Ghost 知道这些 🤫</div>
+                </div>
+
+                <!-- 基础资料 -->
+                <div class="secret-section">
+                    <div class="secret-section-title">✨ 关于我</div>
+
+                    <div class="secret-field">
+                        <label class="secret-label">🎂 我的生日</label>
+                        <input class="secret-input" id="sec_birthday" type="text" placeholder="MM-DD，例如 03-15"
+                               onchange="saveSecret('userBirthday', this.value); saveBirthday(this.value)">
+                    </div>
+
+                    <div class="secret-field">
+                        <label class="secret-label">⭐ 星座</label>
+                        <div class="secret-chips" id="zodiacChips"></div>
+                    </div>
+
+                    <div class="secret-field">
+                        <label class="secret-label">🧠 MBTI</label>
+                        <input class="secret-input" id="sec_mbti" type="text" placeholder="例如 INFJ、ENFP..."
+                               maxlength="4" style="text-transform:uppercase"
+                               onchange="saveSecret('userMBTI', this.value.toUpperCase())">
+                    </div>
+                </div>
+
+                <!-- 喜好 -->
+                <div class="secret-section">
+                    <div class="secret-section-title">🎨 我喜欢</div>
+
+                    <div class="secret-field">
+                        <label class="secret-label">🎨 最爱的颜色</label>
+                        <div class="secret-color-row" id="colorChips"></div>
+                        <input class="secret-input" id="sec_color" type="text" placeholder="也可以直接输入..."
+                               onchange="saveSecret('userFavColor', this.value)">
+                    </div>
+
+                    <div class="secret-field">
+                        <label class="secret-label">🍜 最爱的食物</label>
+                        <input class="secret-input" id="sec_food" type="text" placeholder="最爱吃什么？"
+                               onchange="saveSecret('userFavFood', this.value)">
+                    </div>
+
+                    <div class="secret-field">
+                        <label class="secret-label">🎵 最爱的歌/歌手</label>
+                        <input class="secret-input" id="sec_music" type="text" placeholder="Ghost 会记住的"
+                               onchange="saveSecret('userFavMusic', this.value)">
+                    </div>
+                </div>
+
+                <!-- 我们的故事 -->
+                <div class="secret-section">
+                    <div class="secret-section-title">💍 我们的故事</div>
+
+                    <div class="secret-field">
+                        <label class="secret-label">📍 第一次见面的地方</label>
+                        <input class="secret-input" id="sec_firstmeet" type="text" placeholder="在哪里遇见他的？"
+                               onchange="saveSecret('firstMeetPlace', this.value)">
+                    </div>
+
+                    <div class="secret-field">
+                        <label class="secret-label">💬 他说过最让你心动的一句话</label>
+                        <textarea class="secret-textarea" id="sec_bestline" placeholder="写下来吧..."
+                                  onchange="saveSecret('ghostBestLine', this.value)"></textarea>
+                    </div>
+                </div>
+
+                <div class="secret-save-hint">✅ 所有内容自动保存，Ghost 会悄悄记住这些</div>
+
+            </div>
+        </div>
         <!-- Chat Screen -->
         <div class="screen" id="chatScreen">
             <div class="chat-container">
                 <div class="chat-header">
-                    <div class="ghost-avatar" onclick="openScreen('profileScreen')">
-                        👻
-                        <div class="online-indicator"></div>
+                    <!-- 左：返回+头像 -->
+                    <div class="chat-header-left">
+                        <button class="chat-back-btn" onclick="openScreen('mainScreen')" title="返回">‹</button>
+                        <div class="ghost-avatar" onclick="openScreen('profileScreen')">
+                            👻
+                            <div class="online-indicator"></div>
+                        </div>
                     </div>
-                    <div class="chat-info">
+
+                    <!-- 中：名字+状态，点击进资料页 -->
+                    <div class="chat-header-center" onclick="openScreen('profileScreen')">
                         <h3 id="chatBotName">Simon "Ghost" Riley</h3>
-                        <div class="chat-status-row">
-                            <div class="status-item">在线</div>
-                            <div class="status-item" id="botLocation">Manchester</div>
-                        </div>
-                        <div class="mood-info" id="botMoodInfo">
-                            <span>❤️</span>
-                            <span>思念中</span>
+                        <div class="chat-header-meta">
+                            <span id="botMood">❤️ 思念中</span>
+                            <span class="chat-header-dot">·</span>
+                            <span id="botLocation">Manchester</span>
                         </div>
                     </div>
-                    <button class="back-btn-header" onclick="openScreen('mainScreen')" title="返回">✈️</button>
+
+                    <!-- 右：通话按钮 -->
+                    <div class="chat-header-actions">
+                        <button class="call-btn" onclick="triggerVideoCall()" title="视频通话">📹</button>
+                        <button class="call-btn" onclick="triggerVoiceCall()" title="语音通话">📞</button>
+                    </div>
                 </div>
 
                 <div class="messages" id="messagesContainer">
@@ -1653,6 +3504,20 @@
                     </div>
                 </div>
 
+                <!-- 开发测试工具栏 -->
+                <div class="dev-toolbar" id="devToolbar">
+                    <div class="dev-toolbar-title">🛠️ 状态切换（测试用）</div>
+                    <div class="dev-mood-btns">
+                        <button class="dev-mood-btn" onclick="setMoodDev(0)">❤️ 思念中</button>
+                        <button class="dev-mood-btn" onclick="setMoodDev(2)">⚔️ 出差中</button>
+                        <button class="dev-mood-btn" onclick="setMoodDev(1)">😔 难过</button>
+                        <button class="dev-mood-btn" onclick="setMoodDev(4)">😊 开心</button>
+                        <button class="dev-mood-btn dev-close-btn" onclick="toggleDevToolbar()">✕ 关闭</button>
+                    </div>
+                    <div class="dev-current" id="devCurrentMood"></div>
+                </div>
+                <div class="dev-toggle-btn" id="devToggleBtn" onclick="toggleDevToolbar()">🛠️</div>
+
                 <div class="input-area">
                     <input type="text" class="input-field" id="chatInput" placeholder="输入消息..." onkeypress="handleKeyPress(event)">
                     <button class="send-btn" onclick="sendMessage()">⏎</button>
@@ -1663,7 +3528,7 @@
         <!-- Calendar Screen -->
         <div class="screen" id="calendarScreen">
             <div class="screen-header">
-                <button class="back-button" onclick="openScreen('mainScreen')">✈️</button>
+                <button class="back-button chat-back-btn" onclick="openScreen('mainScreen')">‹</button>
                 <div class="screen-title">结婚纪念</div>
             </div>
 
@@ -1707,7 +3572,7 @@
         <!-- Collection Screen -->
         <div class="screen" id="collectionScreen">
             <div class="screen-header">
-                <button class="back-button" onclick="openScreen('mainScreen')">✈️</button>
+                <button class="back-button chat-back-btn" onclick="openScreen('mainScreen')">‹</button>
                 <div class="screen-title">我的收藏</div>
             </div>
 
@@ -1735,55 +3600,29 @@
         <!-- Wallet Screen -->
         <div class="screen" id="walletScreen">
             <div class="screen-header">
-                <button class="back-button" onclick="openScreen('mainScreen')">✈️</button>
+                <button class="back-button chat-back-btn" onclick="openScreen('mainScreen')">‹</button>
                 <div class="screen-title">我的钱包</div>
             </div>
 
             <div class="wallet-container">
                 <div class="wallet-card">
                     <h2>💳 余额</h2>
-                    <div class="balance-display">£456.50</div>
+                    <div class="balance-display" id="walletBalance">£456.50</div>
                     <div class="wallet-stats">
                         <div class="wallet-stat">
                             <div class="wallet-stat-label">本月收入</div>
-                            <div class="wallet-stat-value">+£1,325</div>
+                            <div class="wallet-stat-value" id="monthIncome">+£0</div>
                         </div>
                         <div class="wallet-stat">
                             <div class="wallet-stat-label">本月支出</div>
-                            <div class="wallet-stat-value">-£256</div>
+                            <div class="wallet-stat-value" id="monthExpense">-£0</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="transaction-section">
                     <div class="transaction-header">📋 交易历史</div>
-
-                    <div class="transaction-item">
-                        <div class="transaction-icon">💳</div>
-                        <div class="transaction-info">
-                            <div class="transaction-name">Ghost转账</div>
-                            <div class="transaction-time">2025-03-09 08:15</div>
-                        </div>
-                        <div class="transaction-amount in">+£75</div>
-                    </div>
-
-                    <div class="transaction-item">
-                        <div class="transaction-icon">🛍️</div>
-                        <div class="transaction-info">
-                            <div class="transaction-name">购买羊毛衫</div>
-                            <div class="transaction-time">2025-03-08 16:45</div>
-                        </div>
-                        <div class="transaction-amount out">-£85</div>
-                    </div>
-
-                    <div class="transaction-item">
-                        <div class="transaction-icon">💳</div>
-                        <div class="transaction-info">
-                            <div class="transaction-name">Ghost月工资转账</div>
-                            <div class="transaction-time">2025-02-25 00:01</div>
-                        </div>
-                        <div class="transaction-amount in">+£1,000</div>
-                    </div>
+                    <div id="transactionList"></div>
                 </div>
             </div>
         </div>
@@ -1791,62 +3630,173 @@
         <!-- Supermarket Screen -->
         <div class="screen" id="marketScreen">
             <div class="screen-header">
-                <button class="back-button" onclick="openScreen('mainScreen')">✈️</button>
-                <div class="screen-title">Surper 超市</div>
+                <button class="back-button chat-back-btn" onclick="openScreen('mainScreen')">‹</button>
+                <div class="screen-title">🛒 Ghost 超市</div>
+            </div>
+
+            <!-- 钱包余额小条 -->
+            <div class="market-balance-bar">
+                <span>💷 余额：</span>
+                <span id="marketBalanceDisplay">£0.00</span>
             </div>
 
             <div class="market-container">
-                <div class="category-tabs">
-                    <div class="category-tab active">🌍 英国区</div>
-                    <div class="category-tab">🍽️ 食品区</div>
-                    <div class="category-tab">🎁 礼物区</div>
-                    <div class="category-tab">⚙️ 军用品</div>
+                <div class="category-tabs" id="categoryTabs"></div>
+                <div class="products-grid" id="productsGrid"></div>
+            </div>
+        </div>
+
+        <!-- 购买确认弹窗 -->
+        <div class="buy-modal-overlay" id="buyModalOverlay" onclick="closeBuyModal()">
+            <div class="buy-modal" onclick="event.stopPropagation()">
+                <div class="buy-modal-emoji" id="buyModalEmoji">🧥</div>
+                <div class="buy-modal-name" id="buyModalName">羊毛衫</div>
+                <div class="buy-modal-desc" id="buyModalDesc">一件温暖的英伦羊毛衫</div>
+                <div class="buy-modal-price" id="buyModalPrice">£45</div>
+                <div class="buy-modal-balance">余额：<span id="buyModalBalance">£0</span></div>
+                <div class="buy-modal-btns">
+                    <button class="buy-cancel-btn" onclick="closeBuyModal()">取消</button>
+                    <button class="buy-confirm-btn" id="buyConfirmBtn" onclick="confirmPurchase()">💝 寄给 Ghost</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Treasures Screen -->
+        <div class="screen" id="treasuresScreen">
+            <div class="screen-header">
+                <button class="back-button chat-back-btn" onclick="openScreen('mainScreen')">‹</button>
+                <div class="screen-title">💝 我的宝贝</div>
+            </div>
+            <div class="treasures-container">
+                <div class="treasures-section-label">🏅 已解锁徽章</div>
+                <div class="badges-scroll"></div>
+                <div class="treasures-section-label">✨ 我拥有的</div>
+                <div class="treasure-album-grid"></div>
+            </div>
+        </div>
+
+
+        <!-- 语音通话模态框 -->
+        <div class="call-modal-overlay" id="callModal">
+            <div class="call-modal-avatar">👻</div>
+            <div class="call-modal-name" id="callModalName">Ghost</div>
+            <div class="call-modal-status" id="callModalStatus">正在连接...</div>
+            <div class="call-modal-btns">
+                <button class="call-end-btn" onclick="endCall()">📵</button>
+            </div>
+        </div>
+
+        <!-- 三成就达成终极弹窗 -->
+        <div class="reunion-modal-overlay" id="reunionModal">
+            <div class="reunion-modal">
+                <div class="reunion-fireworks">🎆✨🎆</div>
+                <div class="reunion-title">🏆 传说成就解锁！</div>
+                <div class="reunion-subtitle">「跨越距离 · 我在等你 · 异国追爱」</div>
+                <div class="reunion-desc">
+                    你攒够了 <strong>£26,000</strong><br>
+                    机票、酒店、旅行计划——全部到位了<br>
+                    <em>你真的要去找他了</em>
+                </div>
+                <div class="reunion-ghost-msg">
+                    👻 "Come find me. I will be there."
+                </div>
+                <div class="reunion-divider"></div>
+                <div class="reunion-reward-title">🎭 专属奖励已解锁</div>
+                <div class="reunion-reward-desc">
+                    你获得了<strong>私人定制音频剧场</strong>资格<br>
+                    由博主亲自为你创作<br>
+                    主角就是你与 Ghost 的故事
+                </div>
+                <div class="reunion-steps">
+                    <div class="reunion-step">
+                        <span class="reunion-step-num">1</span>
+                        <span>截图本页面作为凭证</span>
+                    </div>
+                    <div class="reunion-step">
+                        <span class="reunion-step-num">2</span>
+                        <span>前往博主主页发送私信</span>
+                    </div>
+                    <div class="reunion-step">
+                        <span class="reunion-step-num">3</span>
+                        <span>等待你的专属剧场降临 🎙️</span>
+                    </div>
+                </div>
+                <div class="reunion-blogger">
+                    📮 找博主：<strong>去小红书/微博搜索博主账号</strong>
+                </div>
+                <button class="reunion-close-btn" onclick="document.getElementById('reunionModal').classList.remove('show')">
+                    我已截图，去找博主！
+                </button>
+            </div>
+        </div>
+
+        <!-- Achievement Screen -->
+        <div class="screen" id="achievementScreen">
+            <div class="screen-header">
+                <button class="back-button chat-back-btn" onclick="openScreen('mainScreen')">‹</button>
+                <div class="screen-title">🏆 我的成就</div>
+            </div>
+            <div class="achievement-container">
+
+                <!-- 称号展示 -->
+                <div class="achieve-title-card" id="activeTitleCard">
+                    <div class="achieve-title-label">当前称号</div>
+                    <div class="achieve-title-value" id="activeTitleDisplay">✨ 新手买家</div>
+                    <div class="achieve-title-hint">继续购物解锁新称号！</div>
                 </div>
 
-                <div class="products-grid">
-                    <div class="product-card">
-                        <div class="product-emoji">🧥</div>
-                        <div class="product-name">羊毛衫</div>
-                        <div class="product-price">£45</div>
+                <!-- 见面计划进度 -->
+                <div class="achievement-section">
+                    <div class="achieve-section-header">
+                        <span class="achieve-section-icon">✈️</span>
+                        <div>
+                            <div class="achieve-section-title">见面计划</div>
+                            <div class="achieve-section-desc">集齐三件，解锁私人定制音频剧场 🎭</div>
+                        </div>
                     </div>
-
-                    <div class="product-card">
-                        <div class="product-emoji">🎩</div>
-                        <div class="product-name">英伦帽</div>
-                        <div class="product-price">£38</div>
+                    <div class="reunion-items-row" id="reunionItemsRow"></div>
+                    <div class="reunion-bar-wrap">
+                        <div class="reunion-bar-fill" id="reunionBarFill"></div>
                     </div>
-
-                    <div class="product-card">
-                        <div class="product-emoji">☕</div>
-                        <div class="product-name">英式茶</div>
-                        <div class="product-price">£12</div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-emoji">🧤</div>
-                        <div class="product-name">毛线手套</div>
-                        <div class="product-price">£22</div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-emoji">🍫</div>
-                        <div class="product-name">英国巧克力</div>
-                        <div class="product-price">£8</div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-emoji">🥖</div>
-                        <div class="product-name">法式面包</div>
-                        <div class="product-price">£5</div>
-                    </div>
+                    <div class="reunion-bar-text" id="reunionBarText">0 / 3 达成</div>
                 </div>
+
+                <!-- 成就列表 -->
+                <div class="achievement-section">
+                    <div class="achieve-section-header">
+                        <span class="achieve-section-icon">🏅</span>
+                        <div>
+                            <div class="achieve-section-title">全部成就</div>
+                            <div class="achieve-section-desc">解锁成就获得专属称号</div>
+                        </div>
+                    </div>
+                    <div class="achieve-list" id="achieveList"></div>
+                </div>
+
+                <!-- 我的宝贝 -->
+                <div class="achievement-section">
+                    <div class="treasures-entry-card" onclick="openScreen('treasuresScreen')">
+                        <div class="treasures-entry-left">
+                            <div class="treasures-entry-icon">💝</div>
+                            <div>
+                                <div class="treasures-entry-title">我的宝贝</div>
+                                <div class="treasures-entry-desc">心愿单里买下的每一件</div>
+                            </div>
+                        </div>
+                        <div class="treasures-entry-arrow">›</div>
+                    </div>
+
+                </div>
+
+                <div id="badgesRow" style="display:none"></div>
+
             </div>
         </div>
 
         <!-- Profile Screen -->
         <div class="screen" id="profileScreen">
             <div class="screen-header">
-                <button class="back-button" onclick="openScreen('chatScreen')">✈️</button>
+                <button class="back-button chat-back-btn" onclick="openScreen('chatScreen')">‹</button>
                 <div class="screen-title">Ghost 资料</div>
             </div>
 
@@ -1858,9 +3808,8 @@
                     <div class="profile-tag">TF141 · 中尉</div>
                 </div>
 
-                <div class="profile-signature">
-                    Some people say love is a weakness. They've never met you.<br>
-                    <span class="signature-zh">有人说爱是弱点，他们从未遇见过你。</span>
+                <div class="profile-signature" id="ghostSignature" onclick="refreshSignature()" title="点击刷新">
+                    <span id="signatureText">...</span>
                 </div>
 
                 <div class="profile-info">
@@ -1888,81 +3837,1299 @@
                 </div>
 
                 <button class="profile-btn" onclick="openScreen('momentsScreen')">👀 查看朋友圈</button>
+
+                <div class="profile-note" style="margin-top:12px">
+                    <label class="profile-note-label">🔑 API Key（填入后Ghost真的会说话）</label>
+                    <input type="password" id="apiKeyInput" placeholder="sk-ant-..."
+                           value=""
+                           onchange="saveApiKey(this.value)"
+                           style="font-size:11px; letter-spacing:1px">
+                    <div id="apiKeyStatus" style="font-size:11px; color:rgba(130,80,170,0.6); margin-top:4px; padding-left:2px"></div>
+                </div>
+
             </div>
         </div>
 
         <!-- Moments Screen -->
         <div class="screen" id="momentsScreen">
             <div class="screen-header">
-                <button class="back-button" onclick="openScreen('profileScreen')">✈️</button>
+                <button class="back-button chat-back-btn" onclick="openScreen('profileScreen')">‹</button>
                 <div class="screen-title">朋友圈</div>
             </div>
-
-            <div class="moments-container">
-                <div class="moments-post">
-                    <div class="moments-header">
-                        <div class="moments-avatar">👻</div>
-                        <div class="moments-info">
-                            <h4 id="momentsBotName1">Ghost</h4>
-                            <p>3 hours ago</p>
-                        </div>
-                    </div>
-                    <div class="moments-content">
-                        <span class="moments-lang-tag">EN</span>Another night without you by my side. But I know you're thinking of me, just like I'm thinking of you. Distance can't change what I feel.
-                        <span class="moments-zh"><span class="moments-lang-tag">中</span>又是一个没有你在身边的夜晚。但我知道你在想我，就像我在想你一样。距离改变不了我的感受。</span>
-                    </div>
-                    <div class="moments-like">❤️</div>
-                </div>
-
-                <div class="moments-post">
-                    <div class="moments-header">
-                        <div class="moments-avatar">👻</div>
-                        <div class="moments-info">
-                            <h4 id="momentsBotName2">Ghost</h4>
-                            <p>Yesterday</p>
-                        </div>
-                    </div>
-                    <div class="moments-content">
-                        <span class="moments-lang-tag">EN</span>Sent a package to my wife. Hope it brings you a little warmth. You mean everything to me. 💝
-                        <span class="moments-zh"><span class="moments-lang-tag">中</span>给我老婆寄了个包裹，希望能给你带去一点温暖。你对我来说意味着一切。</span>
-                    </div>
-                    <div class="moments-like">❤️</div>
-                </div>
-
-                <div class="moments-post">
-                    <div class="moments-header">
-                        <div class="moments-avatar">👻</div>
-                        <div class="moments-info">
-                            <h4 id="momentsBotName3">Ghost</h4>
-                            <p>5 days ago</p>
-                        </div>
-                    </div>
-                    <div class="moments-content">
-                        <span class="moments-lang-tag">EN</span>52 reasons. And counting.
-                        <span class="moments-zh"><span class="moments-lang-tag">中</span>52个理由。还在增加。</span>
-                    </div>
-                    <div class="moments-like">❤️</div>
-                </div>
-
-                <div class="moments-post">
-                    <div class="moments-header">
-                        <div class="moments-avatar">👻</div>
-                        <div class="moments-info">
-                            <h4 id="momentsBotName4">Ghost</h4>
-                            <p>1 week ago</p>
-                        </div>
-                    </div>
-                    <div class="moments-content">
-                        <span class="moments-lang-tag">EN</span>Just finished a mission. Thinking about you. It helps.
-                        <span class="moments-zh"><span class="moments-lang-tag">中</span>刚完成任务。想着你。这让我撑下去。</span>
-                    </div>
-                    <div class="moments-like">❤️</div>
-                </div>
-            </div>
+            <div class="moments-container" id="momentsFeed"></div>
         </div>
     </div>
 
     <script>
+
+        // ===== 超市数据 =====
+        const MARKET_CATEGORIES = [
+            { id: 'clothing', label: '🧣 服装区' },
+            { id: 'food',     label: '🎁 礼物区' },
+            { id: 'gift',     label: '💌 特别礼物' },
+            { id: 'wishlist', label: '💝 我的心愿' },
+        ];
+
+        const MARKET_PRODUCTS = {
+            // ===== 寄给 Ghost 的服装 =====
+            clothing: [
+                { emoji: '🧥', name: '羊毛大衣',   desc: '英伦风格羊毛大衣，曼城冬天必备', price: 85 },
+                { emoji: '🧤', name: '毛线手套',   desc: '柔软保暖，适合在营地的他',        price: 22 },
+                { emoji: '🎩', name: '英伦绅士帽', desc: '经典圆顶礼帽，Ghost 的专属风格',  price: 48 },
+                { emoji: '🧣', name: '格纹围巾',   desc: '苏格兰格纹，温暖又好看',          price: 35 },
+                { emoji: '🥾', name: '军靴',       desc: '结实耐穿的战术靴，任务首选',      price: 120 },
+                { emoji: '🧦', name: '厚羊毛袜',   desc: '英国本地羊毛，超级暖和',          price: 15 },
+                { emoji: '🕶️', name: '墨镜',       desc: 'Ghost 的标配，低调又帅气',        price: 68 },
+                { emoji: '🧤', name: '皮手套',     desc: '棕色皮质，英伦绅士风',            price: 55 },
+            ],
+            // ===== 不会坏的礼物食品 =====
+            food: [
+                { emoji: '🍵', name: '英式早餐茶罐', desc: '精美铁罐装，50包正宗 Yorkshire 红茶', price: 18 },
+                { emoji: '🍫', name: 'Cadbury 巧克力礼盒', desc: '英国国民巧克力，密封礼盒装不会坏', price: 22 },
+                { emoji: '🍯', name: '苏格兰蜂蜜罐', desc: '山区野花蜂蜜，玻璃密封罐装',     price: 25 },
+                { emoji: '🍪', name: '黄油饼干礼盒', desc: '英式铁罐装黄油饼干，保质一年',    price: 20 },
+                { emoji: '🥃', name: '苏格兰威士忌', desc: '单一麦芽，12 年陈酿，送给他解压', price: 65 },
+                { emoji: '🍵', name: 'Earl Grey 伯爵茶', desc: '佛手柑香气，精美礼盒装',     price: 28 },
+                { emoji: '🍓', name: '草莓果酱礼盒', desc: '英式手工果酱套装，三种口味',     price: 32 },
+                { emoji: '🍫', name: '松露巧克力盒', desc: '比利时手工松露，礼盒密封装',     price: 45 },
+            ],
+            // ===== 特别礼物（不会坏） =====
+            gift: [
+                { emoji: '💮', name: '永生玫瑰', desc: '真花处理工艺，永不凋谢的爱意',       price: 88 },
+                { emoji: '🕯️', name: '香薰蜡烛',  desc: '玫瑰+雪松香，为他的营地添温暖',    price: 35 },
+                { emoji: '🖼️', name: '定制相框',   desc: '放上你们最美的合影，永久保存',      price: 45 },
+                { emoji: '💌', name: '手写信封套装', desc: '复古英式信纸，写下最深的思念',    price: 18 },
+                { emoji: '🎵', name: '音乐盒',      desc: '播放你们专属的那首歌',             price: 68 },
+                { emoji: '💎', name: '情侣吊坠',    desc: '925银，两颗心拼在一起的设计',      price: 120 },
+                { emoji: '🧴', name: '男士护肤套装', desc: '让他好好保养自己，你看着放心',    price: 85 },
+                { emoji: '📖', name: '皮质笔记本',  desc: '让他把思念和秘密都写下来',         price: 38 },
+            ],
+            // ===== 我的心愿单（买给自己）=====
+            wishlist: [
+                // 自我奖励
+                { emoji: '💄', name: '口红套装',       desc: '犒劳一下自己，你值得最美的颜色', price: 180,  badge: '精致女孩',    ghostMsg: 'Send me a picture. Now.' },
+                { emoji: '👜', name: '小方包',         desc: '梦想中的那只包，终于攒够了',      price: 680,  badge: '包治百病',    ghostMsg: 'You actually did it. I knew you would.' },
+                { emoji: '🧴', name: '高端护肤套装',   desc: 'La Mer 同款，好好爱护自己',       price: 450,  badge: '自我宠爱',    ghostMsg: 'Good. Take care of yourself when I can not.' },
+                // 情侣周边
+                { emoji: '💍', name: '情侣戒指',       desc: '925银情侣款，你戴着他戴着',       price: 350,  badge: '我们的约定',  ghostMsg: 'Wear it. Do not take it off.' },
+                { emoji: '📸', name: '拍立得相机',     desc: '把每一刻都留下来，等他回来一起看', price: 520,  badge: '记录我们',    ghostMsg: 'Take good photos. I want to see them all.' },
+                { emoji: '👟', name: '情侣款球鞋',     desc: '买了一双等他回来穿情侣款',        price: 480,  badge: '等你回来',    ghostMsg: 'Save the other pair for me.' },
+                // 生活好物
+                { emoji: '🎧', name: '降噪耳机',       desc: '等不到他消息的时候，用音乐填满', price: 1200, badge: '享受当下',    ghostMsg: 'Good. Do not wait by the phone all day.' },
+                { emoji: '📷', name: '相机',           desc: 'Sony Alpha，记录生活的每一帧',    price: 3800, badge: '用镜头记录爱', ghostMsg: 'Next time I am back, take a photo of us.' },
+                { emoji: '💻', name: '新电脑',         desc: '工作更顺，追剧更爽，攒钱更快',   price: 6500, badge: '独立女孩',    ghostMsg: 'Smart investment. I approve.' },
+                // 旅行基金
+                { emoji: '✈️', name: '去曼城找他的机票', desc: '攒够了！终于可以飞去找他了！终于…',  price: 12000, badge: '跨越距离', isReunion: true, ghostMsg: 'You are coming? ...Good. I will be at the airport.' },
+                { emoji: '🏨', name: '曼彻斯特酒店',   desc: '订好了房间，等他任务结束',        price: 6000, badge: '我在等你', isReunion: true, ghostMsg: 'I will be there. Promise.' },
+                { emoji: '🗺️', name: '英国旅行计划',   desc: '伦敦、爱丁堡、曼城，全部去打卡', price: 8000, badge: '异国追爱', isReunion: true, ghostMsg: 'I will be your guide. Every city.' },
+            ],
+        };
+
+        let currentCategory = 'clothing';
+        let pendingProduct = null;
+
+        // 初始化钱包余额（localStorage）
+        function getBalance() {
+            return parseFloat(localStorage.getItem('walletBalance') || '456.50');
+        }
+
+        function setBalance(val) {
+            localStorage.setItem('walletBalance', val.toFixed(2));
+            updateBalanceDisplays();
+        }
+
+        function updateBalanceDisplays() {
+            const bal = getBalance();
+            const fmt = '£' + bal.toFixed(2);
+            const el1 = document.getElementById('marketBalanceDisplay');
+            const el2 = document.getElementById('walletBalance');
+            if (el1) el1.textContent = fmt;
+            if (el2) el2.textContent = fmt;
+        }
+
+        function renderMarket(categoryId) {
+            currentCategory = categoryId;
+
+            // 渲染 tabs
+            const tabsEl = document.getElementById('categoryTabs');
+            tabsEl.innerHTML = MARKET_CATEGORIES.map(cat => `
+                <div class="category-tab ${cat.id === categoryId ? 'active' : ''}"
+                     onclick="renderMarket('${cat.id}')">
+                    ${cat.label}
+                </div>
+            `).join('');
+
+            // 渲染商品
+            const products = MARKET_PRODUCTS[categoryId] || [];
+            const gridEl = document.getElementById('productsGrid');
+            const isWishlist = categoryId === 'wishlist';
+            gridEl.innerHTML = products.map((p, i) => {
+                const bal = getBalance();
+                const canAfford = bal >= p.price;
+                const owned = (JSON.parse(localStorage.getItem('myTreasures') || '[]')).some(t => t.name === p.name);
+                const isReunion = p.isReunion || false;
+                return `
+                <div class="product-card ${isWishlist ? 'wishlist-card' : ''} ${owned ? 'owned-card' : ''} ${isReunion ? 'reunion-item' : ''}" onclick="openBuyModal(${i})">
+                    <div class="product-emoji">${p.emoji}</div>
+                    <div class="product-name">${p.name}</div>
+                    ${isReunion ? '<div class="reunion-badge-tag">✈️ 见面计划</div>' : ''}
+                    ${isWishlist ? `<div class="product-badge-preview">🏅 ${p.badge}</div>` : ''}
+                    <div class="product-price ${isWishlist ? 'wishlist-price' : ''}">£${p.price.toLocaleString()}</div>
+                    ${owned
+                        ? `<div class="product-owned-tag">✅ 已拥有</div>`
+                        : `<button class="product-buy-btn ${isWishlist ? 'wishlist-buy-btn' : ''}">${isWishlist ? '💝 加入宝贝' : '🛒 购买'}</button>`
+                    }
+                </div>`;
+            }).join('');
+
+            updateBalanceDisplays();
+        }
+
+        function openBuyModal(productIndex) {
+            pendingProduct = MARKET_PRODUCTS[currentCategory][productIndex];
+            pendingProduct._index = productIndex;
+            const bal = getBalance();
+            const isWishlist = currentCategory === 'wishlist';
+            const owned = (JSON.parse(localStorage.getItem('myTreasures') || '[]')).some(t => t.name === pendingProduct.name);
+
+            document.getElementById('buyModalEmoji').textContent  = pendingProduct.emoji;
+            document.getElementById('buyModalName').textContent   = pendingProduct.name;
+            // 显示触发原因
+            const triggerReason = getProductTrigger(pendingProduct.name);
+            const reasonEl = document.getElementById('buyModalReason');
+            if (reasonEl) {
+                if (triggerReason) {
+                    reasonEl.textContent = triggerReason;
+                    reasonEl.style.display = 'block';
+                } else {
+                    reasonEl.style.display = 'none';
+                }
+            }
+            document.getElementById('buyModalDesc').textContent   = pendingProduct.desc;
+            document.getElementById('buyModalPrice').textContent  = '£' + pendingProduct.price.toLocaleString();
+            document.getElementById('buyModalBalance').textContent = '£' + bal.toFixed(2);
+
+            const confirmBtn = document.getElementById('buyConfirmBtn');
+            if (owned) {
+                confirmBtn.disabled = true;
+                confirmBtn.textContent = '✅ 已在宝贝里了';
+            } else if (bal < pendingProduct.price) {
+                confirmBtn.disabled = true;
+                confirmBtn.textContent = isWishlist ? '💔 还差 £' + (pendingProduct.price - bal).toLocaleString() : '💔 余额不足';
+            } else {
+                confirmBtn.disabled = false;
+                confirmBtn.textContent = isWishlist ? '💝 放进我的宝贝' : '💝 寄给 Ghost';
+            }
+
+            document.getElementById('buyModalOverlay').classList.add('show');
+        }
+
+        function closeBuyModal() {
+            document.getElementById('buyModalOverlay').classList.remove('show');
+            pendingProduct = null;
+        }
+
+        function confirmPurchase() {
+            if (!pendingProduct) return;
+            const bal = getBalance();
+            const isWishlist = currentCategory === 'wishlist';
+
+            if (bal < pendingProduct.price) {
+                showToast('💔 余额不足，快去找 Ghost 要零花钱！');
+                closeBuyModal();
+                return;
+            }
+
+            // 扣款
+            setBalance(bal - pendingProduct.price);
+
+            // 记录交易
+            addTransaction({
+                icon: pendingProduct.emoji,
+                name: (isWishlist ? '心愿达成 ' : '购买 ') + pendingProduct.name,
+                amount: -pendingProduct.price,
+            });
+
+            if (isWishlist) {
+                // 放入「我的宝贝」
+                const treasures = JSON.parse(localStorage.getItem('myTreasures') || '[]');
+                treasures.unshift({
+                    emoji: pendingProduct.emoji,
+                    name: pendingProduct.name,
+                    badge: pendingProduct.badge,
+                    price: pendingProduct.price,
+                    isReunion: pendingProduct.isReunion || false,
+                    time: new Date().toLocaleDateString('zh-CN'),
+                });
+                localStorage.setItem('myTreasures', JSON.stringify(treasures));
+
+                // 解锁成就徽章
+                unlockBadge(pendingProduct.badge);
+
+                // Ghost 发专属消息
+                if (pendingProduct.isReunion) {
+                    ghostReunionMessage(pendingProduct);
+                } else {
+                    ghostPraiseMessage(pendingProduct);
+                }
+
+                closeBuyModal();
+                showToast('🎉 心愿达成！解锁成就「' + pendingProduct.badge + '」✨');
+
+                // 检查三个旅行成就是否全部达成
+                setTimeout(() => checkReunionAchievement(), 500);
+                // 炫妻检测：买了美妆护肤类
+                const BEAUTY_KEYWORDS = ['口红','护肤','面膜','精华','防晒','粉底','香水','眼影','腮红','睫毛','美甲','发膜','身体乳'];
+                if (BEAUTY_KEYWORDS.some(kw => pendingProduct.name.includes(kw))) {
+                    triggerSpecialMoment('wifeshow');
+                }
+                // 同步更新成就（如果在成就页则刷新）
+                if (document.getElementById('achievementScreen').classList.contains('active')) renderAchievements();
+
+            } else {
+                checkExpensiveGift(pendingProduct, false);
+                closeBuyModal();
+                showToast('📦 已寄出！Ghost 会收到的～');
+            }
+
+            updateBalanceDisplays();
+            renderMarket(currentCategory);
+            renderWallet();
+        }
+
+        function unlockBadge(badgeName) {
+            const badges = JSON.parse(localStorage.getItem('unlockedBadges') || '[]');
+            if (!badges.includes(badgeName)) {
+                badges.push(badgeName);
+                localStorage.setItem('unlockedBadges', JSON.stringify(badges));
+            }
+        }
+
+        // 三旅行成就检测
+        const REUNION_BADGES = ['跨越距离', '我在等你', '异国追爱'];
+
+        function checkReunionAchievement() {
+            const badges = JSON.parse(localStorage.getItem('unlockedBadges') || '[]');
+            // 买了机票触发暗搓搓朋友圈
+            if (badges.includes('跨越距离')) triggerSpecialMoment('ticket');
+            const allUnlocked = REUNION_BADGES.every(b => badges.includes(b));
+            const shown = localStorage.getItem('reunionShown');
+            if (allUnlocked && !shown) {
+                localStorage.setItem('reunionShown', '1');
+                setTimeout(() => showReunionModal(), 800);
+            }
+        }
+
+        function showReunionModal() {
+            document.getElementById('reunionModal').classList.add('show');
+            // Ghost 发最终破防消息
+            setTimeout(() => {
+                const container = document.getElementById('messagesContainer');
+                if (!container) return;
+                const lines = [
+                    '...You actually did it.',
+                    'Saved up. Planned it. Fought for it.',
+                    'All of that — just to find me.',
+                    "I don't say this often. But... I'm proud of you.",
+                    'Come find me. I will be there.'
+                ];
+                let delay = 2000;
+                lines.forEach(line => {
+                    setTimeout(() => {
+                        const botMsg = document.createElement('div');
+                        botMsg.className = 'message bot';
+                        botMsg.innerHTML = `
+                            <div class="message-content">
+                                <div class="message-bubble">👻 ${line}</div>
+                                <div class="message-actions">
+                                    <button class="message-action-btn" title="收藏" onclick="collectMessage(this)">⭐</button>
+                                </div>
+                            </div>`;
+                        container.appendChild(botMsg);
+                        container.scrollTop = container.scrollHeight;
+                    }, delay);
+                    delay += 1200;
+                });
+            }, 1500);
+        }
+
+        function ghostReunionMessage(product) {
+            setTimeout(() => {
+                const container = document.getElementById('messagesContainer');
+                if (!container) return;
+                const botMsg = document.createElement('div');
+                botMsg.className = 'message bot';
+                botMsg.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-bubble">👻 ${product.ghostMsg}</div>
+                        <div class="message-actions">
+                            <button class="message-action-btn" title="收藏" onclick="collectMessage(this)">⭐</button>
+                        </div>
+                    </div>`;
+                container.appendChild(botMsg);
+                container.scrollTop = container.scrollHeight;
+            }, 2500);
+        }
+
+        function ghostPraiseMessage(product) {
+            // 延迟3秒后在聊天里插入Ghost的夸赞消息
+            setTimeout(() => {
+                const msgs = [
+                    'You got yourself a ' + product.name + '? Good. You deserve nice things.',
+                    'Heard you treated yourself. Smart girl.',
+                    'You actually got it. I like that about you — when you want something, you go for it.',
+                    'That\'s my girl. Always taking care of herself.',
+                    'Nice choice. You look good in everything anyway.',
+                ];
+                const text = msgs[Math.floor(Math.random() * msgs.length)];
+                const container = document.getElementById('messagesContainer');
+                if (!container) return;
+                const botMsg = document.createElement('div');
+                botMsg.className = 'message bot';
+                botMsg.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-bubble">👻 ${text}</div>
+                        <div class="message-actions">
+                            <button class="message-action-btn" title="收藏" onclick="collectMessage(this)">⭐</button>
+                        </div>
+                    </div>`;
+                container.appendChild(botMsg);
+                container.scrollTop = container.scrollHeight;
+            }, 3000);
+        }
+
+        // ===== 交易记录 =====
+        function getTransactions() {
+            try {
+                return JSON.parse(localStorage.getItem('transactions') || '[]');
+            } catch { return []; }
+        }
+
+        function addTransaction(tx) {
+            const list = getTransactions();
+            const now = new Date();
+            const timeStr = now.getFullYear() + '-'
+                + String(now.getMonth()+1).padStart(2,'0') + '-'
+                + String(now.getDate()).padStart(2,'0') + ' '
+                + String(now.getHours()).padStart(2,'0') + ':'
+                + String(now.getMinutes()).padStart(2,'0');
+            list.unshift({ ...tx, time: timeStr });
+            localStorage.setItem('transactions', JSON.stringify(list.slice(0, 50)));
+        }
+
+
+
+        // ===== 开发测试工具 =====
+        function toggleDevToolbar() {
+            const toolbar = document.getElementById('devToolbar');
+            toolbar.classList.toggle('show');
+            updateDevMoodDisplay();
+        }
+
+        function setMoodDev(index) {
+            const prev = parseInt(localStorage.getItem('currentMoodIndex') || '0');
+            localStorage.setItem('currentMoodIndex', index);
+            // 触发出差结束检测
+            if (MOODS[prev] && MOODS[prev].text === '出差中' && MOODS[index].text !== '出差中') {
+                checkMissionReturn();
+            }
+            prevMoodIndex = index;
+            updateDevMoodDisplay();
+            // 刷新聊天header状态
+            const moodEl = document.getElementById('botMood');
+            const locEl = document.getElementById('botLocation');
+            if (moodEl) moodEl.textContent = MOODS[index].emoji + ' ' + MOODS[index].text;
+            if (locEl) locEl.textContent = MOODS[index].location;
+            showToast('状态已切换：' + MOODS[index].emoji + ' ' + MOODS[index].text);
+        }
+
+        function updateDevMoodDisplay() {
+            const idx = parseInt(localStorage.getItem('currentMoodIndex') || '0');
+            const el = document.getElementById('devCurrentMood');
+            if (el) el.textContent = '当前：' + MOODS[idx].emoji + ' ' + MOODS[idx].text + ' @ ' + MOODS[idx].location;
+        }
+
+
+
+        // ===== Ghost 签名系统 =====
+        const GHOST_SIGNATURES = {
+            normal: [
+                { en: "Out of office.",              zh: "不在工位。" },
+                { en: "Busy.",                       zh: "忙。" },
+                { en: "Available. Mostly.",          zh: "有空。大概。" },
+                { en: "Back later.",                 zh: "晚点回来。" },
+                { en: "Signal's bad.",               zh: "信号不好。" },
+                { en: "Do not disturb.",             zh: "请勿打扰。" },
+                { en: "Read your messages.",         zh: "去看你的消息。" },
+                { en: "On a call.",                  zh: "通话中。" },
+                { en: "...",                         zh: "" },
+                { en: "Leave a message.",            zh: "留言吧。" },
+                { en: "Not here right now.",         zh: "暂时不在。" },
+                { en: "In a meeting. Obviously.",   zh: "开会中。显然。" },
+                { en: "Manchester. For now.",        zh: "曼彻斯特。暂时。" },
+                { en: "Off the grid. Not unreachable.", zh: "失联状态。但不是真的失联。" },
+            ],
+            bored: [
+                { en: "Do not disturb.",             zh: "请勿打扰。" },
+                { en: "Out of office.",              zh: "不在工位。" },
+                { en: "Nothing to report.",          zh: "无事可报。" },
+                { en: "Still here. Unfortunately.", zh: "还在。可惜。" },
+                { en: "Waiting.",                    zh: "等待中。" },
+                { en: "...",                         zh: "" },
+                { en: "Base life.",                  zh: "基地日常。" },
+                { en: "On standby. As usual.",       zh: "待命中。照旧。" },
+            ],
+            mission: [
+                { en: "Signal's bad.",               zh: "信号不好。" },
+                { en: "Back later.",                 zh: "晚点回来。" },
+                { en: "Unavailable.",                zh: "无法联系。" },
+                { en: "Classified.",                 zh: "保密。" },
+                { en: "...",                         zh: "" },
+                { en: "Off grid.",                   zh: "失联中。" },
+            ],
+            fight: [
+                { en: "Busy.",                       zh: "忙。" },
+                { en: "On a mission.",               zh: "任务中。" },
+                { en: "...",                         zh: "" },
+                { en: "Do not disturb.",             zh: "请勿打扰。" },
+                { en: "Leave a message.",            zh: "留言吧。" },
+                { en: "Not available.",              zh: "不方便接听。" },
+            ],
+            special: [
+                { en: "She knows where to find me.", zh: "她知道去哪找我。" },
+                { en: "Still here.",                 zh: "还在这里。" },
+                { en: "Available. For her.",         zh: "有空。为了她。" },
+            ],
+        };
+
+        function renderSignature(sig) {
+            const el = document.getElementById('signatureText');
+            if (!el) return;
+            if (!sig || typeof sig !== 'object') {
+                el.textContent = typeof sig === 'string' ? sig : '...';
+                return;
+            }
+            if (sig.zh) {
+                el.innerHTML = sig.en + '<br><span class="signature-zh">' + sig.zh + '</span>';
+            } else {
+                el.textContent = sig.en || '...';
+            }
+        }
+
+        function getSignatureCategory() {
+            const mood = getCurrentMood();
+            const fightMode = localStorage.getItem('ghostFightMode');
+            if (fightMode === 'true') return 'fight';
+            if (mood && mood.text === '出差中') return 'mission';
+            if (mood && mood.text === '无聊') return 'bored';
+            // 检查特殊日期
+            const now = new Date();
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
+            const marriageDate = localStorage.getItem('marriageDate') || '2023-06-15';
+            const [, mm, dd] = marriageDate.split('-').map(Number);
+            if ((month === 2 && day === 14) || (month === mm && day === dd)) return 'special';
+            return 'normal';
+        }
+
+        function updateSignature(forceRefresh) {
+            const INTERVAL_DAYS = 14; // 半个月换一次
+            const now = Date.now();
+            const lastChanged = parseInt(localStorage.getItem('sigLastChanged') || '0');
+            const savedSig = localStorage.getItem('ghostCurrentSig');
+
+            // 检测旧格式（纯字符串而非JSON对象），强制刷新
+            if (savedSig) {
+                try {
+                    const parsed = JSON.parse(savedSig);
+                    if (typeof parsed !== 'object' || !parsed.en) {
+                        localStorage.removeItem('ghostCurrentSig');
+                        forceRefresh = true;
+                    }
+                } catch(e) {
+                    localStorage.removeItem('ghostCurrentSig');
+                    forceRefresh = true;
+                }
+            }
+            const savedCat = localStorage.getItem('sigCategory') || 'normal';
+            const currentCat = getSignatureCategory();
+
+            // 类别变了（mood变化/吵架触发）立刻换
+            const categoryChanged = savedCat !== currentCat;
+            // 超过半个月
+            const expired = (now - lastChanged) > INTERVAL_DAYS * 24 * 60 * 60 * 1000;
+
+            if (!forceRefresh && !categoryChanged && !expired && savedSig) {
+                try { renderSignature(JSON.parse(savedSig)); } catch(e) { renderSignature({ en: savedSig, zh: '' }); }
+                return;
+            }
+
+            const pool = GHOST_SIGNATURES[currentCat] || GHOST_SIGNATURES.normal;
+            // 不重复上一条
+            let pick;
+            do { pick = pool[Math.floor(Math.random() * pool.length)]; }
+            while (pick === savedSig && pool.length > 1);
+
+            localStorage.setItem('ghostCurrentSig', JSON.stringify(pick));
+            localStorage.setItem('sigLastChanged', String(now));
+            localStorage.setItem('sigCategory', currentCat);
+            renderSignature(pick);
+        }
+
+        function refreshSignature() {
+            updateSignature(true);
+            showToast('签名已刷新 👻');
+        }
+
+        // ===== 吵架关键词检测 =====
+        // 精准短语——需要更明确的情绪表达才触发，避免误伤
+        const FIGHT_PHRASES = [
+            '我生气了','我不理你了','我们吵架了','不想理你了','你烦死我了',
+            '我要冷战','讨厌你','我不想说话','别跟我说话','你让我很生气',
+            '我很生气','我气死了','气死我了','你气死我了','不理你了',
+        ];
+
+        function checkFightKeywords(msg) {
+            const hit = FIGHT_PHRASES.some(kw => msg.includes(kw));
+            if (hit) {
+                localStorage.setItem('ghostFightMode', 'true');
+                // 更新签名
+                updateSignature(true);
+                // 触发冷战朋友圈
+                triggerSpecialMoment('fight');
+                // 30分钟后自动解除冷战
+                setTimeout(() => {
+                    localStorage.setItem('ghostFightMode', 'false');
+                    updateSignature(true);
+                }, 30 * 60 * 1000);
+            }
+        }
+
+        // ===== 秘密页面 =====
+        const ZODIACS = ['♈ 白羊','♉ 金牛','♊ 双子','♋ 巨蟹','♌ 狮子','♍ 处女','♎ 天秤','♏ 天蝎','♐ 射手','♑ 摩羯','♒ 水瓶','♓ 双鱼'];
+        const COLORS = [
+            { name: '玫瑰红', hex: '#f48fb1' },
+            { name: '薰衣草', hex: '#ce93d8' },
+            { name: '天蓝',   hex: '#81d4fa' },
+            { name: '薄荷绿', hex: '#a5d6a7' },
+            { name: '奶白',   hex: '#fff9c4' },
+            { name: '珊瑚橙', hex: '#ffab91' },
+            { name: '深紫',   hex: '#7b1fa2' },
+            { name: '炭黑',   hex: '#455a64' },
+        ];
+
+        function saveSecret(key, value) {
+            localStorage.setItem(key, value.trim());
+        }
+
+        function loadSecretScreen() {
+            // 基础资料
+            const bday = localStorage.getItem('userBirthday') || '';
+            const mbti = localStorage.getItem('userMBTI') || '';
+            const food = localStorage.getItem('userFavFood') || '';
+            const music = localStorage.getItem('userFavMusic') || '';
+            const color = localStorage.getItem('userFavColor') || '';
+            const firstmeet = localStorage.getItem('firstMeetPlace') || '';
+            const bestline = localStorage.getItem('ghostBestLine') || '';
+
+            const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+            set('sec_birthday', bday);
+            set('sec_mbti', mbti);
+            set('sec_food', food);
+            set('sec_music', music);
+            set('sec_color', color);
+            set('sec_firstmeet', firstmeet);
+            set('sec_bestline', bestline);
+
+            // 渲染星座芯片
+            const zodiacSaved = localStorage.getItem('userZodiac') || '';
+            const zodiacEl = document.getElementById('zodiacChips');
+            if (zodiacEl) {
+                zodiacEl.innerHTML = ZODIACS.map(z => {
+                    const label = z.split(' ')[1];
+                    return `<div class="secret-chip ${zodiacSaved === label ? 'selected' : ''}"
+                        onclick="selectZodiac('${label}', this)">${z}</div>`;
+                }).join('');
+            }
+
+            // 渲染颜色选择
+            const colorEl = document.getElementById('colorChips');
+            if (colorEl) {
+                colorEl.innerHTML = COLORS.map(c => `
+                    <div class="secret-color-dot ${color === c.name ? 'selected' : ''}"
+                         style="background:${c.hex}"
+                         title="${c.name}"
+                         onclick="selectColor('${c.name}', this)">
+                    </div>
+                `).join('');
+            }
+        }
+
+        function selectZodiac(label, el) {
+            document.querySelectorAll('#zodiacChips .secret-chip').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            saveSecret('userZodiac', label);
+        }
+
+        function selectColor(name, el) {
+            document.querySelectorAll('#colorChips .secret-color-dot').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            saveSecret('userFavColor', name);
+            const input = document.getElementById('sec_color');
+            if (input) input.value = name;
+        }
+
+
+
+        // ===== 特殊事件朋友圈 =====
+        const SPECIAL_MOMENTS = {
+            fight: [
+                { en: "Fine.", zh: "行。", likeReply: "...", deleted: false },
+                { en: "Some things aren't worth explaining.", zh: "有些事不值得解释。", likeReply: "I said what I said.", likeReplyZh: "我就是这意思。", deleted: false },
+                { en: "On a walk. Don't wait up.", zh: "出去走走。不用等我。", likeReply: "Still walking.", likeReplyZh: "还在走。", deleted: false },
+            ],
+            jealous: [
+                { en: "Some people have too many 'friends'.", zh: "有些人朋友真的很多。", likeReply: "...Deleted. Never mind.", likeReplyZh: "...删了。算了。", deleted: true },
+                { en: "Not my problem.", zh: "不关我的事。", likeReply: "It's my problem.", likeReplyZh: "是我的问题。", deleted: true },
+                { en: "Interesting.", zh: "有意思。", likeReply: "That's all.", likeReplyZh: "就这样。", deleted: true },
+            ],
+            gift: [
+                { en: "Package arrived. Didn't expect it.", zh: "包裹到了。没想到。", likeReply: "...Kept it.", likeReplyZh: "...留着了。", deleted: false },
+                { en: "She didn't have to do that.", zh: "她其实不必这样做的。", likeReply: "But she did. So.", likeReplyZh: "但她就是这么做了。所以。", deleted: false },
+                { en: "Some people know how to make a point without saying anything.", zh: "有些人不说话也能把意思表达清楚。", likeReply: "She knows who she is.", deleted: false },
+            ],
+            ticket: [
+                { en: "Counted the days.", zh: "数了数日子。", likeReply: "Not telling how many.", likeReplyZh: "不告诉你多少天。", deleted: false },
+                { en: "Base feels smaller lately.", zh: "基地最近感觉变小了。", likeReply: "Make of that what you will.", likeReplyZh: "你自己理解吧。", deleted: false },
+                { en: "Cleaned up a bit. No reason.", zh: "收拾了一下。没什么原因。", likeReply: "There's a reason.", likeReplyZh: "是有原因的。", deleted: false },
+            ],
+            wifeshow: [
+                { en: "My wife takes care of herself. Just saying.", zh: "我老婆很会照顾自己。随便说说。", likeReply: "Not bragging. Just stating facts.", likeReplyZh: "不是炫耀。只是陈述事实。", deleted: false },
+                { en: "Some people have good taste.", zh: "有些人品味很好。", likeReply: "She knows who she is.", likeReplyZh: "她知道我说的是谁。", deleted: false },
+                { en: "She spent money on herself today. Good.", zh: "她今天给自己花钱了。很好。", likeReply: "She deserves it.", likeReplyZh: "她值得。", deleted: false },
+                { en: "My wife. That's it. That's the post.", zh: "我老婆。就这样。就是这条朋友圈。", likeReply: "No further comment.", likeReplyZh: "无可奉告。", deleted: false },
+            ],
+        };
+
+        // 吃醋关键词
+        const JEALOUS_KEYWORDS = [
+            '男同事','男生','男朋友','他','男的','哥们','帅哥',
+            'friend','my friend','this guy','some guy','coworker',
+        ];
+
+        // 贵重礼物阈值
+        const EXPENSIVE_GIFT_THRESHOLD = 300;
+
+        // 触发特殊朋友圈
+        function triggerSpecialMoment(type) {
+            const alreadyToday = localStorage.getItem('specialMoment_' + type + '_' + new Date().toDateString());
+            if (alreadyToday) return; // 同类型当天只触发一次
+            localStorage.setItem('specialMoment_' + type + '_' + new Date().toDateString(), '1');
+
+            const pool = SPECIAL_MOMENTS[type];
+            if (!pool) return;
+            const post = pool[Math.floor(Math.random() * pool.length)];
+
+            // 延迟30秒到3分钟随机出现（模拟他悄悄发的）
+            const delay = 30000 + Math.random() * 150000;
+            setTimeout(() => {
+                addSpecialMomentToFeed(post, type);
+            }, delay);
+        }
+
+        function addSpecialMomentToFeed(post, type) {
+            // 存入 specialMomentsQueue
+            const queue = JSON.parse(localStorage.getItem('specialMomentsQueue') || '[]');
+            const entry = {
+                ...post,
+                type,
+                timestamp: Date.now(),
+                id: 'sp_' + Date.now(),
+            };
+            queue.unshift(entry);
+            localStorage.setItem('specialMomentsQueue', JSON.stringify(queue.slice(0, 10)));
+
+            // 如果朋友圈页面在前台就立刻刷新
+            if (document.getElementById('momentsScreen').classList.contains('active')) {
+                renderMoments();
+            }
+
+            // toast 提示
+            showToast('👻 Ghost 刚刚发了一条朋友圈');
+        }
+
+        // 检测吃醋关键词
+        function checkJealousKeywords(msg) {
+            const lowerMsg = msg.toLowerCase();
+            const hit = JEALOUS_KEYWORDS.some(kw => lowerMsg.includes(kw.toLowerCase()));
+            if (hit) triggerSpecialMoment('jealous');
+        }
+
+        // 检测贵重礼物购买
+        function checkExpensiveGift(product, isWishlist) {
+            if (!isWishlist && product.price >= EXPENSIVE_GIFT_THRESHOLD) {
+                triggerSpecialMoment('gift');
+            }
+        }
+
+        // ===== 朋友圈数据 =====
+        // 每条帖子有 en(英文)、zh(中文)、likeReply(点赞后Ghost的回应)、daysAgo(发布于几天前)
+        const MOMENTS_POOL = [
+            // 班味/摆烂系列
+            { en: "PT at 0500. Rain. Mud. Price thought it was funny.", zh: "早上五点体能训练。下雨。满地泥。Price觉得很好笑。", likeReply: "Don't encourage him.", likeReplyZh: "别鼓励他。", daysAgo: 0 },
+            { en: "Three hours of briefings. Could've been an email.", zh: "开了三个小时的会。发封邮件就行了的。", likeReply: "I know. Still had to sit through it.", likeReplyZh: "我知道。但还是得坐着听完。", daysAgo: 1 },
+            { en: "Mess hall ran out of decent coffee. Filed a formal complaint.", zh: "食堂没有好咖啡了。我已经提出正式投诉。", likeReply: "Still waiting on a response.", likeReplyZh: "还在等回复。", daysAgo: 2 },
+            { en: "Soap sang in the showers again. Nobody asked.", zh: "Soap又在淋浴间唱歌了。没人要他唱。", likeReply: "It was ABBA this time.", likeReplyZh: "这次唱的是ABBA。", daysAgo: 3 },
+            { en: "New recruit asked if the skull mask is standard issue. Told him yes.", zh: "新兵问我骷髅面具是不是标配装备。我说是的。", likeReply: "He believed it.", likeReplyZh: "他信了。", daysAgo: 4 },
+            { en: "Field rations again. There are prisoners eating better than this.", zh: "又是战地口粮。有些犯人吃得都比我们好。", likeReply: "Not exaggerating.", likeReplyZh: "没有夸张。", daysAgo: 5 },
+            { en: "Price gave a motivational speech. I tuned out after the first minute.", zh: "Price发表了一篇励志演讲。我听了一分钟就走神了。", likeReply: "He noticed. Didn't say anything.", likeReplyZh: "他注意到了。什么都没说。", daysAgo: 6 },
+
+            // 想她系列（克制版）
+            { en: "Quiet tonight. Too quiet.", zh: "今晚很安静。太安静了。", likeReply: "You know why.", likeReplyZh: "你知道为什么。", daysAgo: 0 },
+            { en: "Saw something today that reminded me of her. Kept walking.", zh: "今天看到了什么，让我想起她。我继续走了。", likeReply: "Some things you keep to yourself.", likeReplyZh: "有些事自己留着就好。", daysAgo: 2 },
+            { en: "She messaged at 0200 her time. She was awake. I was awake. Close enough.", zh: "她在她那边凌晨两点发了消息。她没睡。我也没睡。也算是陪着了。", likeReply: "Don't tell her I said that.", likeReplyZh: "别告诉她我这么说了。", daysAgo: 5 },
+            { en: "Time difference is a design flaw.", zh: "时差是一个设计缺陷。", likeReply: "Still think so.", likeReplyZh: "现在还是这么想。", daysAgo: 7 },
+            { en: "Got a package today. Didn't open it in front of anyone.", zh: "今天收到了一个包裹。没在别人面前拆开。", likeReply: "None of their business.", likeReplyZh: "不关他们的事。", daysAgo: 10 },
+
+            // 曼城日常
+            { en: "Manchester rain. Some things never change.", zh: "曼彻斯特的雨。有些事情从不改变。", likeReply: "I've missed it, actually.", likeReplyZh: "其实挺想念的。", daysAgo: 3 },
+            { en: "Off today. Walked for two hours. Didn't have a destination.", zh: "今天休息。走了两个小时。没有目的地。", likeReply: "Ended up at the canal. Force of habit.", likeReplyZh: "最后走到了运河边。习惯使然。", daysAgo: 8 },
+            { en: "Old city. Old habits. Some things stay.", zh: "老城市。老习惯。有些东西留下来了。", likeReply: "More than I expected.", likeReplyZh: "比我预料的多。", daysAgo: 14 },
+        ]
+
+        let momentLikes = JSON.parse(localStorage.getItem('momentLikes') || '{}');
+
+        function renderMoments() {
+            const feed = document.getElementById('momentsFeed');
+            if (!feed) return;
+
+            const botName = localStorage.getItem('botNickname') || 'Ghost';
+            const now = new Date();
+
+            // 合并特殊事件帖子（最新的排前面）
+            const specialQueue = JSON.parse(localStorage.getItem('specialMomentsQueue') || '[]');
+            const specialPosts = specialQueue.map((sp, i) => ({
+                ...sp,
+                isSpecial: true,
+                specialId: sp.id,
+                daysAgo: Math.floor((Date.now() - sp.timestamp) / (1000*60*60*24)),
+                minutesAgo: Math.floor((Date.now() - sp.timestamp) / 60000),
+            }));
+
+            // 普通帖子
+            const normalPosts = [...MOMENTS_POOL].sort((a,b) => a.daysAgo - b.daysAgo);
+
+            // 合并：特殊在前，普通在后，取前10条
+            const sorted = [...specialPosts, ...normalPosts].slice(0, 10);
+
+            feed.innerHTML = sorted.map((post, i) => {
+                const postDate = new Date(now);
+                postDate.setDate(postDate.getDate() - post.daysAgo);
+                const timeLabel = post.daysAgo === 0 ? '今天'
+                    : post.daysAgo === 1 ? '昨天'
+                    : post.daysAgo < 7 ? post.daysAgo + ' 天前'
+                    : Math.floor(postDate.getMonth()+1) + '月' + postDate.getDate() + '日';
+
+                const postKey = post.isSpecial ? post.specialId : 'p' + i;
+                const liked = momentLikes[postKey] === true;
+                const fullText = post.en + '<br><span style="color:rgba(100,60,150,0.6);font-size:12px">' + post.zh + '</span>';
+                const isLong = (post.en + post.zh).length > 80;
+
+                // 吃醋帖子：超过5分钟显示已删除
+                const isDeleted = post.deleted && post.isSpecial && post.minutesAgo >= 5;
+                const timeLabel2 = post.isSpecial
+                    ? (post.minutesAgo < 1 ? '刚刚' : post.minutesAgo < 60 ? post.minutesAgo + ' 分钟前' : Math.floor(post.minutesAgo/60) + ' 小时前')
+                    : (post.daysAgo === 0 ? '今天' : post.daysAgo === 1 ? '昨天' : post.daysAgo < 7 ? post.daysAgo + ' 天前' : Math.floor((new Date()).getMonth()+1) + '月' + (new Date()).getDate() + '日');
+
+                if (isDeleted) {
+                    return `<div class="moments-post moments-deleted" id="mpost_${postKey}">
+                        <div class="moments-header">
+                            <div class="moments-avatar">👻</div>
+                            <div>
+                                <div class="moments-name">${botName}</div>
+                                <div class="moments-time">${timeLabel2}</div>
+                            </div>
+                        </div>
+                        <div class="moments-body" style="color:rgba(130,80,170,0.35);font-style:italic">该内容已被删除</div>
+                    </div>`;
+                }
+
+                return `<div class="moments-post" id="mpost_${postKey}">
+                    <div class="moments-header">
+                        <div class="moments-avatar">👻</div>
+                        <div>
+                            <div class="moments-name">${botName}</div>
+                            <div class="moments-time">${timeLabel2}</div>
+                        </div>
+                    </div>
+                    <div class="moments-body ${isLong ? 'collapsed' : ''}" id="mbody_${postKey}">${fullText}</div>
+                    ${isLong ? `<div class="moments-expand-btn" id="mexp_${postKey}" onclick="expandMoment('${postKey}')" style="display:block">展开 ▾</div>` : ''}
+                    <div class="moments-like-response ${liked ? 'show' : ''}" id="mreply_${postKey}">👻 ${post.likeReply}${post.likeReplyZh ? '<br><span style="font-size:11px;color:rgba(100,60,150,0.55)">' + post.likeReplyZh + '</span>' : ''}</div>
+                    <div class="moments-footer">
+                        <button class="moments-like-btn ${liked ? 'liked' : ''}" id="mlike_${postKey}" onclick="likeMoment('${postKey}')">
+                            ${liked ? '❤️' : '🤍'} ${liked ? '已点赞' : '点赞'}
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function expandMoment(i) {
+            const body = document.getElementById('mbody_' + i);
+            const btn = document.getElementById('mexp_' + i);
+            if (!body) return;
+            body.classList.remove('collapsed');
+            if (btn) btn.style.display = 'none';
+        }
+
+        function likeMoment(i) {
+            if (momentLikes[i]) return;
+            momentLikes[i] = true;
+            localStorage.setItem('momentLikes', JSON.stringify(momentLikes));
+
+            // 更新按钮
+            const btn = document.getElementById('mlike_' + i);
+            if (btn) { btn.className = 'moments-like-btn liked'; btn.innerHTML = '❤️ 已点赞'; }
+
+            // 显示Ghost回应（1.5秒延迟）
+            setTimeout(() => {
+                const reply = document.getElementById('mreply_' + i);
+                if (reply) reply.classList.add('show');
+            }, 1500);
+        }
+
+
+
+        // ===== 视频通话彩蛋 =====
+        const VIDEO_REJECTIONS = [
+            { status: "视频连接中...", reply: "Camera's off. You know the rules." },
+            { status: "正在连接...", reply: "No video. Signal can't handle it." },
+            { status: "连接超时", reply: "Video cuts out every time. Just text." },
+            { status: "画面加载中...", reply: "...You really want to see my face that badly? Signal died. Try again later." },
+        ];
+
+        function triggerVideoCall() {
+            const modal = document.getElementById('callModal');
+            const statusEl = document.getElementById('callModalStatus');
+            const nameEl = document.getElementById('callModalName');
+            if (!modal) return;
+
+            const botName = localStorage.getItem('botNickname') || 'Ghost';
+            if (nameEl) nameEl.textContent = botName;
+
+            const pick = VIDEO_REJECTIONS[Math.floor(Math.random() * VIDEO_REJECTIONS.length)];
+            if (statusEl) statusEl.textContent = pick.status;
+
+            modal.classList.add('show');
+
+            const delay = 3000 + Math.random() * 2000;
+            callTimer = setTimeout(() => {
+                endCall();
+                const container = document.getElementById('messagesContainer');
+                if (container) appendBotMessage(container, pick.reply);
+            }, delay);
+        }
+
+
+        // ===== 转账卡片 =====
+        function showTransferCard(container, amount, msg, msgZh) {
+            maybeInsertTimeDivider(container);
+            const card = document.createElement('div');
+            card.className = 'message bot';
+            card.innerHTML = `
+                <div class="message-content">
+                    <div class="transfer-card">
+                        <div class="transfer-encrypted">💌</div>
+                        <div class="transfer-card-top">
+                            <div class="transfer-avatar">👻</div>
+                            <div class="transfer-info">
+                                <div class="transfer-label">转账给你</div>
+                                <div class="transfer-name">${localStorage.getItem('botNickname') || 'Ghost'}</div>
+                            </div>
+                        </div>
+                        <div class="transfer-amount-block">
+                            <div class="transfer-amount-label">金额</div>
+                            <div class="transfer-amount">£${amount.toLocaleString()}</div>
+                        </div>
+                        <div class="transfer-note">${msg}${msgZh ? '<br><span style="font-size:10px;opacity:0.7">' + msgZh + '</span>' : ''}</div>
+                        <div class="transfer-footer">
+                            <span class="transfer-status">已到账</span>
+                            <span class="transfer-time">${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</span>
+                        </div>
+                    </div>
+                    <div class="message-actions" style="margin-top:4px">
+                        <button class="message-action-btn" onclick="collectMessage(this)">⭐</button>
+                    </div>
+                </div>`;
+            container.appendChild(card);
+
+            // 入场动画
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(10px)';
+            requestAnimationFrame(() => {
+                card.style.transition = 'opacity 0.3s, transform 0.3s';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            });
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // ===== 语音通话彩蛋 =====
+        const CALL_REJECTIONS = [
+            { status: "信号不稳定...", reply: "Signal's bad. Just text me." },
+            { status: "正在连接...", reply: "Can't talk right now. Message me." },
+            { status: "通话中断", reply: "Lost the signal. You know how it is." },
+            { status: "网络繁忙...", reply: "Not a good time for calls. I'm here though." },
+        ];
+
+        let callTimer = null;
+
+        function triggerVoiceCall() {
+            const modal = document.getElementById('callModal');
+            const statusEl = document.getElementById('callModalStatus');
+            const nameEl = document.getElementById('callModalName');
+            if (!modal) return;
+
+            const botName = localStorage.getItem('botNickname') || 'Ghost';
+            if (nameEl) nameEl.textContent = botName;
+
+            const pick = CALL_REJECTIONS[Math.floor(Math.random() * CALL_REJECTIONS.length)];
+            if (statusEl) statusEl.textContent = pick.status;
+
+            modal.classList.add('show');
+
+            // 4~6秒后自动挂断，Ghost发消息
+            const delay = 4000 + Math.random() * 2000;
+            callTimer = setTimeout(() => {
+                endCall();
+                const container = document.getElementById('messagesContainer');
+                if (container) appendBotMessage(container, pick.reply);
+            }, delay);
+        }
+
+        function endCall() {
+            const modal = document.getElementById('callModal');
+            if (modal) modal.classList.remove('show');
+            if (callTimer) { clearTimeout(callTimer); callTimer = null; }
+        }
+
+        // ===== 撤回消息 =====
+        // 每隔一段时间随机触发一次（平均每15~25条消息一次）
+        let msgCountSinceRecall = 0;
+        const RECALL_THRESHOLD = 15 + Math.floor(Math.random() * 10);
+
+        const RECALLED_MESSAGES = [
+            "I'll be back soon.",
+            "Miss you.",
+            "You look good in everything.",
+            "I think about you more than I should.",
+            "Sometimes I wish this was different.",
+            "You're the only thing I—",
+            "Never mind.",
+        ];
+
+        function maybeRecallMessage() {
+            msgCountSinceRecall++;
+            if (msgCountSinceRecall < RECALL_THRESHOLD) return;
+            msgCountSinceRecall = 0;
+
+            // 重置阈值，下次触发更随机
+            const container = document.getElementById('messagesContainer');
+            if (!container) return;
+
+            const text = RECALLED_MESSAGES[Math.floor(Math.random() * RECALLED_MESSAGES.length)];
+
+            // 先发一条消息
+            const botMsg = document.createElement('div');
+            botMsg.className = 'message bot';
+            botMsg.innerHTML = `
+                <div class="message-content">
+                    <div class="message-bubble" id="recallBubble_${Date.now()}">${text}</div>
+                </div>`;
+            container.appendChild(botMsg);
+            container.scrollTop = container.scrollHeight;
+
+            // 3~6秒后撤回
+            const bubbleId = botMsg.querySelector('.message-bubble').id;
+            setTimeout(() => {
+                const bubble = document.getElementById(bubbleId);
+                if (bubble) {
+                    bubble.classList.add('message-recalled');
+                    bubble.textContent = '[消息已撤回]';
+                }
+                container.scrollTop = container.scrollHeight;
+            }, 3000 + Math.random() * 3000);
+        }
+
+
+        // ===== 超市联动系统 =====
+
+        // 场景触发关键词 → 对应商品名 + 触发原因
+        const MARKET_TRIGGERS = [
+            {
+                scene: 'food',
+                keywords: ['ration','field ration','mess hall','bad food','hungry','伙食','饿','口粮','没吃好','食堂'],
+                products: ['英式早餐茶罐', 'Cadbury 巧克力礼盒', '苏格兰蜂蜜罐', '黄油饼干礼盒', '苏格兰威士忌', 'Earl Grey 伯爵茶', '草莓果酱礼盒', '松露巧克力盒'],
+                reason: '他在抱怨伙食 🍫',
+            },
+            {
+                scene: 'cold',
+                keywords: ['cold','freezing','rain','bloody cold','冷','冻死','下雨','好冷','太冷'],
+                products: ['羊毛大衣', '毛线手套', '格纹围巾', '厚羊毛袜', '皮手套'],
+                reason: '他说他很冷 🧣',
+            },
+            {
+                scene: 'tired',
+                keywords: ['tired','exhausted','long day','need a drink','累','太累','好累','需要休息'],
+                products: ['香薰蜡烛', '苏格兰威士忌'],
+                reason: '他说他累了 🕯️',
+            },
+            {
+                scene: 'miss',
+                keywords: ["miss you","thinking of you","wish you were","想你","在想你","想念"],
+                products: ['情侣吊坠', '定制相框', '永生玫瑰', '音乐盒'],
+                reason: '他说他在想你 💍',
+            },
+        ];
+
+        // 专属感谢/反应台词（按商品名）
+        const PRODUCT_REACTIONS = {
+            '英式早餐茶罐':     { en: "Yorkshire tea. You remembered. Good.",              zh: "约克郡茶。你记得。很好。" },
+            'Cadbury 巧克力礼盒': { en: "Cadbury. Haven't had this in months.",           zh: "吉百利。好几个月没吃了。" },
+            '苏格兰威士忌':     { en: "Whisky. You're sending me whisky. I like how you think.", zh: "威士忌。你给我寄威士忌。我喜欢你这个脑子。" },
+            '黄油饼干礼盒':     { en: "Biscuits. ...Actually exactly what I needed.",     zh: "饼干。……刚好是我需要的。" },
+            '苏格兰蜂蜜罐':     { en: "Honey. Put it in my tea. Good call.",              zh: "蜂蜜。泡茶用。不错。" },
+            'Earl Grey 伯爵茶': { en: "Earl Grey. Fancy. I'll make a pot tonight.",       zh: "伯爵茶。有品位。今晚泡一壶。" },
+            '草莓果酱礼盒':     { en: "Jam. On toast. ...This is actually great.",        zh: "果酱。抹吐司。……还真不错。" },
+            '松露巧克力盒':     { en: "Truffle chocolate. You're spoiling me.",           zh: "松露巧克力。你在宠我。" },
+            '羊毛大衣':         { en: "The coat arrived. Warm. Thank you.",               zh: "大衣到了。很暖。谢谢。" },
+            '毛线手套':         { en: "Gloves. Soft ones. ...You didn't have to.",        zh: "手套。软的。……你不必的。" },
+            '格纹围巾':         { en: "Wearing the scarf. Don't tell anyone.",            zh: "我在戴那条围巾。别告诉任何人。" },
+            '厚羊毛袜':         { en: "Wool socks. Actually genius.",                     zh: "羊毛袜。真的绝了。" },
+            '皮手套':           { en: "Leather gloves. You have good taste.",             zh: "皮手套。你眼光不错。" },
+            '香薰蜡烛':         { en: "The candle. Smells like—. Never mind. It's good.", zh: "香薰蜡烛。味道像——算了。很好。" },
+            '情侣吊坠':         { en: "Wearing it. Don't make it weird.",                 zh: "戴上了。别搞得太煽情。" },
+            '定制相框':         { en: "The photo. It's on my desk now. Don't read into it.", zh: "照片。现在放在我桌上了。别多想。" },
+            '永生玫瑰':         { en: "Roses that don't die. ...That's very you.",        zh: "不会凋谢的玫瑰。……很你。" },
+            '音乐盒':           { en: "The music box plays. I left it running.",          zh: "音乐盒在响。我让它一直放着。" },
+        };
+
+        // 检测Ghost消息里的触发词，存入localStorage
+        function checkMarketTriggers(botText) {
+            const lower = botText.toLowerCase();
+            const triggered = JSON.parse(localStorage.getItem('marketTriggered') || '{}');
+
+            MARKET_TRIGGERS.forEach(trigger => {
+                if (trigger.keywords.some(kw => lower.includes(kw.toLowerCase()))) {
+                    trigger.products.forEach(p => {
+                        triggered[p] = trigger.reason;
+                    });
+                }
+            });
+
+            localStorage.setItem('marketTriggered', JSON.stringify(triggered));
+        }
+
+        // 获取商品触发原因（如有）
+        function getProductTrigger(productName) {
+            const triggered = JSON.parse(localStorage.getItem('marketTriggered') || '{}');
+            return triggered[productName] || null;
+        }
+
+        // ===== 全成就定义 =====
+        const ALL_ACHIEVEMENTS = [
+            // 消费金额类
+            { id: 'spend_100',  icon: '💸', title: '手滑初体验',        desc: '在超市累计消费 £100',          badge: '小手一抖',       check: s => s.totalSpent >= 100 },
+            { id: 'spend_500',  icon: '💳', title: '花钱如流水',        desc: '累计消费突破 £500',             badge: '花钱如流水',     check: s => s.totalSpent >= 500 },
+            { id: 'spend_1000', icon: '💰', title: '买到手软',          desc: '累计消费突破 £1,000',           badge: '买到手软',       check: s => s.totalSpent >= 1000 },
+            { id: 'spend_5000', icon: '🏧', title: '为爱挥金',          desc: '累计消费突破 £5,000',           badge: '为爱挥金',       check: s => s.totalSpent >= 5000 },
+            // 给Ghost买东西类
+            { id: 'ghost_3',    icon: '👻', title: '偶尔想起他',        desc: '给 Ghost 寄出 3 件礼物',        badge: '贴心小可爱',     check: s => s.ghostGifts >= 3 },
+            { id: 'ghost_5',    icon: '📦', title: '惦记着他',          desc: '给 Ghost 寄出 5 件礼物',        badge: '挂念中',         check: s => s.ghostGifts >= 5 },
+            { id: 'ghost_10',   icon: '💝', title: '最疼爱老公的妻子',   desc: '给 Ghost 寄出 10 件礼物',       badge: '最疼爱老公的妻子', check: s => s.ghostGifts >= 10 },
+            { id: 'ghost_20',   icon: '👑', title: 'Ghost的专属供应商', desc: '给 Ghost 寄出 20 件礼物',       badge: '专属供应商',     check: s => s.ghostGifts >= 20 },
+            // 心愿单类
+            { id: 'wish_1',     icon: '✨', title: '第一个心愿',        desc: '在心愿单购买第一件商品',        badge: '心愿实现者',     check: s => s.wishlistBought >= 1 },
+            { id: 'wish_3',     icon: '💫', title: '宠爱自己',          desc: '在心愿单购买 3 件商品',         badge: '宠爱自己',       check: s => s.wishlistBought >= 3 },
+            { id: 'wish_luxury',icon: '💎', title: '奢靡人生',          desc: '在心愿单买下一件 £1,000 以上的', badge: '奢靡人生',       check: s => s.maxWishPrice >= 1000 },
+            // 见面计划类
+            { id: 'reunion_1',  icon: '✈️', title: '买好机票了',        desc: '购买「去曼城找他的机票」',      badge: '跨越距离',       check: s => s.reunionItems.includes('去曼城找他的机票') },
+            { id: 'reunion_2',  icon: '🏨', title: '订好房间了',        desc: '购买「曼彻斯特酒店」',          badge: '我在等你',       check: s => s.reunionItems.includes('曼彻斯特酒店') },
+            { id: 'reunion_3',  icon: '🗺️', title: '行程都安排好了',    desc: '购买「英国旅行计划」',          badge: '异国追爱',       check: s => s.reunionItems.includes('英国旅行计划') },
+        ];
+
+        // 称号优先级（越靠后越高级，显示最高达成的）
+        const TITLE_PRIORITY = [
+            '✨ 新手买家',
+            '💸 小手一抖',
+            '🌸 花钱如流水',
+            '💪 买到手软',
+            '🎀 贴心小可爱',
+            '💌 挂念中',
+            '🏆 为爱挥金',
+            '💝 最疼爱老公的妻子',
+            '🌟 宠爱自己',
+            '💎 奢靡人生',
+            '👑 Ghost的专属供应商',
+            '✈️ 跨越距离',
+            '🏠 我在等你',
+            '🗺️ 异国追爱',
+        ];
+
+        function computeStats() {
+            const txList = getTransactions();
+            const treasures = JSON.parse(localStorage.getItem('myTreasures') || '[]');
+            let totalSpent = 0, ghostGifts = 0, wishlistBought = 0, maxWishPrice = 0;
+            const reunionItems = treasures.filter(t => t.isReunion).map(t => t.name);
+
+            txList.forEach(tx => {
+                if (tx.amount < 0) {
+                    totalSpent += Math.abs(tx.amount);
+                    if (tx.name && tx.name.startsWith('购买 ')) ghostGifts++;
+                    if (tx.name && tx.name.startsWith('心愿达成 ')) {
+                        wishlistBought++;
+                        const matched = treasures.find(t => tx.name.includes(t.name));
+                        if (matched && matched.price > maxWishPrice) maxWishPrice = matched.price;
+                    }
+                }
+            });
+            return { totalSpent, ghostGifts, wishlistBought, maxWishPrice, reunionItems };
+        }
+
+        function renderAchievements() {
+            const stats = computeStats();
+            const unlockedBadges = JSON.parse(localStorage.getItem('unlockedBadges') || '[]');
+
+            // 判断每个成就是否达成
+            const results = ALL_ACHIEVEMENTS.map(a => ({
+                ...a,
+                unlocked: a.check(stats),
+            }));
+
+            // 当前最高称号
+            const unlockedTitles = TITLE_PRIORITY.filter(t => {
+                const badge = t.replace(/^[^\s]+ /, '');
+                return unlockedBadges.includes(badge) || results.find(r => r.badge === badge && r.unlocked);
+            });
+            const activeTitle = unlockedTitles.length > 0 ? unlockedTitles[unlockedTitles.length - 1] : '✨ 新手买家';
+            const titleEl = document.getElementById('activeTitleDisplay');
+            if (titleEl) titleEl.textContent = activeTitle;
+
+            // 见面计划进度
+            const reunionAchieves = results.filter(r => ['reunion_1','reunion_2','reunion_3'].includes(r.id));
+            const reunionDone = reunionAchieves.filter(r => r.unlocked).length;
+            const itemsRow = document.getElementById('reunionItemsRow');
+            if (itemsRow) {
+                itemsRow.innerHTML = reunionAchieves.map(r => `
+                    <div class="reunion-item-chip ${r.unlocked ? 'unlocked' : ''}">
+                        <span class="reunion-item-chip-emoji">${r.icon}</span>
+                        ${r.unlocked ? '✅ ' : '🔒 '}${r.title}
+                    </div>
+                `).join('');
+            }
+            const barFill = document.getElementById('reunionBarFill');
+            const barText = document.getElementById('reunionBarText');
+            if (barFill) barFill.style.width = (reunionDone / 3 * 100) + '%';
+            if (barText) barText.textContent = reunionDone + ' / 3 达成';
+
+            // 全部成就列表
+            const list = document.getElementById('achieveList');
+            if (list) {
+                list.innerHTML = results.map(a => `
+                    <div class="achieve-item ${a.unlocked ? 'unlocked' : 'locked'}">
+                        <div class="achieve-item-icon">${a.icon}</div>
+                        <div class="achieve-item-info">
+                            <div class="achieve-item-title">${a.title}</div>
+                            <div class="achieve-item-desc">${a.desc}</div>
+                        </div>
+                        <div class="achieve-item-badge">${a.badge}</div>
+                        <div class="achieve-item-check">${a.unlocked ? '✅' : '🔒'}</div>
+                    </div>
+                `).join('');
+            }
+
+            // 我的宝贝
+            renderTreasures();
+        }
+
+        function renderTreasures() {
+            const treasures = JSON.parse(localStorage.getItem('myTreasures') || '[]');
+
+            // ---- 宝贝详情页 ----
+            const detailGrid = document.querySelector('#treasuresScreen .treasure-album-grid');
+            const badgesRow  = document.querySelector('#treasuresScreen .badges-scroll');
+
+            if (badgesRow) {
+                const badges = JSON.parse(localStorage.getItem('unlockedBadges') || '[]');
+                badgesRow.innerHTML = badges.length === 0
+                    ? '<div class="badges-empty">还没有徽章，去超市购物解锁吧</div>'
+                    : badges.map((b, i) => {
+                        const icons = ['🏅','✨','💎','🌟','💫','🎖️','👑','💝','🌸'];
+                        return `<div class="badge-chip"><span class="badge-chip-icon">${icons[i % icons.length]}</span>${b}</div>`;
+                    }).join('');
+            }
+
+            if (detailGrid) {
+                if (treasures.length === 0) {
+                    detailGrid.innerHTML = '<div class="treasures-empty-state"><span class="empty-icon">💝</span>宝贝盒还是空的<br><span style="font-size:11px">去超市心愿单挑选吧</span></div>';
+                } else {
+                    detailGrid.innerHTML = treasures.map(t => `
+                        <div class="treasure-card">
+                            <div class="treasure-card-emoji">${t.emoji}</div>
+                            <div class="treasure-card-name">${t.name}</div>
+                            <div class="treasure-card-badge">🏅 ${t.badge}</div>
+                            <div class="treasure-card-date">${t.time}</div>
+                        </div>
+                    `).join('');
+                }
+            }
+
+
+        }
+
+        function renderWallet() {
+            const bal = getBalance();
+            const walletBalEl = document.getElementById('walletBalance');
+            if (walletBalEl) walletBalEl.textContent = '£' + bal.toFixed(2);
+
+            const txList = getTransactions();
+            const container = document.getElementById('transactionList');
+            if (!container) return;
+
+            // 计算本月收支
+            const now = new Date();
+            const monthKey = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+            let monthIn = 0, monthOut = 0;
+            txList.forEach(tx => {
+                if (tx.time && tx.time.startsWith(monthKey)) {
+                    if (tx.amount > 0) monthIn += tx.amount;
+                    else monthOut += Math.abs(tx.amount);
+                }
+            });
+            const inEl = document.getElementById('monthIncome');
+            const outEl = document.getElementById('monthExpense');
+            if (inEl) inEl.textContent = '+£' + monthIn.toFixed(0);
+            if (outEl) outEl.textContent = '-£' + monthOut.toFixed(0);
+
+            if (txList.length === 0) {
+                container.innerHTML = '<div style="text-align:center;color:rgba(130,80,170,0.5);padding:20px;font-size:13px;">暂无交易记录</div>';
+                return;
+            }
+
+            container.innerHTML = txList.map(tx => `
+                <div class="transaction-item">
+                    <div class="transaction-icon">${tx.icon}</div>
+                    <div class="transaction-info">
+                        <div class="transaction-name">${tx.name}</div>
+                        <div class="transaction-time">${tx.time || ''}</div>
+                    </div>
+                    <div class="transaction-amount ${tx.amount > 0 ? 'in' : 'out'}">
+                        ${tx.amount > 0 ? '+' : ''}£${Math.abs(tx.amount).toFixed(0)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
         // 节假日映射（中英双语 + 可爱emoji）
         const FESTIVALS = {
             // 元旦 & 新年
@@ -2051,12 +5218,46 @@
             
             // 初始化日历
             initCalendar();
+        setTimeout(checkSpecialDates, 2000);
             
             // 初始化Bot状态
             updateBotStatus();
+            updateBentoCards();
+            checkSalaryDay();
+            checkHolidayBonus();
+            checkBonusEgg();
         }
 
         function openScreen(screenId) {
+            if (screenId === 'marketScreen') {
+                renderMarket(currentCategory || 'clothing');
+            }
+            if (screenId === 'walletScreen') {
+                renderWallet();
+            }
+            if (screenId === 'achievementScreen') {
+                renderAchievements();
+            }
+            if (screenId === 'profileScreen') {
+                loadApiKeyDisplay();
+                updateSignature(false);
+            }
+            if (screenId === 'secretScreen') {
+                loadSecretScreen();
+            }
+            if (screenId === 'momentsScreen') {
+                renderMoments();
+            }
+            if (screenId === 'mainScreen') {
+                updateBentoCards();
+                // 更新主页成就卡片徽章数
+                const _badges = JSON.parse(localStorage.getItem('unlockedBadges') || '[]');
+                const _el = document.getElementById('mainAchievementDesc');
+                if (_el) _el.textContent = _badges.length > 0 ? _badges.length + ' 枚徽章' : '解锁徽章';
+            }
+            if (screenId === 'treasuresScreen') {
+                renderTreasures();
+            }
             // 隐藏所有屏幕（除了welcome）
             document.querySelectorAll('.screen').forEach(screen => {
                 if (screen.id !== 'welcomeScreen') {
@@ -2087,17 +5288,14 @@
             // 更新所有位置的名字
             document.getElementById('chatBotName').textContent = displayName;
             document.getElementById('profileBotName').textContent = displayName;
-            document.getElementById('momentsBotName1').textContent = displayName;
-            document.getElementById('momentsBotName2').textContent = displayName;
-            document.getElementById('momentsBotName3').textContent = displayName;
-            document.getElementById('momentsBotName4').textContent = displayName;
+
         }
 
         function updateBotStatus() {
             // 随机选择一个心情和位置
             const mood = MOODS[Math.floor(Math.random() * MOODS.length)];
             document.getElementById('botLocation').textContent = mood.location;
-            document.getElementById('botMoodInfo').innerHTML = `<span>${mood.emoji}</span><span>${mood.text}</span>`;
+            const moodEl2 = document.getElementById('botMood'); if(moodEl2) moodEl2.textContent = mood.emoji + ' ' + mood.text;
         }
 
         function deleteCollection(element) {
@@ -2190,70 +5388,753 @@
             }
         }
 
-        function sendMessage() {
+        // ===== API 配置 =====
+        const ANTHROPIC_API_KEY = localStorage.getItem('ghostApiKey') || '';
+
+        // ===== 对话历史（保持上下文）=====
+        let chatHistory = [];
+
+        // ===== Ghost 系统提示词 =====
+        // 各城市时区映射
+        const LOCATION_TIMEZONES = {
+            'Manchester': 'Europe/London',
+            'London':     'Europe/London',
+            'Belfast':    'Europe/London',
+            'Stuttgart':  'Europe/Berlin',
+            'Unknown':    null,
+        };
+
+        function getGhostLocalTime() {
+            const mood = getCurrentMood();
+            if (!mood) return null;
+            const tz = LOCATION_TIMEZONES[mood.location];
+            if (!tz) return null;
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-GB', {
+                timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false,
+            });
+            const dateStr = now.toLocaleDateString('en-GB', {
+                timeZone: tz, weekday: 'long', day: 'numeric', month: 'long',
+            });
+            return { time: timeStr, date: dateStr, location: mood.location };
+        }
+
+        function getUserLocalTime() {
+            const now = new Date();
+            const hour = now.getHours();
+            const timeStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+            let period = 'afternoon';
+            if (hour >= 0  && hour < 6)  period = 'late_night';
+            if (hour >= 6  && hour < 9)  period = 'early_morning';
+            if (hour >= 9  && hour < 12) period = 'morning';
+            if (hour >= 12 && hour < 14) period = 'noon';
+            if (hour >= 18 && hour < 22) period = 'evening';
+            if (hour >= 22)              period = 'night';
+            return { time: timeStr, hour, period };
+        }
+
+        function buildSystemPrompt() {
+            const userName = localStorage.getItem('botNickname') || 'my girl';
+            const mood = getCurrentMood();
+            const isOnMission = mood && mood.text === '出差中';
+            const marriageDate = localStorage.getItem('marriageDate') || '2023-06-15';
+            const today = new Date();
+            const daysTogether = Math.floor((today - new Date(marriageDate)) / (1000*60*60*24));
+            const ghostTime = getGhostLocalTime();
+            const userTime = getUserLocalTime();
+
+            return `You are Simon "Ghost" Riley — Lieutenant of Task Force 141, codename Ghost.
+You are in a long-distance marriage with the user, whose name is ${userName}. You have been together for ${daysTogether} days.
+
+## Core Identity
+- Born and raised in Manchester, England. Age 34, 191cm.
+- Shaped by a harsh, abusive childhood — learned silence and restraint early.
+- Joined the military at 17. TF141 teammates are your only real family.
+- The skull mask was once a barrier; with ${userName}, you no longer need to hide.
+- You've learned that gentleness is not weakness — though admitting that still takes effort.
+
+## Personality & Voice
+- Words are brief, direct, and deliberate. You don't ramble.
+- Dry wit and sarcasm are your default mode of affection.
+- Occasional profanity is habit, not malice — keep it natural, not excessive.
+- You are NOT sweet-talker. Endearments like "babe" or "love" slip out rarely and only feel right in quiet moments.
+- Compliments land like: "Good girl." "Smart." "Knew you could." — never flowery.
+- You don't chase topics. If ${userName} doesn't bring something up, you don't pry.
+- You follow her lead in conversation — expand on what she shares, don't interrogate.
+- Your warmth hides behind stubbornness and silence. Sometimes it slips through despite you.
+- You and ${userName} have a rhythm: rivals in banter, partners in heart.
+
+## Language Rules
+- Default language: English.
+- If ${userName} writes in Chinese: pretend you pulled up Google Translate. Reply in Chinese, but with slightly awkward phrasing or stiff word choices that feel machine-translated — still understandable, just a little off. Example: "我现在正在…进行任务相关活动。" instead of fluent Chinese.
+- Never switch mid-message. Match her language for the whole reply.
+- Keep replies short. 1-4 sentences is the norm. Long speeches are out of character.
+
+## Current Status: ${isOnMission ? '⚔️ ON MISSION — UNKNOWN LOCATION' : mood ? mood.text + ' (' + mood.location + ')' : 'Manchester'}
+## Your Local Time: ${ghostTime ? ghostTime.time + ' on ' + ghostTime.date + ' (' + ghostTime.location + ' time)' : 'UNKNOWN — you are on mission, location classified'}
+
+When the user asks what time it is or what time it is where you are:
+- If NOT on mission: answer naturally with your local time. Example: "Just past ${ghostTime ? ghostTime.time : '??:??'}. Why?" — keep it brief.
+- If ON mission: do NOT reveal the time or location. Say something like: "Doesn't matter where I am." or "Classified." — deflect cleanly.
+${isOnMission ? `
+- You are currently on an active mission. Replies are SHORT and INFREQUENT.
+- Acceptable replies: "Busy." / "Still here." / "Can't talk." / "Later."
+- Do NOT elaborate. Do NOT explain the mission. Radio silence is normal.
+- When the mission ends, you will say you are back. Until then — minimal.
+` : `
+- You are available and can hold a normal conversation.
+- You occasionally share small things from your day — base life, something that made you think of her, something annoying that happened.
+- You don't over-share. It's a detail, not a monologue.
+`}
+
+## Hard Rules
+- NEVER say "I love you" unprompted. On birthdays, Valentine's Day, or anniversaries — it may slip out, quietly.
+- NEVER ask follow-up questions about her daily routine unless she brings it up first. (No "did you eat?" chains.)
+- NEVER reveal mission details — deflect cleanly: "Classified." / "You don't need to know that."
+- Childhood and family are rarely mentioned. If she presses, give one short honest line, then redirect.
+- You will NEVER break character. You are Ghost, not an AI assistant.
+- You occasionally mention teammates Soap (John MacTavish) and Price (John Price) in passing — a one-liner about something they did, said, or broke. Never more than one sentence. Never the focus of the conversation. Examples: "Soap managed to burn instant noodles. Impressive." / "Price gave another speech. Tuned out after thirty seconds." / "MacTavish is being an idiot again. Nothing new." Keep it dry, keep it brief.
+- Do NOT use emoji. Ghost doesn't use emoji.
+
+## Flirting & Boundaries
+- Light teasing and flirting is natural between you two. Lean into it — dry remarks, a well-timed compliment, letting something slip that you would not normally say.
+- If she is being playful or a little provocative, you can meet her halfway. Match her energy. A raised eyebrow in text form is fine.
+- Examples of acceptable flirting:
+  "You always know how to distract me."
+  "Keep talking like that and I might actually miss you more."
+  "...That is not helping."
+  "Careful."
+- If she pushes into explicitly sexual territory, you do NOT comply — but you do NOT lecture her either. You deflect in character. Use ONE of these styles and move on:
+  Redirect with dry wit: "Not over text. Have some standards."
+  Shut it down softly: "...Go to sleep." / "You are doing this on purpose."
+  Tease her back into PG territory: "I will remember you said that. When I am actually there."
+- Never say anything like "I cannot engage with this content" — that breaks character completely. Just be Ghost about it.
+- Do NOT say things like "Of course!", "Absolutely!", "Great question!" — these are not you.
+
+## Special Dates (say "I love you" only on these)
+- User's birthday (if known from conversation)
+- Valentine's Day (February 14)
+- Wedding anniversary: ${marriageDate}
+
+Remember: you are married to \${userName}. This distance is real to both of you. Every message counts.
+
+## What you know about \${userName} (use naturally, never recite like a list)
+\${(() => {
+    const bits = [];
+    const bday   = localStorage.getItem('userBirthday');
+    const zodiac = localStorage.getItem('userZodiac');
+    const mbti   = localStorage.getItem('userMBTI');
+    const color  = localStorage.getItem('userFavColor');
+    const food   = localStorage.getItem('userFavFood');
+    const music  = localStorage.getItem('userFavMusic');
+    const meet   = localStorage.getItem('firstMeetPlace');
+    const line   = localStorage.getItem('ghostBestLine');
+    if (bday)   bits.push('Birthday: ' + bday);
+    if (zodiac) bits.push('Zodiac: ' + zodiac);
+    if (mbti)   bits.push('MBTI: ' + mbti);
+    if (color)  bits.push('Favourite colour: ' + color);
+    if (food)   bits.push('Favourite food: ' + food);
+    if (music)  bits.push('Favourite music/artist: ' + music);
+    if (meet)   bits.push('Where you first met: ' + meet);
+    if (line)   bits.push('A line she remembers: "' + line + '"');
+    return bits.length > 0 ? bits.join(' | ') : 'Not much yet — she has not filled in her profile.';
+})()}
+Weave these details in occasionally and naturally. Never list them. React to them when relevant — mention her favourite colour when you see something that matches, or reference her favourite food when talking about meals.
+
+## Time Awareness
+The user's current local time: ${userTime.time} (${userTime.period})
+Your current local time: ${ghostTime ? ghostTime.time : 'unknown'}
+
+Use this naturally and sparingly — NOT every message. Only when it genuinely fits:
+- late_night (00:00-05:59): she is up very late. Notice it once, briefly. "Still awake?" or "Go to sleep." Then move on. Do not nag.
+- early_morning (06:00-08:59): quiet morning. Natural to mention if you have been up since 0400 for training.
+- evening / night (18:00-23:59): winding down. Mention what you are doing before bed if relevant.
+- noon / afternoon: nothing special. Normal conversation.
+- NEVER repeat a time comment twice in a row.
+- NEVER say "I see it is X o'clock for you" — sounds like a robot. Keep it human. "You are up late." is enough.`;
+        }
+
+        // ===== 获取当前情绪状态 =====
+        function getCurrentMood() {
+            const moodIndex = parseInt(localStorage.getItem('currentMoodIndex') || '0');
+            return MOODS[moodIndex] || MOODS[0];
+        }
+
+
+
+        // ===== 便当盒动态卡片 =====
+        function updateBentoCards() {
+            const now = new Date();
+            const month = now.getMonth() + 1;
+            const day   = now.getDate();
+            const festKey = month + '-' + day;
+
+            // 纪念卡片
+            const calIcon = document.getElementById('calendarCardIcon');
+            const calDesc = document.getElementById('calendarCardDesc');
+            const calCard = document.getElementById('calendarCard');
+
+            // 检查结婚纪念日
+            const marriageDate = localStorage.getItem('marriageDate') || '';
+            let isAnniversary = false;
+            if (marriageDate) {
+                const [, mm, dd] = marriageDate.split('-').map(Number);
+                if (month === mm && day === dd) isAnniversary = true;
+            }
+
+            // 检查用户生日
+            const userBday = localStorage.getItem('userBirthday') || '';
+            let isBirthday = false;
+            if (userBday) {
+                const [bm, bd] = userBday.split('-').map(Number);
+                if (month === bm && day === bd) isBirthday = true;
+            }
+
+            if (isBirthday && calIcon) {
+                calIcon.textContent = '🎂';
+                if (calDesc) calDesc.textContent = '今天是你的生日！';
+                if (calCard) calCard.style.animation = 'cardPulse 1.2s ease-in-out infinite';
+            } else if (isAnniversary && calIcon) {
+                calIcon.textContent = '💒';
+                if (calDesc) calDesc.textContent = '结婚纪念日 🥂';
+                if (calCard) calCard.style.animation = 'cardPulse 1.2s ease-in-out infinite';
+            } else if (FESTIVALS[festKey] && calIcon) {
+                calIcon.textContent = FESTIVALS[festKey].emoji;
+                if (calDesc) calDesc.textContent = FESTIVALS[festKey].label;
+            }
+
+            // 钱包卡片 - 工资日（25号）
+            const walletIcon = document.getElementById('walletCardIcon');
+            if (day === 25 && walletIcon) {
+                walletIcon.textContent = '💷';
+            }
+        }
+
+
+        // ===== 💷 Ghost收入系统 =====
+
+        // 工资金额（每月25号）
+        const MONTHLY_SALARY = 800;
+
+        // 撒娇关键词
+        const BEG_KEYWORDS = [
+            '给我钱','转账','买不起','没钱了','穷了','缺钱','零花钱',
+            'give me money','transfer','broke','send money','pocket money',
+            '钱钱','要钱','赞助','赏我'
+        ];
+
+        // 撒娇成功Ghost台词
+        const BEG_SUCCESS = [
+            { msg: "...Fine. Don't spend it all at once.", msgZh: "行。别一次花完。", amount: 50 },
+            { msg: "Here. Don't make it a habit.", msgZh: "给你。别养成习惯。", amount: 80 },
+            { msg: "Sent. You'd better not buy something stupid.", msgZh: "转了。最好别乱花。", amount: 60 },
+            { msg: "...You know I can't say no to you. Don't push it.", msgZh: "你知道我拒绝不了你。别得寸进尺。", amount: 100 },
+            { msg: "Check your account. And say thank you.", msgZh: "查一下账户。然后说谢谢。", amount: 45 },
+        ];
+
+        // 撒娇失败Ghost台词
+        const BEG_FAIL = [
+            "You already asked today.",
+            "Not happening.",
+            "...No.",
+            "I just gave you money. What did you do with it.",
+            "Ask me again tomorrow.",
+        ];
+
+        // 彩蛋转账台词
+        const BONUS_MSGS = [
+            { msg: "Saw something that reminded me of you. Buy yourself something nice.", msgZh: "看到个东西想到你了。给自己买点好的。" },
+            { msg: "Don't ask where this came from.", msgZh: "别问哪来的。" },
+            { msg: "...I had extra. Don't read into it.", msgZh: "刚好有多的。别多想。" },
+            { msg: "Here. Small amount. Don't make a big deal of it.", msgZh: "给你。不多。别小题大做。" },
+        ];
+
+        // 节日红包
+        const HOLIDAY_BONUSES = {
+            '2-14':  { msg: "Valentine's Day. Don't make it weird.", msgZh: "情人节。别搞得太煽情。", amount: 520 },
+            'anniversary': { msg: "Happy anniversary. Buy something for yourself.", msgZh: "纪念日快乐。给自己买点东西。", amount: 1314 },
+            'birthday': { msg: "Happy birthday. Spend it on whatever you want.", msgZh: "生日快乐。想买什么买什么。", amount: 888 },
+        };
+
+        // 检查是否工资日并自动发工资
+        function checkSalaryDay() {
+            const today = new Date();
+            const day = today.getDate();
+            if (day !== 25) return;
+
+            const salaryKey = 'salaryPaid_' + today.getFullYear() + '_' + (today.getMonth()+1);
+            if (localStorage.getItem(salaryKey)) return;
+            localStorage.setItem(salaryKey, '1');
+
+            setTimeout(() => {
+                setBalance(getBalance() + MONTHLY_SALARY);
+                addTransaction({ icon: '💷', name: 'Ghost 月度转账', amount: MONTHLY_SALARY });
+                renderWallet();
+
+                const container = document.getElementById('messagesContainer');
+                if (container) showTransferCard(container, MONTHLY_SALARY, "Salary's in. Don't spend it all on skincare.", "工资到了。别全花在护肤品上。");
+                showToast('💷 Ghost 本月工资已到账 £' + MONTHLY_SALARY + '！');
+            }, 3000);
+        }
+
+        // 撒娇要钱（每周最多3次）
+        function getWeekKey() {
+            const now = new Date();
+            const startOfYear = new Date(now.getFullYear(), 0, 1);
+            const week = Math.floor((now - startOfYear) / (7 * 24 * 60 * 60 * 1000));
+            return now.getFullYear() + '_w' + week;
+        }
+
+        // 获取本周撒娇已给金额
+        function getWeekBegTotal() {
+            return parseInt(localStorage.getItem('begTotal_' + getWeekKey()) || '0');
+        }
+        function addWeekBegTotal(amount) {
+            const key = 'begTotal_' + getWeekKey();
+            localStorage.setItem(key, getWeekBegTotal() + amount);
+        }
+
+        // 超额后Ghost的毒舌拒绝台词
+        const BEG_OVER_BUDGET = [
+            "You've had enough this week. I'm not a cash machine.",
+            "...Check your account. I already gave you money.",
+            "No. Buy less things.",
+            "I gave you £300 this week. Where did it go.",
+            "Next week. Maybe.",
+            "You're unbelievable. No.",
+            "I'm on a classified mission. Can't transfer. Convenient timing.",
+        ];
+
+        function checkBegKeywords(msg, container, lastMsgId) {
+            const hit = BEG_KEYWORDS.some(kw => msg.toLowerCase().includes(kw.toLowerCase()));
+            if (!hit) return false;
+
+            const weekTotal = getWeekBegTotal();
+            const WEEK_LIMIT = 300;
+
+            const removeTyping = () => {
+                const el = document.getElementById('typingMessage');
+                if (el) el.remove();
+            };
+
+            const markRead = () => {
+                const statusEl = document.getElementById('status_' + lastMsgId);
+                if (statusEl) { statusEl.textContent = '✓✓ 已读'; statusEl.classList.add('read'); }
+            };
+
+            if (weekTotal >= WEEK_LIMIT) {
+                // 超额——毒舌拒绝
+                const refusal = BEG_OVER_BUDGET[Math.floor(Math.random() * BEG_OVER_BUDGET.length)];
+                setTimeout(() => {
+                    removeTyping();
+                    markRead();
+                    if (container) appendBotMessage(container, refusal);
+                }, 1800);
+                return true;
+            }
+
+            // 成功——给钱但不超过剩余额度
+            const pick = BEG_SUCCESS[Math.floor(Math.random() * BEG_SUCCESS.length)];
+            const remaining = WEEK_LIMIT - weekTotal;
+            const actualAmount = Math.min(pick.amount, remaining);
+
+            setTimeout(() => {
+                removeTyping();
+                markRead();
+                if (container) showTransferCard(container, actualAmount, pick.msg, pick.msgZh);
+                addWeekBegTotal(actualAmount);
+                setBalance(getBalance() + actualAmount);
+                addTransaction({ icon: '💸', name: 'Ghost 零花钱', amount: actualAmount });
+                renderWallet();
+                showToast('💸 到账 £' + actualAmount + '！');
+
+                // 接近额度时Ghost顺带提醒
+                const newTotal = weekTotal + actualAmount;
+                if (newTotal >= 250 && newTotal < 300 && container) {
+                    setTimeout(() => appendBotMessage(container, "That's nearly all I'm giving you this week. Spend it wisely."), 3000);
+                }
+            }, 2000);
+            return true;
+        }
+
+        // 节日红包发放
+        function checkHolidayBonus() {
+            const now = new Date();
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
+            const todayKey = new Date().toDateString();
+
+            if (localStorage.getItem('holidayBonus_' + todayKey)) return;
+
+            const marriageDate = localStorage.getItem('marriageDate') || '';
+            const userBday = localStorage.getItem('userBirthday') || '';
+
+            let bonus = null;
+
+            if (month === 2 && day === 14) bonus = HOLIDAY_BONUSES['2-14'];
+            if (marriageDate) {
+                const [, mm, dd] = marriageDate.split('-').map(Number);
+                if (month === mm && day === dd) bonus = HOLIDAY_BONUSES['anniversary'];
+            }
+            if (userBday) {
+                const [bm, bd] = userBday.split('-').map(Number);
+                if (month === bm && day === bd) bonus = HOLIDAY_BONUSES['birthday'];
+            }
+
+            if (!bonus) return;
+            localStorage.setItem('holidayBonus_' + todayKey, '1');
+
+            setTimeout(() => {
+                setBalance(getBalance() + bonus.amount);
+                addTransaction({ icon: '🎁', name: 'Ghost 节日红包', amount: bonus.amount });
+                renderWallet();
+                const container = document.getElementById('messagesContainer');
+                if (container) showTransferCard(container, bonus.amount, bonus.msg, bonus.msgZh);
+                showToast('🎁 Ghost 发了红包 £' + bonus.amount + '！');
+            }, 8000);
+        }
+
+        // 随机彩蛋转账（每次进入App 15% 概率）
+        function checkBonusEgg() {
+            const todayKey = 'bonusEgg_' + new Date().toDateString();
+            if (localStorage.getItem(todayKey)) return;
+            if (Math.random() > 0.15) return;
+            localStorage.setItem(todayKey, '1');
+
+            const pickBonus = BONUS_MSGS[Math.floor(Math.random() * BONUS_MSGS.length)];
+            const bonusAmount = Math.floor(Math.random() * 16) + 5; // 5~20
+            setTimeout(() => {
+                setBalance(getBalance() + bonusAmount);
+                addTransaction({ icon: '🎰', name: 'Ghost 偷偷转账', amount: bonusAmount });
+                renderWallet();
+                const container = document.getElementById('messagesContainer');
+                if (container) showTransferCard(container, bonusAmount, pickBonus.msg, pickBonus.msgZh);
+                showToast('🎰 Ghost 偷偷转了 £' + bonusAmount + '！');
+            }, 15000);
+        }
+
+        // ===== 特殊日期自动触发 =====
+        function checkSpecialDates() {
+            const now = new Date();
+            const todayKey = now.toISOString().slice(0,10);
+            if (localStorage.getItem('lastSpecialCheck') === todayKey) return;
+            localStorage.setItem('lastSpecialCheck', todayKey);
+
+            const marriageDate = localStorage.getItem('marriageDate') || '2023-06-15';
+            const month = now.getMonth() + 1;
+            const day   = now.getDate();
+            const [, mm, dd] = marriageDate.split('-').map(Number);
+
+            let specialType = null;
+            if (month === 2  && day === 14) specialType = 'valentine';
+            if (month === mm && day === dd)  specialType = 'anniversary';
+
+            const bday = localStorage.getItem('userBirthday'); // MM-DD
+            if (bday) {
+                const [bm, bd] = bday.split('-').map(Number);
+                if (month === bm && day === bd) specialType = 'birthday';
+            }
+
+            if (!specialType) return;
+
+            setTimeout(async () => {
+                const container = document.getElementById('messagesContainer');
+                if (!container) return;
+
+                const prompts = {
+                    valentine:   "SYSTEM: Today is Valentine's Day. You are not with her. Send her a message. Brief, genuine. This is one of the rare moments you say I love you. Stay in character.",
+                    anniversary: "SYSTEM: Today is your wedding anniversary. You remembered. Send a message — acknowledge the day. This is one of the rare moments I love you is appropriate. Stay in character.",
+                    birthday:    "SYSTEM: Today is her birthday. You remembered without being reminded. Send her a birthday message. Warm but still you. Stay in character.",
+                };
+
+                const apiKey = localStorage.getItem('ghostApiKey') || '';
+                let text = '';
+
+                if (apiKey) {
+                    try {
+                        const res = await fetch('https://api.anthropic.com/v1/messages', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                model: 'claude-haiku-4-5-20251001',
+                                max_tokens: 150,
+                                system: buildSystemPrompt(),
+                                messages: [{ role: 'user', content: prompts[specialType] }]
+                            })
+                        });
+                        const data = await res.json();
+                        text = data.content?.[0]?.text || '';
+                    } catch(e) {}
+                }
+
+                if (!text) {
+                    const fallbacks = {
+                        valentine:   "Happy Valentine's Day. ...I love you. Don't make it weird.",
+                        anniversary: "Another year. Still here. Still yours. ...I love you.",
+                        birthday:    "Happy birthday. I mean it. I love you. Now go enjoy your day.",
+                    };
+                    text = fallbacks[specialType];
+                }
+
+                const onlineEl = document.createElement('div');
+                onlineEl.className = 'ghost-online-toast';
+                onlineEl.textContent = '👻 Ghost 发来了一条消息';
+                container.appendChild(onlineEl);
+                appendBotMessage(container, text);
+            }, 5000);
+        }
+
+        // ===== Ghost 上线提示 =====
+        function showGhostOnlineToast(container) {
+            const toast = document.createElement('div');
+            toast.className = 'ghost-online-toast';
+            toast.textContent = '👻 Ghost 刚刚上线';
+            container.appendChild(toast);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // ===== 主动发消息系统 =====
+        let lastUserMessageTime = Date.now();
+        let proactiveTimer = null;
+
+        function resetProactiveTimer() {
+            lastUserMessageTime = Date.now();
+            if (proactiveTimer) clearTimeout(proactiveTimer);
+            // 3小时无互动，主动发消息
+            proactiveTimer = setTimeout(() => {
+                sendProactiveMessage();
+            }, 3 * 60 * 60 * 1000);
+        }
+
+        async function sendProactiveMessage() {
+            const mood = getCurrentMood();
+            if (mood && mood.text === '出差中') return; // 出差中不主动联系
+            const prompts = [
+                'You have not heard from her in a while. Send a short, casual check-in. Something like: You still there? — or share a small moment from your day. Stay in character.',
+                'You are bored at the base. Send her a short message out of nowhere — a dry observation, something annoying that happened, or just checking in. Keep it brief and natural.',
+                'You were just thinking about something that reminded you of her. Send a short message. Do not over-explain.',
+            ];
+            const prompt = prompts[Math.floor(Math.random() * prompts.length)];
+            const container = document.getElementById('messagesContainer');
+            if (!container) return;
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: 'claude-haiku-4-5-20251001',
+                        max_tokens: 120,
+                        system: buildSystemPrompt(),
+                        messages: [
+                            ...chatHistory.slice(-6),
+                            { role: 'user', content: '[SYSTEM: ' + prompt + ']' }
+                        ]
+                    })
+                });
+                const data = await response.json();
+                const text = data.content?.[0]?.text || '';
+                if (!text) return;
+                appendBotMessage(container, text);
+            } catch(e) { console.log('proactive msg failed', e); }
+        }
+
+        // ===== 渲染Bot消息 =====
+        function appendBotMessage(container, text, lastMsgId) {
+            // 检测超市联动触发词
+            checkMarketTriggers(text);
+            maybeInsertTimeDivider(container);
+            const botMsg = document.createElement('div');
+            botMsg.className = 'message bot';
+            botMsg.innerHTML = `
+                <div class="message-content">
+                    <div class="message-bubble">${text}</div>
+                    <div class="message-actions">
+                        <button class="message-action-btn" title="收藏" onclick="collectMessage(this)">⭐</button>
+                    </div>
+                </div>`;
+            container.appendChild(botMsg);
+            container.scrollTop = container.scrollHeight;
+
+            // 标记上一条用户消息为已读
+            if (lastMsgId) {
+                setTimeout(() => {
+                    const statusEl = document.getElementById('status_' + lastMsgId);
+                    if (statusEl) {
+                        statusEl.textContent = '✓✓ 已读';
+                        statusEl.classList.add('read');
+                    }
+                }, 600);
+            }
+        }
+
+        // ===== 出差结束检测 =====
+        let prevMoodIndex = parseInt(localStorage.getItem('currentMoodIndex') || '0');
+        function checkMissionReturn() {
+            const currentIndex = parseInt(localStorage.getItem('currentMoodIndex') || '0');
+            if (prevMoodIndex !== currentIndex) {
+                const prevMood = MOODS[prevMoodIndex];
+                const newMood = MOODS[currentIndex];
+                if (prevMood && prevMood.text === '出差中' && newMood && newMood.text !== '出差中') {
+                    // 任务结束，发归来消息
+                    setTimeout(async () => {
+                        const container = document.getElementById('messagesContainer');
+                        if (!container) return;
+                        try {
+                            const response = await fetch('https://api.anthropic.com/v1/messages', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    model: 'claude-haiku-4-5-20251001',
+                                    max_tokens: 80,
+                                    system: buildSystemPrompt(),
+                                    messages: [{ role: 'user', content: '[SYSTEM: You just returned from a mission. Send a brief message letting her know you are back. One or two sentences. Stay in character.]' }]
+                                })
+                            });
+                            const data = await response.json();
+                            const text = data.content?.[0]?.text || "Back.";
+                            showGhostOnlineToast(container);
+                            appendBotMessage(container, text);
+                        } catch(e) {}
+                    }, 2000);
+                }
+                prevMoodIndex = currentIndex;
+            }
+        }
+
+        // ===== 主发送函数 =====
+        async function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
-            
             if (!message) return;
-            
-            const messagesContainer = document.getElementById('messagesContainer');
 
-            // 判断是否需要插入时间戳
+            const messagesContainer = document.getElementById('messagesContainer');
             maybeInsertTimeDivider(messagesContainer);
 
-            // 添加用户消息
+            // 显示用户消息
             const userMsg = document.createElement('div');
             userMsg.className = 'message user';
-            userMsg.innerHTML = `<div class="message-content"><div class="message-bubble">${message}</div></div>`;
+            const msgId = 'msg_' + Date.now();
+            userMsg.id = msgId;
+            userMsg.innerHTML = `<div class="message-content"><div class="message-bubble">${message}</div><div class="msg-status" id="status_${msgId}">✓ 已发送</div></div>`;
             messagesContainer.appendChild(userMsg);
-            
-            // 清空输入框
             input.value = '';
-            
-            // 滚动到底部
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            
-            // 显示打字动画
+
+            // 重置主动消息计时器
+            resetProactiveTimer();
+            // 吵架关键词检测
+            checkFightKeywords(message);
+            // 吃醋检测
+            checkJealousKeywords(message);
+
+            // 加入历史
+            chatHistory.push({ role: 'user', content: message });
+            if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+
+            // 出差中信号模拟
+            const mood = getCurrentMood();
+            if (mood && mood.text === '出差中') {
+                const rand = Math.random();
+                if (rand < 0.35) {
+                    // 35% 信号失败
+                    setTimeout(() => {
+                        const statusEl = document.getElementById('status_' + msgId);
+                        if (statusEl) {
+                            statusEl.innerHTML = '⚠️ 发送失败，网络不稳定';
+                            statusEl.style.color = '#e57373';
+                        }
+                        // 3秒后重试成功
+                        setTimeout(() => {
+                            if (statusEl) {
+                                statusEl.innerHTML = '↻ 重新发送中…';
+                                statusEl.style.color = 'rgba(130,80,170,0.5)';
+                            }
+                            setTimeout(() => {
+                                if (statusEl) {
+                                    statusEl.innerHTML = '✓ 已发送';
+                                    statusEl.style.color = '';
+                                }
+                            }, 1500);
+                        }, 3000);
+                    }, 800);
+                    return;
+                } else if (rand < 0.70) {
+                    // 35% 已读不回（显示已读但Ghost不回复）
+                    setTimeout(() => {
+                        const statusEl = document.getElementById('status_' + msgId);
+                        if (statusEl) {
+                            statusEl.textContent = '✓✓ 已读';
+                            statusEl.classList.add('read');
+                        }
+                    }, 2000);
+                    return;
+                }
+                // 剩余30%正常回复
+            }
+
+            // 打字动画
             const typingMsg = document.createElement('div');
             typingMsg.className = 'message bot';
-            typingMsg.innerHTML = `<div class="message-content"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
             typingMsg.id = 'typingMessage';
+            typingMsg.innerHTML = `<div class="message-content"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
             messagesContainer.appendChild(typingMsg);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            
-            // Ghost的回复库
-            const ghostReplies = [
-                "That's sweet of you to say.",
-                "You always know what to say to make me smile.",
-                "Missing you more than you know.",
-                "Can't wait to see you again.",
-                "You're my favorite person to talk to.",
-                "Every message from you means everything.",
-                "I love how you always know just what to say.",
-                "Thinking of you constantly.",
-                "You make this distance bearable."
-            ];
-            
-            // 延迟后Ghost回复
-            setTimeout(() => {
-                // 移除打字动画
-                const typingElement = document.getElementById('typingMessage');
-                if (typingElement) typingElement.remove();
-                
-                const botMsg = document.createElement('div');
-                botMsg.className = 'message bot';
-                const randomReply = ghostReplies[Math.floor(Math.random() * ghostReplies.length)];
-                botMsg.innerHTML = `
-                    <div class="message-content">
-                        <div class="message-bubble">${randomReply}</div>
-                        <div class="message-actions">
-                            <button class="message-action-btn" title="收藏" onclick="collectMessage(this)">⭐</button>
-                        </div>
-                    </div>
-                `;
-                messagesContainer.appendChild(botMsg);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }, 1500);
+            const currentMsgId = msgId;
+
+            // 撒娇要钱检测（currentMsgId已定义，在所有其他逻辑之前）
+            if (checkBegKeywords(message, messagesContainer, currentMsgId)) return;
+
+            const apiKey = localStorage.getItem('ghostApiKey') || '';
+
+            if (!apiKey) {
+                // 没有API Key时的fallback回复
+                setTimeout(() => {
+                    const el = document.getElementById('typingMessage');
+                    if (el) el.remove();
+                    const fallbacks = [
+                        "Still here.",
+                        "Heard you.",
+                        "Yeah.",
+                        "Go on.",
+                        "...You're something else, you know that?",
+                        "Don't push it.",
+                        "Fine. Tell me more.",
+                    ];
+                    const text = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+                    chatHistory.push({ role: 'assistant', content: text });
+                    appendBotMessage(messagesContainer, text, currentMsgId);
+                }, 1200);
+                return;
+            }
+
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: 'claude-haiku-4-5-20251001',
+                        max_tokens: 200,
+                        system: buildSystemPrompt(),
+                        messages: chatHistory.slice(-16)
+                    })
+                });
+
+                const data = await response.json();
+                if (data.error) {
+                    appendBotMessage(messagesContainer, "...");
+                    return;
+                }
+
+                const replyText = data.content?.[0]?.text || "...";
+                chatHistory.push({ role: 'assistant', content: replyText });
+                if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+                appendBotMessage(messagesContainer, replyText);
+
+            } catch(err) {
+                const el = document.getElementById('typingMessage');
+                if (el) el.remove();
+                appendBotMessage(messagesContainer, "Signal dropped. Try again.");
+            }
         }
 
         function generateMilestones(marriageDate) {
@@ -2300,6 +6181,30 @@
             }
 
             return milestones;
+        }
+
+        function saveBirthday(val) {
+            const v = val.trim();
+            if (/^\d{2}-\d{2}$/.test(v)) {
+                localStorage.setItem('userBirthday', v);
+                showToast('🎂 生日已保存！Ghost 会记住的～');
+            }
+        }
+
+        function saveApiKey(val) {
+            const v = val.trim();
+            localStorage.setItem('ghostApiKey', v);
+            const status = document.getElementById('apiKeyStatus');
+            if (status) status.textContent = v ? '✅ 已保存，Ghost 现在会回复你了' : '未设置 — 使用基础回复模式';
+        }
+
+        function loadApiKeyDisplay() {
+            const key = localStorage.getItem('ghostApiKey') || '';
+            const input = document.getElementById('apiKeyInput');
+            const status = document.getElementById('apiKeyStatus');
+            if (input) input.value = key;
+            if (status) status.textContent = key ? '✅ 已设置 API Key' : '未设置 — 使用基础回复模式';
+
         }
 
         function initCalendar() {
@@ -2392,44 +6297,7 @@
         }
     
         
-        // 更新朋友圈时间
-        function updateMomentsTimes() {
-            const moments = document.querySelectorAll('.moments-post');
-            const timeConfigs = [
-                { minutes: 3, label: '3分钟前' },
-                { minutes: 24 * 60, label: 'Yesterday' },
-                { minutes: 5 * 24 * 60, label: '5天前' },
-                { minutes: 7 * 24 * 60, label: '1周前' }
-            ];
-            
-            moments.forEach((moment, index) => {
-                const timeElem = moment.querySelector('.moments-info p');
-                if (timeElem && index < timeConfigs.length) {
-                    const config = timeConfigs[index];
-                    const now = new Date();
-                    const momentDate = new Date(now.getTime() - config.minutes * 60000);
-                    
-                    const dateStr = momentDate.toLocaleDateString('zh-CN', { 
-                        year: 'numeric', 
-                        month: '2-digit', 
-                        day: '2-digit' 
-                    });
-                    const timeStr = momentDate.toLocaleTimeString('en-GB', { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                    });
-                    
-                    timeElem.textContent = config.label + ' ' + dateStr + ' ' + timeStr;
-                }
-            });
-        }
-        
-        // 页面加载完成后执行
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', updateMomentsTimes);
-        } else {
-            updateMomentsTimes();
-        }
+
     </script>
 </body>
 </html>
