@@ -266,8 +266,9 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ## 📧 联系方式
 
-- Bilibili：@诺亚乙女博主
+- Bilibili：@诺亚有鬼
 - GitHub：@Ohara520
+- 抖音：@诺亚有鬼
 
 ---
 
