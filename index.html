@@ -9268,7 +9268,8 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                 let replyText = data.content?.[0]?.text || "...";
                 chatHistory.push({ role: 'assistant', content: replyText });
                 if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
-                removeTyping();
+                const typingEl = document.getElementById('typingMessage');
+                if (typingEl) typingEl.remove();
                 appendBotMessage(messagesContainer, replyText, currentMsgId);
             } catch(err) {
                 console.log('catch error:', err.message);
