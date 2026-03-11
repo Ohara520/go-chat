@@ -9123,7 +9123,7 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
             }
         }
 
-        // ===== 出差结束检测 =====
+       // ===== 出差结束检测 =====
         let prevMoodIndex = parseInt(localStorage.getItem('currentMoodIndex') || '0');
         function checkMissionReturn() {
             const currentIndex = parseInt(localStorage.getItem('currentMoodIndex') || '0');
@@ -9131,12 +9131,11 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                 const prevMood = MOODS[prevMoodIndex];
                 const newMood = MOODS[currentIndex];
                 if (prevMood && prevMood.text === '出差中' && newMood && newMood.text !== '出差中') {
-                    // 任务结束，发归来消息
                     setTimeout(async () => {
                         const container = document.getElementById('messagesContainer');
                         if (!container) return;
                         try {
-                            const response = await fetch('https://api.yunjintao.com/v1/messages', {
+                            const response = await fetch('/api/chat', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
@@ -9147,12 +9146,14 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                                 })
                             });
                             const data = await response.json();
-const text = data.content?.[0]?.text || "Back.";
-removeTyping();
-markRead();
-showGhostOnlineToast(container);
-appendBotMessage(container, text);
+                            const text = data.content?.[0]?.text || "Back.";
+                            showGhostOnlineToast(container);
+                            appendBotMessage(container, text);
+                        } catch(e) {}
+                    }, 2000);
+                }
             }
+            prevMoodIndex = currentIndex;
         }
 
         // ===== 主发送函数 =====
