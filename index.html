@@ -9083,7 +9083,7 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                         system: await buildSystemPrompt(),
                         messages: [
                             ...chatHistory.slice(-6),
-                            { role: 'user', content: '[SYSTEM: ' + prompt + ']' }
+                            { role: 'user', content: '[SYSTEM: ' + prompt + ']' },
                         ]
                     })
                 });
