@@ -9270,16 +9270,13 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                 if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
                 removeTyping();
                 appendBotMessage(messagesContainer, replyText, currentMsgId);
-            } catch(err) {
+           } catch(err) {
                 const el = document.getElementById('typingMessage');
                 if (el) el.remove();
                 appendBotMessage(messagesContainer, "Signal dropped. Try again.");
             }
+        }
         function generateMilestones(marriageDate) {
-            const today = new Date();
-            const marriage = new Date(marriageDate);
-            const milestones = [];
-
             // 计算结婚天数
             const totalDays = Math.floor((today - marriage) / (1000 * 60 * 60 * 24));
 
