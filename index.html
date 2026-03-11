@@ -9091,8 +9091,6 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                 const text = data.content?.[0]?.text || "Back.";
                 showGhostOnlineToast(container);
                 appendBotMessage(container, text);
-            } catch(e) {}
-                }
             } catch(e) { console.log('proactive msg failed', e); }
         }
 
