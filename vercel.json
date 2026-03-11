@@ -1,5 +1,3 @@
 {
-  "rewrites": [
-    { "source": "/((?!demo.html).*)", "destination": "/index.html" }
-  ]
+  "cleanUrls": true
 }
