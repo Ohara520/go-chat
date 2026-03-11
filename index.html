@@ -6263,6 +6263,7 @@
                     {code:'JP', label:'🇯🇵 日本'},
                     {code:'KR', label:'🇰🇷 韩国'},
                     {code:'SG', label:'🇸🇬 新加坡'},
+                    {code:'GB', label:'🇬🇧 英国'},
                     {code:'OTHER', label:'🌍 其他'},
                 ];
                 countryEl.innerHTML = countries.map(ct => `
@@ -8936,9 +8937,9 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
 
             if (month === 2 && day === 14) bonus = HOLIDAY_BONUSES['2-14'];
             if (marriageDate) {
-                const [, mm, dd] = marriageDate.split('-').map(Number);
-                if (month === mm && day === dd) bonus = HOLIDAY_BONUSES['anniversary'];
-            }
+    const [yyyy, mm, dd] = marriageDate.split('-').map(Number);
+    if (month === mm && day === dd && now.getFullYear() > yyyy) bonus = HOLIDAY_BONUSES['anniversary'];
+}
             if (userBday) {
                 const [bm, bd] = userBday.split('-').map(Number);
                 if (month === bm && day === bd) bonus = HOLIDAY_BONUSES['birthday'];
