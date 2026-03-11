@@ -1,0 +1,22 @@
+{
+  "name": "Go Chat - 异国恋虚拟伴侣",
+  "short_name": "Go Chat",
+  "description": "与Ghost的专属陪伴应用",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0d6eb",
+  "theme_color": "#c084fc",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
