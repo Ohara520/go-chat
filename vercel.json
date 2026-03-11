@@ -5,9 +5,17 @@
     {
       "src": "index.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "API/chat.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/api/chat",
+      "dest": "/API/chat.js"
+    },
     {
       "src": "/(.*)",
       "dest": "index.html"
