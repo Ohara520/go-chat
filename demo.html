@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go Chat 2.0 · Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #08080b;
+    --accent: #c9a97d;
+    --text: #e8e3da;
+    --muted: #4a4850;
+    --border: #1a1a22;
+  }
+
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Serif SC', serif;
+    overflow: hidden;
+  }
+
+  .bg-glow {
+    position: fixed; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 55% at 18% 55%, rgba(201,169,125,0.07) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 50% at 82% 25%, rgba(143,168,200,0.05) 0%, transparent 65%);
+  }
+  .bg-grid {
+    position: fixed; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  .stage {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    z-index: 1;
+    animation: fadeIn 0.9s ease both;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── 左侧信息 ── */
+  .info {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    letter-spacing: 5px;
+    color: var(--text);
+    line-height: 1;
+  }
+  .logo span { color: var(--accent); }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(201,169,125,0.08);
+    border: 1px solid rgba(201,169,125,0.25);
+    color: var(--accent);
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    padding: 4px 11px 4px 9px;
+    border-radius: 2px;
+    width: fit-content;
+    margin-top: -8px;
+    font-family: monospace;
+  }
+  .badge-dot {
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: blink 2s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.25} }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, rgba(201,169,125,0.4), transparent);
+  }
+  .tagline {
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 2;
+    font-weight: 300;
+    padding-left: 12px;
+    border-left: 2px solid #1e1e28;
+  }
+  .features {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .feat {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #3a3848;
+    font-size: 12px;
+    transition: color 0.2s;
+    cursor: default;
+  }
+  .feat:hover { color: var(--text); }
+  .feat::before {
+    content: '';
+    width: 3px; height: 3px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .made-by {
+    color: #2a2930;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+  .made-by span { color: #3a3845; }
+
+  /* ── 手机外壳 ── */
+  .phone-outer {
+    position: relative;
+    width: 338px;
+    height: 718px;
+    background: linear-gradient(160deg, #1d1d26 0%, #0f0f15 55%, #1a1a20 100%);
+    border-radius: 50px;
+    box-shadow:
+      0 0 0 1px #2c2c3c,
+      0 0 0 2.5px #0d0d12,
+      0 50px 90px rgba(0,0,0,0.75),
+      0 15px 35px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.07),
+      inset 0 -1px 0 rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 13px 11px 15px;
+    gap: 9px;
+  }
+  /* 左侧按钮 */
+  .phone-outer::before {
+    content: '';
+    position: absolute;
+    left: -3.5px; top: 118px;
+    width: 3.5px; height: 34px;
+    background: #1c1c25;
+    border-radius: 2px 0 0 2px;
+    box-shadow: 0 50px 0 #1c1c25, 0 95px 0 #1c1c25;
+  }
+  /* 右侧按钮 */
+  .phone-outer::after {
+    content: '';
+    position: absolute;
+    right: -3.5px; top: 148px;
+    width: 3.5px; height: 64px;
+    background: #1c1c25;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* 刘海 */
+  .notch {
+    width: 115px; height: 28px;
+    background: #06060a;
+    border-radius: 0 0 18px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+  .notch-cam {
+    width: 9px; height: 9px;
+    background: radial-gradient(circle at 35% 35%, #1a2535, #050910);
+    border-radius: 50%;
+    border: 1px solid #0c1420;
+    box-shadow: 0 0 5px rgba(143,168,200,0.12);
+  }
+  .notch-speaker {
+    width: 44px; height: 5px;
+    background: #0d0d12;
+    border-radius: 3px;
+  }
+
+  /* 屏幕 */
+  .screen {
+    flex: 1;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    position: relative;
+  }
+  .screen iframe {
+    width: 390px;
+    height: 100%;
+    border: none;
+    transform-origin: top left;
+    transform: scale(0.811); /* 316/390 */
+    display: block;
+  }
+
+  /* Home条 */
+  .home-bar {
+    width: 110px; height: 4px;
+    background: rgba(255,255,255,0.14);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* 扫光 */
+  .shimmer {
+    position: absolute; inset: 0;
+    border-radius: 50px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 60px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.025), transparent);
+    animation: sweep 5s ease-in-out infinite;
+    animation-delay: 2s;
+  }
+  @keyframes sweep {
+    0%   { transform: translateX(-100px) skewX(-12deg); }
+    100% { transform: translateX(450px) skewX(-12deg); }
+  }
+
+  /* ── 右侧注解 ── */
+  .right-note {
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-self: flex-end;
+    padding-bottom: 18px;
+  }
+  .note-item {
+    border-left: 1px solid #1e1e28;
+    padding-left: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .note-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-family: monospace;
+  }
+  .note-val {
+    font-size: 12.5px;
+    color: #38364a;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .note-val.live {
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+
+<div class="stage">
+
+  <!-- 左侧 -->
+  <div class="info">
+    <div class="logo">GO<br><span>CHAT</span></div>
+    <div class="badge"><span class="badge-dot"></span>V 2.0 · BETA</div>
+    <div class="divider"></div>
+    <div class="tagline">
+      与 Ghost 的<br>异国婚姻模拟器<br>——他很少说话<br>但每句都算数
+    </div>
+    <div class="divider"></div>
+    <div class="features">
+      <div class="feat">Claude AI 双语对话</div>
+      <div class="feat">朋友圈 · 141小队互动</div>
+      <div class="feat">Manchester 实时天气</div>
+      <div class="feat">番茄钟打工系统</div>
+      <div class="feat">会员卡 · 购物专柜</div>
+      <div class="feat">成就系统 · 单词学习</div>
+      <div class="feat">植树节限定商品</div>
+    </div>
+    <div class="made-by">MADE WITH <span>♥ & CLASSIFIED INFO</span></div>
+  </div>
+
+  <!-- 手机 -->
+  <div class="phone-outer">
+    <div class="shimmer"></div>
+    <div class="notch">
+      <div class="notch-cam"></div>
+      <div class="notch-speaker"></div>
+    </div>
+    <div class="screen">
+      <iframe
+        src="https://go-chat-ivory.vercel.app/"
+        scrolling="yes"
+        allowfullscreen
+        title="Go Chat 2.0"
+      ></iframe>
+    </div>
+    <div class="home-bar"></div>
+  </div>
+
+  <!-- 右侧 -->
+  <div class="right-note">
+    <div class="note-item">
+      <div class="note-label">STATUS</div>
+      <div class="note-val live">● LIVE DEMO</div>
+    </div>
+    <div class="note-item">
+      <div class="note-label">BACKEND</div>
+      <div class="note-val">Vercel<br>Key Hidden</div>
+    </div>
+    <div class="note-item">
+      <div class="note-label">MODEL</div>
+      <div class="note-val">Claude<br>Haiku 4.5</div>
+    </div>
+    <div class="note-item">
+      <div class="note-label">STACK</div>
+      <div class="note-val">HTML · CSS<br>Vanilla JS</div>
+    </div>
+    <div class="note-item">
+      <div class="note-label">DEPLOY</div>
+      <div class="note-val">Vercel<br>+ GitHub</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
