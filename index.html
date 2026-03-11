@@ -9017,7 +9017,7 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
 
                 if (apiKey) {
                     try {
-                        const res = await fetch('https://api.yunjintao.com/v1/messages', {
+                        const res = await fetch('/api/chat', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -9254,31 +9254,8 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
             // 快递遗失检测
             if (checkLostDeliveryKeywords(message, messagesContainer, currentMsgId)) return;
 
-            const apiKey = localStorage.getItem('ghostApiKey') || '';
-
-            if (!apiKey) {
-                // 没有API Key时的fallback回复
-                setTimeout(() => {
-                    const el = document.getElementById('typingMessage');
-                    if (el) el.remove();
-                    const fallbacks = [
-                        "Still here.",
-                        "Heard you.",
-                        "Yeah.",
-                        "Go on.",
-                        "...You're something else, you know that?",
-                        "Don't push it.",
-                        "Fine. Tell me more.",
-                    ];
-                    const text = fallbacks[Math.floor(Math.random() * fallbacks.length)];
-                    chatHistory.push({ role: 'assistant', content: text });
-                    appendBotMessage(messagesContainer, text, currentMsgId);
-                }, 1200);
-                return;
-            }
-
             try {
-                const response = await fetch('https://api.yunjintao.com/v1/messages', {
+                const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
