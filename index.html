@@ -8738,7 +8738,6 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                 reaction = LOST_REACTIONS.high[Math.floor(Math.random() * LOST_REACTIONS.high.length)];
             }
 
-            const removeTyping = () => { const el = document.getElementById('typingMessage'); if (el) el.remove(); };
             const markRead = () => { const s = document.getElementById('status_' + lastMsgId); if (s) s.textContent = '✓✓ 已读'; };
 
             showTypingIndicator(container);
