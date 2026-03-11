@@ -9265,19 +9265,16 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                     appendBotMessage(messagesContainer, "...");
                     return;
                 }
-
-               let replyText = data.content?.[0]?.text || "...";
+                let replyText = data.content?.[0]?.text || "...";
                 chatHistory.push({ role: 'assistant', content: replyText });
                 if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
                 removeTyping();
-                markRead();
-                appendBotMessage(messagesContainer, replyText);
+                appendBotMessage(messagesContainer, replyText, currentMsgId);
             } catch(err) {
                 const el = document.getElementById('typingMessage');
                 if (el) el.remove();
                 appendBotMessage(messagesContainer, "Signal dropped. Try again.");
             }
-        }
         function generateMilestones(marriageDate) {
             const today = new Date();
             const marriage = new Date(marriageDate);
