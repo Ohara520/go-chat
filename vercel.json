@@ -1,13 +1,13 @@
 {
   "functions": {
-    "API/chat.js": {
+    "api/chat.js": {
       "runtime": "edge"
     }
   },
   "routes": [
     {
       "src": "/api/chat",
-      "dest": "/API/chat.js"
+     "dest": "/api/chat.js"
     },
     {
       "src": "/(.*)",
