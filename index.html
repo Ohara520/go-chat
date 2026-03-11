@@ -9147,13 +9147,11 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                                 })
                             });
                             const data = await response.json();
-                            const text = data.content?.[0]?.text || "Back.";
-                            showGhostOnlineToast(container);
-                            appendBotMessage(container, text);
-                        } catch(e) {}
-                    }, 2000);
-                }
-                prevMoodIndex = currentIndex;
+const text = data.content?.[0]?.text || "Back.";
+removeTyping();
+markRead();
+showGhostOnlineToast(container);
+appendBotMessage(container, text);
             }
         }
 
