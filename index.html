@@ -9074,7 +9074,7 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
             const container = document.getElementById('messagesContainer');
             if (!container) return;
             try {
-                const response = await fetch('https://api.yunjintao.com/v1/messages', {
+                const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -9083,16 +9083,15 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
                         system: await buildSystemPrompt(),
                         messages: [
                             ...chatHistory.slice(-6),
-                            { role: 'user', content: '[SYSTEM: ' + prompt + ']' },
+                            { role: 'user', content: '[SYSTEM: ' + prompt + ']' }
                         ]
                     })
                 });
                 const data = await response.json();
-                            const text = data.content?.[0]?.text || "Back.";
-                            showGhostOnlineToast(container);
-                            appendBotMessage(container, text);
-                        } catch(e) {}
-                    }, 2000);
+                const text = data.content?.[0]?.text || "Back.";
+                showGhostOnlineToast(container);
+                appendBotMessage(container, text);
+            } catch(e) {}
                 }
             } catch(e) { console.log('proactive msg failed', e); }
         }
