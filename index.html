@@ -9279,6 +9279,7 @@ Use this naturally and sparingly — NOT every message. Only when it genuinely f
       function generateMilestones(marriageDate) {
             const today = new Date();
             const marriage = new Date(marriageDate);
+            const milestones = [];
             // 计算结婚天数
             const totalDays = Math.floor((today - marriage) / (1000 * 60 * 60 * 24));
 
